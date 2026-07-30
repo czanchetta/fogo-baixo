@@ -41,8 +41,24 @@ button{font:inherit;color:inherit;cursor:pointer}
   border-right:1px solid var(--hair);padding:28px 22px 60px;
   position:sticky;top:0;height:100vh;overflow:auto;
 }
-@media (max-width:900px){ .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--hair);padding-bottom:24px} }
-.brand{font-weight:800;letter-spacing:-.03em;font-size:26px;line-height:1;margin:0 0 4px}
+.side-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.nav-toggle{display:none;border:1px solid var(--ink);background:none;border-radius:3px;
+  padding:9px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;white-space:nowrap;flex:none}
+.nav-toggle[aria-expanded="true"]{background:var(--ink);color:#f4f6ef}
+@media (max-width:900px){
+  .side{position:sticky;top:0;z-index:30;height:auto;max-height:100vh;overflow:auto;
+    border-right:0;border-bottom:1px solid var(--hair);padding:16px 20px;background:var(--paper)}
+  .nav-toggle{display:block}
+  .side-nav{display:none;padding-bottom:12px}
+  .side.aberta .side-nav{display:block}
+  .brand{font-size:22px}
+  .brand small{margin-top:6px}
+  .side h4{margin-top:22px}
+}
+.brand{font-weight:800;letter-spacing:-.03em;font-size:26px;line-height:1;margin:0 0 4px;
+  background:none;border:0;padding:0;text-align:left;display:block;font-family:var(--sans)}
+.brand:hover small{color:var(--accent)}
 .brand small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;font-weight:500;color:var(--ink-2);margin-top:9px}
 .side h4{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
@@ -71,6 +87,50 @@ button{font:inherit;color:inherit;cursor:pointer}
 .colofao .links{display:flex;gap:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em}
 .colofao a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:1px}
 .colofao a:hover{border-bottom-color:var(--accent)}
+
+/* ---------- capa ---------- */
+.capa{margin:-44px -48px 0}
+@media (max-width:900px){ .capa{margin:-28px -20px 0} }
+.hero{background:var(--ink);color:#eef1e6;padding:76px 48px 62px;position:relative;overflow:hidden}
+@media (max-width:900px){ .hero{padding:52px 22px 44px} }
+.hero .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.hero h1{font-size:clamp(58px,11vw,132px);line-height:.86;letter-spacing:-.05em;font-weight:800;margin:26px 0 0}
+.hero p.sub{font-size:clamp(17px,2.1vw,23px);line-height:1.36;max-width:26ch;margin:26px 0 0;color:#c3ccb5}
+.hero .assina{margin-top:44px;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:#e2e8d6;line-height:2}
+.hero .assina i{display:block;font-style:normal;color:#8e9a7c;font-size:10px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .cta button, .hero .cta a{
+  border:1px solid #4a5140;background:none;color:#eef1e6;border-radius:3px;padding:13px 22px;
+  font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-decoration:none;
+  display:inline-block;line-height:1
+}
+.hero .cta .primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.hero .cta button:hover, .hero .cta a:hover{border-color:#8e9a7c}
+
+.capa-corpo{padding:52px 48px 0}
+@media (max-width:900px){ .capa-corpo{padding:36px 20px 0} }
+.formatos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair);margin-top:18px}
+.formatos div{padding:18px 20px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.formatos h5{margin:0 0 6px;font-size:15px;letter-spacing:-.01em}
+.formatos p{margin:0;font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+.secao-t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:700;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--ink)}
+.bloco{margin-top:46px}
+.lista-cap{margin-top:26px}
+.lista-cap h6{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin:0 0 8px}
+.itens{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.itens button{
+  background:var(--card);border:0;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  text-align:left;padding:15px 17px;display:block;width:100%
+}
+.itens button:hover{background:var(--cell)}
+.itens .n{font-family:var(--mono);font-size:10.5px;color:var(--accent);font-weight:700}
+.itens .t{display:block;font-size:15.5px;font-weight:650;letter-spacing:-.012em;margin:5px 0 4px;line-height:1.2}
+.itens .k{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);line-height:1.4}
 
 /* ---------- página sobre ---------- */
 .sobre{max-width:62ch}
@@ -223,15 +283,20 @@ h1.title sup{font-size:.28em;vertical-align:super;letter-spacing:0;font-weight:6
 </head>
 <body>
 <div class="wrap">
-  <aside class="side">
-    <div class="brand">Fogo&nbsp;Baixo<small>Caderno pessoal de cozinha</small></div>
-    <h4>Técnicas</h4>
-    <nav class="nav" id="nav-tec"></nav>
-    <h4>Receitas</h4>
-    <nav class="nav" id="nav-rec"></nav>
-    <div class="side-foot">
-      <p>Um caderno pessoal de cozinha, de <strong>Celso Zanchetta</strong>.</p>
-      <p><a href="#sobre" id="link-sobre">Sobre este caderno</a></p>
+  <aside class="side" id="side">
+    <div class="side-top">
+      <button class="brand" id="ir-capa">Fogo&nbsp;Baixo<small>Caderno pessoal de cozinha</small></button>
+      <button class="nav-toggle" id="toggle-nav" aria-expanded="false">Sumário</button>
+    </div>
+    <div class="side-nav" id="side-nav">
+      <h4>Técnicas</h4>
+      <nav class="nav" id="nav-tec"></nav>
+      <h4>Receitas</h4>
+      <nav class="nav" id="nav-rec"></nav>
+      <div class="side-foot">
+        <p>Um caderno pessoal de cozinha, de <strong>Celso Zanchetta</strong>.</p>
+        <p><a href="#sobre" id="link-sobre">Sobre este caderno</a></p>
+      </div>
     </div>
   </aside>
   <main class="main" id="main"></main>
@@ -1215,8 +1280,8 @@ function mmss(s){
    estado
    ========================================================= */
 const estado = {
-  itemId: RECEITAS[0].id,
-  tipo: "receita",     // "receita" | "tecnica"
+  itemId: "capa",
+  tipo: "capa",        // "capa" | "sobre" | "tecnica" | "receita"
   vista: "tradicional",// tradicional | tabela | interativo
   porcoes: RECEITAS[0].porcoes,
   sistema: "caseiro",  // caseiro | peso
@@ -1251,6 +1316,18 @@ function montaNav(){
     });
   });
   $("#link-sobre").onclick = e => { e.preventDefault(); abrir("sobre", "sobre"); };
+  $("#ir-capa").onclick = () => abrir("capa", "capa");
+  $("#toggle-nav").onclick = () => {
+    const s = $("#side"), aberta = s.classList.toggle("aberta");
+    $("#toggle-nav").setAttribute("aria-expanded", aberta ? "true" : "false");
+  };
+}
+function fechaMenuMobile(){
+  const s = $("#side");
+  if (s.classList.contains("aberta")){
+    s.classList.remove("aberta");
+    $("#toggle-nav").setAttribute("aria-expanded", "false");
+  }
 }
 function numeroDaReceita(id){
   let n = 0;
@@ -1260,6 +1337,7 @@ function numeroDaReceita(id){
 }
 function abrir(id, tipo){
   if (kAberto()) fechaCozinha();
+  fechaMenuMobile();
   estado.itemId = id; estado.tipo = tipo;
   if (tipo === "receita"){
     const rec = RECEITAS.find(x => x.id === id);
@@ -1270,7 +1348,9 @@ function abrir(id, tipo){
     b.setAttribute("aria-current", b.dataset.id === id ? "true" : "false"));
   render();
   window.scrollTo({ top: 0, behavior: "instant" });
-  location.hash = id;
+  if (id === "capa"){
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  } else location.hash = id;
 }
 
 /* =========================================================
@@ -1279,10 +1359,95 @@ function abrir(id, tipo){
 function render(){
   const m = $("#main");
   m.innerHTML = "";
+  if (estado.tipo === "capa") { renderCapa(m); m.appendChild(colofao()); return; }
   if (estado.tipo === "sobre") renderSobre(m);
   else if (estado.tipo === "tecnica") renderTecnica(m);
   else renderReceita(m);
   m.appendChild(colofao());
+}
+
+const FORMATOS = [
+  ["Tradicional", "Ingredientes em lista, preparo numerado. Para ler antes de começar."],
+  ["Tabela de cozimento", "A receita inteira de uma vez. Mostra o que acontece em paralelo."],
+  ["Interativo", "A mesma tabela, com porções e unidades recalculadas ao vivo."],
+  ["Modo cozinha", "Um passo por vez, letra grande, timers. Para usar com as mãos sujas."],
+];
+
+function renderCapa(m){
+  const capa = el("div", "capa");
+
+  const hero = el("div", "hero");
+  hero.appendChild(el("div", "k", "Caderno pessoal de cozinha"));
+  hero.appendChild(el("h1", null, esc(LIVRO.titulo)));
+  hero.appendChild(el("p", "sub",
+    "Técnicas e receitas testadas em casa, anotadas com os porquês."));
+  const cta = el("div", "cta");
+  const b1 = el("button", "primary", "Começar pelas técnicas");
+  b1.onclick = () => abrir(TECNICAS[0].id, "tecnica");
+  const b2 = el("button", null, "Ir para as receitas");
+  b2.onclick = () => abrir(RECEITAS[0].id, "receita");
+  const a3 = document.createElement("a");
+  a3.href = "Fogo-Baixo.pdf"; a3.textContent = "Baixar o PDF";
+  a3.setAttribute("download", "");
+  cta.appendChild(b1); cta.appendChild(b2); cta.appendChild(a3);
+  hero.appendChild(cta);
+  hero.appendChild(el("div", "assina",
+    esc(LIVRO.autor) + "<i>" + esc(LIVRO.edicao) + "</i>"));
+  capa.appendChild(hero);
+
+  const corpo = el("div", "capa-corpo");
+
+  const b = el("div");
+  b.appendChild(el("h3", "secao-t", "A mesma receita, quatro formatos"));
+  const fs = el("div", "formatos");
+  FORMATOS.forEach(([t, d]) => {
+    const d1 = el("div");
+    d1.appendChild(el("h5", null, esc(t)));
+    d1.appendChild(el("p", null, esc(d)));
+    fs.appendChild(d1);
+  });
+  b.appendChild(fs);
+  corpo.appendChild(b);
+
+  const bt = el("div", "bloco");
+  bt.appendChild(el("h3", "secao-t", "Técnicas"));
+  bt.appendChild(el("p", null,
+    '<span style="font-size:14.5px;color:var(--ink-2);line-height:1.5;display:block;margin:0 0 4px">' +
+    "Cinco princípios que se repetem em quase todas as receitas. Leia uma vez; depois é só consultar.</span>"));
+  const it = el("div", "itens");
+  TECNICAS.forEach(t => {
+    const bb = el("button", null,
+      '<span class="t">' + esc(t.titulo) + "</span>" +
+      '<span class="k">' + esc(t.kicker.replace(/^TÉCNICA · /, "")) + "</span>");
+    bb.onclick = () => abrir(t.id, "tecnica");
+    it.appendChild(bb);
+  });
+  bt.appendChild(it);
+  corpo.appendChild(bt);
+
+  const br = el("div", "bloco");
+  br.appendChild(el("h3", "secao-t", "Receitas"));
+  CAPITULOS.forEach(cap => {
+    const rs = RECEITAS.filter(x => x.capitulo === cap.id);
+    if (!rs.length) return;
+    const g = el("div", "lista-cap");
+    g.appendChild(el("h6", null, esc(cap.nome)));
+    const gi = el("div", "itens");
+    rs.forEach(r => {
+      const bb = el("button", null,
+        '<span class="n">' + numeroDaReceita(r.id).toString().padStart(2, "0") + "</span>" +
+        '<span class="t">' + esc(r.titulo) + "</span>" +
+        '<span class="k">' + esc(r.kicker) + "</span>");
+      bb.onclick = () => abrir(r.id, "receita");
+      gi.appendChild(bb);
+    });
+    g.appendChild(gi);
+    br.appendChild(g);
+  });
+  corpo.appendChild(br);
+
+  capa.appendChild(corpo);
+  m.appendChild(capa);
 }
 
 function colofao(){
@@ -1534,26 +1699,50 @@ function abreCozinha(i){
 }
 function fechaCozinha(){
   paraTimer();
+  kRestante = 0;
+  soltaTela();
   $("#kitchen").classList.remove("on");
   $("#kitchen").setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
-function paraTimer(){ if (kTimer){ clearInterval(kTimer); kTimer = null; } kTocando = false; }
+function paraTimer(){ if (kTimer){ clearInterval(kTimer); kTimer = null; } kTocando = false; soltaTela(); }
 
+let audioCtx = null, wakeLock = null;
+
+/* O navegador só permite criar/retomar áudio a partir de um gesto do usuário.
+   Por isso o contexto nasce no clique de "Iniciar", não na hora de tocar. */
+function preparaSom(){
+  try{
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  }catch(e){ audioCtx = null; }
+}
 function bip(){
   try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    [0, .35, .7].forEach(d => {
-      const o = ctx.createOscillator(), gn = ctx.createGain();
+    if (!audioCtx) return;
+    [0, .38, .76].forEach(d => {
+      const o = audioCtx.createOscillator(), gn = audioCtx.createGain();
       o.type = "sine"; o.frequency.value = 880;
-      gn.gain.setValueAtTime(.0001, ctx.currentTime + d);
-      gn.gain.exponentialRampToValueAtTime(.3, ctx.currentTime + d + .02);
-      gn.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + d + .28);
-      o.connect(gn).connect(ctx.destination);
-      o.start(ctx.currentTime + d); o.stop(ctx.currentTime + d + .3);
+      const t = audioCtx.currentTime + d;
+      gn.gain.setValueAtTime(.0001, t);
+      gn.gain.exponentialRampToValueAtTime(.35, t + .02);
+      gn.gain.exponentialRampToValueAtTime(.0001, t + .3);
+      o.connect(gn).connect(audioCtx.destination);
+      o.start(t); o.stop(t + .32);
     });
   }catch(e){}
+  if (navigator.vibrate) try{ navigator.vibrate([220, 120, 220, 120, 220]); }catch(e){}
 }
+/* mantém a tela acesa enquanto um timer roda (celular apoiado na bancada) */
+async function seguraTela(){
+  try{
+    if (!wakeLock && navigator.wakeLock) wakeLock = await navigator.wakeLock.request("screen");
+  }catch(e){}
+}
+function soltaTela(){ try{ if (wakeLock){ wakeLock.release(); wakeLock = null; } }catch(e){} }
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && kTimer && kAberto()) seguraTela();
+});
 
 function renderCozinha(){
   const r = receitaAtual(), f = fator(), k = $("#kitchen");
@@ -1577,29 +1766,43 @@ function renderCozinha(){
     const box = el("div", "k-timer");
     const clock = el("div", "k-clock", mmss(kRestante || passo.timer));
     if (kTocando) clock.classList.add("ring");
-    box.appendChild(clock);
-
     const b = el("button", "k-tbtn", kTimer ? "Pausar" : (kRestante ? "Continuar" : "Iniciar " + mmss(passo.timer)));
+    const z = el("button", "k-tbtn ghost", "Zerar");
+    z.style.visibility = (kRestante || kTocando) ? "visible" : "hidden";
+
+    /* nada de re-renderizar aqui: o relógio é atualizado no próprio nó */
+    function zera(){
+      paraTimer();
+      kRestante = 0;
+      clock.classList.remove("ring");
+      clock.textContent = mmss(passo.timer);
+      b.textContent = "Iniciar " + mmss(passo.timer);
+      z.style.visibility = "hidden";
+    }
     b.onclick = () => {
-      if (kTimer){ clearInterval(kTimer); kTimer = null; renderCozinha(); return; }
+      if (kTimer){ clearInterval(kTimer); kTimer = null; b.textContent = "Continuar"; return; }
       if (!kRestante) kRestante = passo.timer;
       kTocando = false;
+      clock.classList.remove("ring");
+      preparaSom();          /* AudioContext precisa nascer de um clique */
+      seguraTela();
+      b.textContent = "Pausar";
+      z.style.visibility = "visible";
+      clock.textContent = mmss(kRestante);
       kTimer = setInterval(() => {
         kRestante--;
         clock.textContent = mmss(Math.max(0, kRestante));
         if (kRestante <= 0){
-          clearInterval(kTimer); kTimer = null; kTocando = true; bip(); renderCozinha();
+          clearInterval(kTimer); kTimer = null; kRestante = 0; kTocando = true;
+          clock.classList.add("ring");
+          b.textContent = "Iniciar " + mmss(passo.timer);
+          bip();
         }
       }, 1000);
-      renderCozinha();
     };
-    box.appendChild(b);
+    z.onclick = zera;
 
-    if (kRestante || kTocando){
-      const z = el("button", "k-tbtn ghost", "Zerar");
-      z.onclick = () => { paraTimer(); kRestante = 0; renderCozinha(); };
-      box.appendChild(z);
-    }
+    box.appendChild(clock); box.appendChild(b); box.appendChild(z);
     esq.appendChild(box);
   }
   body.appendChild(esq);
@@ -1644,20 +1847,17 @@ document.addEventListener("keydown", e => {
    arranque
    ========================================================= */
 montaNav();
-(function inicio(){
-  const h = location.hash.replace("#", "");
-  if (h === "sobre") return abrir("sobre", "sobre");
-  if (h && RECEITAS.some(r => r.id === h)) return abrir(h, "receita");
-  if (h && TECNICAS.some(t => t.id === h)) return abrir(h, "tecnica");
-  abrir(TECNICAS[0].id, "tecnica");
-})();
-window.addEventListener("hashchange", () => {
+function rota(){
   const h = location.hash.replace("#", "");
   if (h === estado.itemId) return;
+  if (!h || h === "capa") return abrir("capa", "capa");
   if (h === "sobre") return abrir("sobre", "sobre");
   if (RECEITAS.some(r => r.id === h)) return abrir(h, "receita");
   if (TECNICAS.some(t => t.id === h)) return abrir(h, "tecnica");
-});
+  abrir("capa", "capa");
+}
+rota();
+window.addEventListener("hashchange", rota);
 </script>
 </body>
 </html>
