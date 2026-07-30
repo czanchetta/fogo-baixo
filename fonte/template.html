@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fogo Baixo — um caderno pessoal de cozinha</title>
+<meta name="description" content="Fogo Baixo: caderno pessoal de técnicas e receitas de Celso Zanchetta. Cada receita em quatro formatos — tradicional, tabela de cozimento, interativo e modo cozinha.">
+<meta name="author" content="Celso Zanchetta">
+<meta property="og:title" content="Fogo Baixo — um caderno pessoal de cozinha">
+<meta property="og:description" content="Técnicas e receitas testadas em casa, cada uma em quatro formatos de leitura.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315180f'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Helvetica,Arial' font-weight='bold' fill='%23c07d1c' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --paper:#eaefe4;
+  --card:#fbfbf8;
+  --cell:#dde6d4;
+  --ink:#15180f;
+  --ink-2:#5c614f;
+  --line:#15180f;
+  --hair:#c3cbb8;
+  --accent:#c07d1c;
+  --accent-ink:#fff;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+
+/* ---------- layout ---------- */
+.wrap{display:grid;grid-template-columns:288px minmax(0,1fr);min-height:100vh}
+@media (max-width:900px){ .wrap{grid-template-columns:1fr} }
+
+/* ---------- sidebar ---------- */
+.side{
+  border-right:1px solid var(--hair);padding:28px 22px 60px;
+  position:sticky;top:0;height:100vh;overflow:auto;
+}
+@media (max-width:900px){ .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--hair);padding-bottom:24px} }
+.brand{font-weight:800;letter-spacing:-.03em;font-size:26px;line-height:1;margin:0 0 4px}
+.brand small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:500;color:var(--ink-2);margin-top:9px}
+.side h4{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:600;margin:30px 0 10px}
+.nav{display:flex;flex-direction:column;gap:1px}
+.nav button{
+  text-align:left;background:none;border:0;padding:8px 10px;border-radius:5px;
+  font-size:14.5px;line-height:1.3;color:var(--ink)
+}
+.nav button:hover{background:#dfe6d7}
+.nav button[aria-current="true"]{background:var(--ink);color:#f4f6ef;font-weight:600}
+.nav .num{font-family:var(--mono);font-size:11px;opacity:.5;margin-right:8px}
+.cap{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:600;margin:16px 0 5px;padding-left:10px;opacity:.75}
+.nav .cap:first-child{margin-top:4px}
+.side-foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--hair);
+  font-size:12.5px;line-height:1.45;color:var(--ink-2)}
+.side-foot a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
+.side-foot a:hover{border-bottom-color:var(--accent)}
+.side-foot p{margin:0 0 8px}
+
+/* ---------- rodapé / colofão ---------- */
+.colofao{margin-top:72px;padding-top:22px;border-top:1px solid var(--ink);
+  display:flex;flex-wrap:wrap;gap:12px 34px;align-items:baseline}
+.colofao p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:46ch;line-height:1.5}
+.colofao .links{display:flex;gap:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em}
+.colofao a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:1px}
+.colofao a:hover{border-bottom-color:var(--accent)}
+
+/* ---------- página sobre ---------- */
+.sobre{max-width:62ch}
+.sobre p{font-size:16.5px;line-height:1.62}
+.sobre .idbox{margin-top:34px;padding:22px 24px;border:1px solid var(--ink);background:var(--card)}
+.sobre .idbox h4{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 10px;font-weight:700}
+.sobre .idbox a{color:var(--ink);font-weight:600}
+
+/* ---------- main ---------- */
+.main{padding:44px 48px 120px;max-width:1280px}
+@media (max-width:900px){ .main{padding:28px 20px 90px} }
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);font-weight:600;margin:0 0 14px}
+h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;font-weight:800;margin:0}
+h1.title sup{font-size:.28em;vertical-align:super;letter-spacing:0;font-weight:600}
+.lede{font-size:clamp(17px,2vw,21px);line-height:1.4;color:var(--ink);max-width:34ch;margin:18px 0 0}
+.rule{height:1px;background:var(--ink);opacity:.35;margin:26px 0 0}
+.meta{display:flex;flex-wrap:wrap;gap:26px;padding:14px 0 0;font-family:var(--mono);font-size:12.5px}
+.meta span{color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.meta b{font-weight:600;margin-left:8px;letter-spacing:0;text-transform:none;font-size:12.5px;color:var(--ink)}
+
+/* ---------- controls ---------- */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:24px 0 22px}
+.ctl{display:flex;align-items:center;gap:9px}
+.ctl > span{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+.seg{display:flex;gap:6px}
+.seg button{
+  border:1px solid var(--ink);background:transparent;padding:7px 15px;border-radius:3px;
+  font-family:var(--mono);font-size:13px;font-weight:600;line-height:1
+}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#f4f6ef}
+.cook-btn{
+  margin-left:auto;background:var(--accent);color:var(--accent-ink);border:0;padding:12px 24px;border-radius:3px;
+  font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.06em
+}
+.cook-btn:hover{filter:brightness(1.07)}
+@media (max-width:700px){ .cook-btn{margin-left:0;width:100%;text-align:center} }
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--hair);margin:0 0 26px;overflow-x:auto}
+.tabs button{
+  background:none;border:0;border-bottom:2px solid transparent;padding:11px 18px 10px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);white-space:nowrap
+}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+
+/* ---------- visão tradicional ---------- */
+.trad{display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:52px}
+@media (max-width:820px){ .trad{grid-template-columns:1fr;gap:32px} }
+.trad h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 14px;padding-bottom:9px;border-bottom:1px solid var(--ink)}
+.ing-list{list-style:none;margin:0;padding:0}
+.ing-list li{padding:9px 0;border-bottom:1px solid var(--hair);font-size:15px;line-height:1.35}
+.ing-list .q{font-family:var(--mono);font-weight:700;margin-right:7px}
+.ing-list .obs{display:block;color:var(--ink-2);font-size:13px;margin-top:2px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;
+  padding:0 0 22px;font-size:16.5px;line-height:1.52}
+.steps li::before{
+  content:counter(s);font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;width:28px;height:28px;display:grid;place-items:center;margin-top:2px
+}
+.notas{margin-top:36px;border-top:1px solid var(--ink);padding-top:16px}
+.notas h3{margin-bottom:12px}
+.notas ul{margin:0;padding-left:18px}
+.notas li{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin-bottom:9px}
+
+/* ---------- grade (tabela de cozimento) ---------- */
+.grid-scroll{overflow-x:auto;border:1px solid var(--ink);background:var(--card);position:relative}
+.grid-scroll.tem-scroll{
+  background-image:linear-gradient(to left, rgba(21,24,15,.13), rgba(21,24,15,0) 42px);
+  background-repeat:no-repeat;background-attachment:local, scroll;
+}
+.grid{scrollbar-width:thin}
+.grid-band{
+  background:var(--ink);color:#eef1e6;text-align:center;padding:13px 16px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600
+}
+.grid{display:grid;min-width:760px}
+.g-ing{
+  border-right:1px solid var(--ink);border-bottom:1px solid var(--hair);
+  padding:12px 15px;font-size:14.5px;line-height:1.35;background:var(--card);display:flex;align-items:center
+}
+.g-ing .q{font-family:var(--mono);font-weight:700;margin-right:7px;white-space:nowrap}
+.g-ing .obs{color:var(--ink-2)}
+.g-step{
+  background:var(--cell);border-right:1px solid var(--card);border-bottom:1px solid var(--card);
+  padding:16px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:6px
+}
+.g-step .t{font-weight:650;font-size:15px;line-height:1.22;letter-spacing:-.01em}
+.g-step .d{font-family:var(--mono);font-size:11.5px;line-height:1.35;color:var(--ink-2)}
+.g-empty{background:var(--card);border-bottom:1px solid var(--card)}
+.hint{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:10px;letter-spacing:.06em}
+
+/* ---------- técnica ---------- */
+.tech{max-width:66ch}
+.tech section{margin:34px 0}
+.tech h2{font-size:24px;letter-spacing:-.02em;margin:0 0 10px;line-height:1.15}
+.tech p{font-size:17px;line-height:1.62;margin:0}
+
+/* ---------- modo cozinha ---------- */
+.kitchen{position:fixed;inset:0;background:#12140d;color:#f2f4ea;z-index:60;display:none;
+  flex-direction:column;padding:26px 30px 30px}
+.kitchen.on{display:flex}
+.k-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.k-top .k-name{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#9fae8c}
+.k-x{margin-left:auto;background:none;border:1px solid #4a5140;color:#f2f4ea;border-radius:3px;
+  padding:9px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+.k-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:44px;align-items:start;
+  padding-top:26px;overflow:auto}
+@media (max-width:860px){ .k-body{grid-template-columns:1fr;gap:22px} }
+.k-count{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:#9fae8c;margin-bottom:20px}
+.k-text{font-size:clamp(26px,4.2vw,46px);line-height:1.24;letter-spacing:-.02em;font-weight:600;margin:0}
+.k-ings{border-left:1px solid #333a2b;padding-left:22px}
+.k-ings h4{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:#9fae8c;margin:0 0 12px;font-weight:600}
+.k-ings li{list-style:none;font-size:16px;padding:7px 0;border-bottom:1px solid #262c1e;line-height:1.3}
+.k-ings ul{margin:0;padding:0}
+.k-ings .q{font-family:var(--mono);font-weight:700;margin-right:6px}
+.k-timer{margin-top:34px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.k-clock{font-family:var(--mono);font-size:clamp(40px,7vw,74px);font-weight:700;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1}
+.k-clock.ring{color:#ffcf6a;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.k-tbtn{background:var(--accent);border:0;color:#fff;border-radius:3px;padding:14px 26px;
+  font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.06em}
+.k-tbtn.ghost{background:none;border:1px solid #4a5140;color:#f2f4ea}
+.k-nav{display:flex;gap:12px;padding-top:22px;border-top:1px solid #262c1e;margin-top:22px}
+.k-nav button{flex:1;background:none;border:1px solid #4a5140;color:#f2f4ea;border-radius:3px;
+  padding:20px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.08em}
+.k-nav button.primary{background:#e9eee0;color:#12140d;border-color:#e9eee0}
+.k-nav button:disabled{opacity:.3}
+.k-prog{display:flex;gap:4px;margin-top:16px}
+.k-prog i{flex:1;height:3px;background:#333a2b;border-radius:2px}
+.k-prog i.done{background:var(--accent)}
+
+/* ---------- impressão ---------- */
+@media print{
+  .side,.tabs,.controls,.cook-btn,.hint{display:none!important}
+  body{background:#fff}
+  .wrap{display:block}
+  .main{padding:0;max-width:none}
+  .grid-scroll{overflow:visible;break-inside:avoid}
+  .grid{min-width:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="side">
+    <div class="brand">Fogo&nbsp;Baixo<small>Caderno pessoal de cozinha</small></div>
+    <h4>Técnicas</h4>
+    <nav class="nav" id="nav-tec"></nav>
+    <h4>Receitas</h4>
+    <nav class="nav" id="nav-rec"></nav>
+    <div class="side-foot">
+      <p>Um caderno pessoal de cozinha, de <strong>Celso Zanchetta</strong>.</p>
+      <p><a href="#sobre" id="link-sobre">Sobre este caderno</a></p>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="kitchen" id="kitchen" aria-hidden="true"></div>
+
+<script>
+/*DADOS*/
+
+/* =========================================================
+   utilidades
+   ========================================================= */
+const $ = (s, r) => (r || document).querySelector(s);
+const el = (t, c, h) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const FRACOES = [[1/8,"⅛"],[1/6,"⅙"],[1/4,"¼"],[1/3,"⅓"],[1/2,"½"],[2/3,"⅔"],[3/4,"¾"]];
+function fracao(n){
+  if (!isFinite(n)) return "";
+  const inteiro = Math.floor(n + 1e-6);
+  let resto = n - inteiro;
+  if (resto < 0.04) return String(inteiro);
+  if (resto > 0.96) return String(inteiro + 1);
+  let melhor = null, erro = 1;
+  for (const [v, s] of FRACOES){ const e = Math.abs(resto - v); if (e < erro){ erro = e; melhor = s; } }
+  if (erro > 0.06) return (Math.round(n * 100) / 100).toString().replace(".", ",");
+  return (inteiro ? inteiro + " " : "") + melhor;
+}
+const UNI_PESO = new Set(["g","ml","kg","l"]);
+function arredondaPeso(n){
+  if (n >= 200) return Math.round(n / 10) * 10;
+  if (n >= 50)  return Math.round(n / 5) * 5;
+  if (n >= 10)  return Math.round(n);
+  return Math.round(n * 10) / 10;
+}
+function formataQtd(q, u){
+  if (q == null) return "";
+  if (UNI_PESO.has(u)) return String(arredondaPeso(q)).replace(".", ",");
+  return fracao(q);
+}
+function plural(u, q){
+  if (q <= 1) return u;
+  const mapa = { "un":"un", "dentes":"dentes", "ramos":"ramos", "ramo":"ramos", "pitada":"pitadas", "xíc.":"xíc." };
+  return mapa[u] || u;
+}
+/* devolve {q,u} já escalado e no sistema escolhido */
+function resolve(ing, fator, sistema){
+  const base = (sistema === "peso" && ing.alt) ? ing.alt : ing;
+  if (base.q == null) return { q: null, u: base.u || "" };
+  const escala = ing.escala === false ? 1 : fator;
+  return { q: base.q * escala, u: base.u };
+}
+function textoIng(ing, fator, sistema){
+  const r = resolve(ing, fator, sistema);
+  if (r.q == null) return { q: "", nome: ing.nome, obs: ing.obs || "" };
+  const q = formataQtd(r.q, r.u);
+  const u = plural(r.u, r.q);
+  return { q: (q ? q + " " : "") + (u || ""), nome: ing.nome, obs: ing.obs || "" };
+}
+function mmss(s){
+  const m = Math.floor(s / 60), r = s % 60;
+  return String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+}
+
+/* =========================================================
+   estado
+   ========================================================= */
+const estado = {
+  itemId: RECEITAS[0].id,
+  tipo: "receita",     // "receita" | "tecnica"
+  vista: "tradicional",// tradicional | tabela | interativo
+  porcoes: RECEITAS[0].porcoes,
+  sistema: "caseiro",  // caseiro | peso
+};
+
+function receitaAtual(){ return RECEITAS.find(r => r.id === estado.itemId); }
+function fator(){ const r = receitaAtual(); return r ? estado.porcoes / r.porcoes : 1; }
+
+/* =========================================================
+   navegação
+   ========================================================= */
+function montaNav(){
+  const t = $("#nav-tec"), r = $("#nav-rec");
+  t.innerHTML = ""; r.innerHTML = "";
+  TECNICAS.forEach(x => {
+    const b = el("button", null, esc(x.titulo));
+    b.onclick = () => abrir(x.id, "tecnica");
+    b.dataset.id = x.id;
+    t.appendChild(b);
+  });
+  let n = 0;
+  CAPITULOS.forEach(cap => {
+    const doCap = RECEITAS.filter(x => x.capitulo === cap.id);
+    if (!doCap.length) return;
+    r.appendChild(el("div", "cap", esc(cap.nome)));
+    doCap.forEach(x => {
+      n++;
+      const b = el("button", null, '<span class="num">' + String(n).padStart(2, "0") + "</span>" + esc(x.titulo));
+      b.onclick = () => abrir(x.id, "receita");
+      b.dataset.id = x.id;
+      r.appendChild(b);
+    });
+  });
+  $("#link-sobre").onclick = e => { e.preventDefault(); abrir("sobre", "sobre"); };
+}
+function numeroDaReceita(id){
+  let n = 0;
+  for (const cap of CAPITULOS)
+    for (const x of RECEITAS.filter(y => y.capitulo === cap.id)) { n++; if (x.id === id) return n; }
+  return 0;
+}
+function abrir(id, tipo){
+  if (kAberto()) fechaCozinha();
+  estado.itemId = id; estado.tipo = tipo;
+  if (tipo === "receita"){
+    const rec = RECEITAS.find(x => x.id === id);
+    estado.porcoes = rec.porcoes;
+    if (!["tradicional","tabela","interativo"].includes(estado.vista)) estado.vista = "tradicional";
+  }
+  document.querySelectorAll(".nav button").forEach(b =>
+    b.setAttribute("aria-current", b.dataset.id === id ? "true" : "false"));
+  render();
+  window.scrollTo({ top: 0, behavior: "instant" });
+  location.hash = id;
+}
+
+/* =========================================================
+   render principal
+   ========================================================= */
+function render(){
+  const m = $("#main");
+  m.innerHTML = "";
+  if (estado.tipo === "sobre") renderSobre(m);
+  else if (estado.tipo === "tecnica") renderTecnica(m);
+  else renderReceita(m);
+  m.appendChild(colofao());
+}
+
+function colofao(){
+  const c = el("div", "colofao");
+  c.appendChild(el("p", null,
+    "<strong>Fogo Baixo</strong> é um caderno pessoal de cozinha de Celso Zanchetta — " +
+    "receitas e técnicas testadas em casa, anotadas para não esquecer. Não é publicação editorial nem consultoria gastronômica."));
+  const l = el("div", "links");
+  l.innerHTML =
+    '<a href="https://github.com/czanchetta" target="_blank" rel="noopener">GitHub</a>' +
+    '<a href="mailto:celso.zanchetta@gmail.com">E-mail</a>' +
+    '<a href="#sobre" data-sobre="1">Sobre</a>';
+  l.querySelector("[data-sobre]").onclick = e => { e.preventDefault(); abrir("sobre", "sobre"); };
+  c.appendChild(l);
+  return c;
+}
+
+function renderSobre(m){
+  m.appendChild(el("p", "kicker", "COLOFÃO · PROJETO PESSOAL"));
+  m.appendChild(el("h1", "title", "Sobre este caderno"));
+  m.appendChild(el("p", "lede",
+    "Um arquivo de cozinha próprio, aberto porque não custa nada deixar aberto."));
+  m.appendChild(el("div", "rule"));
+  const s = el("div", "sobre");
+  [
+    "Isto não é um livro de receitas no sentido usual. É o caderno onde eu anoto o que deu certo na minha cozinha, com os porquês — por que a frigideira começa fria, por que o sal entra no fim, por que o arroz do fried rice tem que ser o de ontem. As receitas foram feitas, comidas e corrigidas antes de virarem texto.",
+    "Cada receita aparece em quatro formatos, porque a mesma receita serve para coisas diferentes. A visão tradicional é para ler antes. A tabela de cozimento — uma ideia emprestada do Cooking for Engineers — mostra a receita inteira de uma vez, e é a melhor forma de entender o que acontece em paralelo. A visão interativa recalcula porções e unidades. E o modo cozinha é para usar com as mãos sujas, um passo por vez, com os timers das etapas cronometradas.",
+    "As quantidades são as que eu uso, não as que um teste de cozinha profissional validaria. Onde a receita original não tinha medida, não inventei uma. Onde o tempo depende do seu fogão, o texto diz o que olhar em vez de dar um número.",
+    "Se alguma coisa aqui te ajudar, ótimo. Se alguma coisa estiver errada, me avise.",
+  ].forEach(p => s.appendChild(el("p", null, esc(p))));
+
+  const box = el("div", "idbox");
+  box.innerHTML =
+    "<h4>Celso Zanchetta</h4>" +
+    '<p style="margin:0 0 6px">Projeto pessoal, sem fins comerciais.</p>' +
+    '<p style="margin:0">' +
+    '<a href="https://github.com/czanchetta" target="_blank" rel="noopener">github.com/czanchetta</a><br>' +
+    '<a href="mailto:celso.zanchetta@gmail.com">celso.zanchetta@gmail.com</a></p>';
+  s.appendChild(box);
+  m.appendChild(s);
+}
+
+function renderTecnica(m){
+  const t = TECNICAS.find(x => x.id === estado.itemId);
+  m.appendChild(el("p", "kicker", esc(t.kicker)));
+  m.appendChild(el("h1", "title", esc(t.titulo)));
+  m.appendChild(el("p", "lede", esc(t.resumo)));
+  m.appendChild(el("div", "rule"));
+  const box = el("div", "tech");
+  t.corpo.forEach(s => {
+    const sec = el("section");
+    sec.appendChild(el("h2", null, esc(s.h)));
+    sec.appendChild(el("p", null, esc(s.p)));
+    box.appendChild(sec);
+  });
+  const n = el("div", "notas");
+  n.appendChild(el("h3", null, "Notas"));
+  const ul = el("ul");
+  t.notas.forEach(x => ul.appendChild(el("li", null, esc(x))));
+  n.appendChild(ul);
+  box.appendChild(n);
+  m.appendChild(box);
+}
+
+function renderReceita(m){
+  const r = receitaAtual();
+
+  m.appendChild(el("p", "kicker",
+    String(numeroDaReceita(r.id)).padStart(2, "0") + " · " + esc(r.kicker)));
+  const h = el("h1", "title", esc(r.titulo));
+  m.appendChild(h);
+  m.appendChild(el("p", "lede", esc(r.subtitulo)));
+  m.appendChild(el("div", "rule"));
+
+  const meta = el("div", "meta");
+  meta.innerHTML =
+    '<div><span>Rende</span><b>' + estado.porcoes + ' porções</b></div>' +
+    '<div><span>Ativo</span><b>' + r.ativo + ' min</b></div>' +
+    '<div><span>Total</span><b>' + r.total + ' min</b></div>' +
+    '<div><span>Utensílio</span><b>' + esc(r.utensilio) + '</b></div>';
+  m.appendChild(meta);
+
+  /* abas */
+  const tabs = el("div", "tabs");
+  [["tradicional","Tradicional"],["tabela","Tabela de cozimento"],["interativo","Interativo"]].forEach(([k, rot]) => {
+    const b = el("button", null, rot);
+    b.setAttribute("aria-selected", estado.vista === k ? "true" : "false");
+    b.onclick = () => { estado.vista = k; render(); };
+    tabs.appendChild(b);
+  });
+  const bk = el("button", null, "Modo cozinha ↗");
+  bk.onclick = () => abreCozinha(0);
+  tabs.appendChild(bk);
+  m.appendChild(tabs);
+
+  if (estado.vista === "interativo") m.appendChild(controles(r));
+  if (estado.vista === "tradicional") m.appendChild(controles(r, true));
+
+  if (estado.vista === "tradicional") renderTradicional(m, r);
+  else renderGrade(m, r, estado.vista === "interativo");
+
+  if (estado.vista !== "tradicional" && r.notas){
+    const n = el("div", "notas");
+    n.appendChild(el("h3", null, "Notas"));
+    const ul = el("ul");
+    r.notas.forEach(x => ul.appendChild(el("li", null, esc(x))));
+    n.appendChild(ul);
+    m.appendChild(n);
+  }
+}
+
+function controles(r, semBotao){
+  const c = el("div", "controls");
+
+  const c1 = el("div", "ctl"); c1.appendChild(el("span", null, "Porções"));
+  const s1 = el("div", "seg");
+  r.porcoesOpcoes.forEach(p => {
+    const b = el("button", null, String(p));
+    b.setAttribute("aria-pressed", estado.porcoes === p ? "true" : "false");
+    b.onclick = () => { estado.porcoes = p; render(); };
+    s1.appendChild(b);
+  });
+  c1.appendChild(s1); c.appendChild(c1);
+
+  const c2 = el("div", "ctl"); c2.appendChild(el("span", null, "Unidades"));
+  const s2 = el("div", "seg");
+  Object.entries(UNIDADES).forEach(([k, rot]) => {
+    const b = el("button", null, rot);
+    b.setAttribute("aria-pressed", estado.sistema === k ? "true" : "false");
+    b.onclick = () => { estado.sistema = k; render(); };
+    s2.appendChild(b);
+  });
+  c2.appendChild(s2); c.appendChild(c2);
+
+  if (!semBotao){
+    const b = el("button", "cook-btn", "Começar a cozinhar");
+    b.onclick = () => abreCozinha(0);
+    c.appendChild(b);
+  }
+  return c;
+}
+
+/* ---------- visão tradicional ---------- */
+function renderTradicional(m, r){
+  const f = fator();
+  const box = el("div", "trad");
+
+  const col1 = el("div");
+  col1.appendChild(el("h3", null, "Ingredientes"));
+  const ul = el("ul", "ing-list");
+  r.ingredientes.forEach(i => {
+    const t = textoIng(i, f, estado.sistema);
+    ul.appendChild(el("li", null,
+      '<span class="q">' + esc(t.q) + "</span>" + esc(t.nome) +
+      (t.obs ? '<span class="obs">' + esc(t.obs) + "</span>" : "")));
+  });
+  col1.appendChild(ul);
+  box.appendChild(col1);
+
+  const col2 = el("div");
+  col2.appendChild(el("h3", null, "Modo de preparo"));
+  const ol = el("ul", "steps");
+  r.modo.forEach(s => ol.appendChild(el("li", null, esc(s.t))));
+  col2.appendChild(ol);
+
+  if (r.notas){
+    const n = el("div", "notas");
+    n.appendChild(el("h3", null, "Notas"));
+    const nu = el("ul");
+    r.notas.forEach(x => nu.appendChild(el("li", null, esc(x))));
+    n.appendChild(nu);
+    col2.appendChild(n);
+  }
+  box.appendChild(col2);
+  m.appendChild(box);
+}
+
+/* ---------- tabela de cozimento ---------- */
+function renderGrade(m, r, interativo){
+  const f = fator();
+  const nCols = Math.max(...r.grade.map(g => g.col));
+  const scroll = el("div", "grid-scroll");
+  scroll.appendChild(el("div", "grid-band", esc(r.faixa)));
+
+  const g = el("div", "grid");
+  g.style.gridTemplateColumns = "minmax(260px, 1.45fr) repeat(" + nCols + ", minmax(120px, 1fr))";
+  g.style.gridTemplateRows = "repeat(" + r.ingredientes.length + ", auto)";
+
+  r.ingredientes.forEach((i, idx) => {
+    const t = textoIng(i, f, estado.sistema);
+    const c = el("div", "g-ing",
+      '<div><span class="q">' + esc(t.q) + "</span>" + esc(t.nome) +
+      (t.obs ? ' <span class="obs">— ' + esc(t.obs) + "</span>" : "") + "</div>");
+    c.style.gridColumn = "1";
+    c.style.gridRow = String(idx + 1);
+    g.appendChild(c);
+  });
+
+  /* células de ação */
+  const ocupado = {};
+  r.grade.forEach(s => {
+    const c = el("div", "g-step",
+      '<div class="t">' + esc(s.titulo) + "</div>" +
+      (s.detalhe ? '<div class="d">' + esc(s.detalhe) + "</div>" : ""));
+    c.style.gridColumn = String(s.col + 1);
+    c.style.gridRow = (s.de + 1) + " / " + (s.ate + 2);
+    for (let i = s.de; i <= s.ate; i++) ocupado[s.col + ":" + i] = true;
+    g.appendChild(c);
+  });
+  /* preenche vazios com fundo claro para manter as linhas */
+  for (let col = 1; col <= nCols; col++){
+    for (let i = 0; i < r.ingredientes.length; i++){
+      if (ocupado[col + ":" + i]) continue;
+      const c = el("div", "g-empty");
+      c.style.gridColumn = String(col + 1);
+      c.style.gridRow = String(i + 1);
+      g.appendChild(c);
+    }
+  }
+
+  g.style.minWidth = (300 + nCols * 132) + "px";
+  scroll.appendChild(g);
+  m.appendChild(scroll);
+  const hint = el("p", "hint",
+    interativo ? "Ajuste as porções e as unidades acima — a tabela recalcula sozinha."
+               : "Leia da esquerda para a direita: cada bloco reúne os ingredientes que entram naquela etapa.");
+  m.appendChild(hint);
+  requestAnimationFrame(() => {
+    if (scroll.scrollWidth > scroll.clientWidth + 4){
+      scroll.classList.add("tem-scroll");
+      hint.textContent = "→ A tabela é mais larga que a tela: arraste na horizontal para ver as últimas etapas.";
+    }
+  });
+}
+
+/* =========================================================
+   modo cozinha
+   ========================================================= */
+let kIdx = 0, kTimer = null, kRestante = 0, kTocando = false;
+const kAberto = () => $("#kitchen").classList.contains("on");
+
+function abreCozinha(i){
+  if (estado.tipo !== "receita") return;
+  kIdx = i; paraTimer();
+  $("#kitchen").classList.add("on");
+  $("#kitchen").setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  renderCozinha();
+}
+function fechaCozinha(){
+  paraTimer();
+  $("#kitchen").classList.remove("on");
+  $("#kitchen").setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+function paraTimer(){ if (kTimer){ clearInterval(kTimer); kTimer = null; } kTocando = false; }
+
+function bip(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, .35, .7].forEach(d => {
+      const o = ctx.createOscillator(), gn = ctx.createGain();
+      o.type = "sine"; o.frequency.value = 880;
+      gn.gain.setValueAtTime(.0001, ctx.currentTime + d);
+      gn.gain.exponentialRampToValueAtTime(.3, ctx.currentTime + d + .02);
+      gn.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + d + .28);
+      o.connect(gn).connect(ctx.destination);
+      o.start(ctx.currentTime + d); o.stop(ctx.currentTime + d + .3);
+    });
+  }catch(e){}
+}
+
+function renderCozinha(){
+  const r = receitaAtual(), f = fator(), k = $("#kitchen");
+  const passo = r.modo[kIdx];
+  k.innerHTML = "";
+
+  const top = el("div", "k-top");
+  top.appendChild(el("div", "k-name", esc(r.titulo) + " · " + estado.porcoes + " porções"));
+  const x = el("button", "k-x", "Sair  ✕");
+  x.onclick = fechaCozinha;
+  top.appendChild(x);
+  k.appendChild(top);
+
+  const body = el("div", "k-body");
+
+  const esq = el("div");
+  esq.appendChild(el("div", "k-count", "PASSO " + (kIdx + 1) + " DE " + r.modo.length));
+  esq.appendChild(el("p", "k-text", esc(passo.t)));
+
+  if (passo.timer){
+    const box = el("div", "k-timer");
+    const clock = el("div", "k-clock", mmss(kRestante || passo.timer));
+    if (kTocando) clock.classList.add("ring");
+    box.appendChild(clock);
+
+    const b = el("button", "k-tbtn", kTimer ? "Pausar" : (kRestante ? "Continuar" : "Iniciar " + mmss(passo.timer)));
+    b.onclick = () => {
+      if (kTimer){ clearInterval(kTimer); kTimer = null; renderCozinha(); return; }
+      if (!kRestante) kRestante = passo.timer;
+      kTocando = false;
+      kTimer = setInterval(() => {
+        kRestante--;
+        clock.textContent = mmss(Math.max(0, kRestante));
+        if (kRestante <= 0){
+          clearInterval(kTimer); kTimer = null; kTocando = true; bip(); renderCozinha();
+        }
+      }, 1000);
+      renderCozinha();
+    };
+    box.appendChild(b);
+
+    if (kRestante || kTocando){
+      const z = el("button", "k-tbtn ghost", "Zerar");
+      z.onclick = () => { paraTimer(); kRestante = 0; renderCozinha(); };
+      box.appendChild(z);
+    }
+    esq.appendChild(box);
+  }
+  body.appendChild(esq);
+
+  const dir = el("div", "k-ings");
+  dir.appendChild(el("h4", null, "Ingredientes"));
+  const ul = el("ul");
+  r.ingredientes.forEach(i => {
+    const t = textoIng(i, f, estado.sistema);
+    ul.appendChild(el("li", null, '<span class="q">' + esc(t.q) + "</span>" + esc(t.nome)));
+  });
+  dir.appendChild(ul);
+  body.appendChild(dir);
+  k.appendChild(body);
+
+  const prog = el("div", "k-prog");
+  r.modo.forEach((_, i) => { const b = el("i"); if (i <= kIdx) b.classList.add("done"); prog.appendChild(b); });
+  k.appendChild(prog);
+
+  const nav = el("div", "k-nav");
+  const ant = el("button", null, "← Anterior");
+  ant.disabled = kIdx === 0;
+  ant.onclick = () => { paraTimer(); kRestante = 0; kIdx--; renderCozinha(); };
+  const prox = el("button", "primary", kIdx === r.modo.length - 1 ? "Terminar ✓" : "Próximo →");
+  prox.onclick = () => {
+    paraTimer(); kRestante = 0;
+    if (kIdx === r.modo.length - 1) return fechaCozinha();
+    kIdx++; renderCozinha();
+  };
+  nav.appendChild(ant); nav.appendChild(prox);
+  k.appendChild(nav);
+}
+
+document.addEventListener("keydown", e => {
+  if (!$("#kitchen").classList.contains("on")) return;
+  if (e.key === "Escape") fechaCozinha();
+  if (e.key === "ArrowRight"){ const r = receitaAtual(); if (kIdx < r.modo.length - 1){ paraTimer(); kRestante = 0; kIdx++; renderCozinha(); } }
+  if (e.key === "ArrowLeft" && kIdx > 0){ paraTimer(); kRestante = 0; kIdx--; renderCozinha(); }
+});
+
+/* =========================================================
+   arranque
+   ========================================================= */
+montaNav();
+(function inicio(){
+  const h = location.hash.replace("#", "");
+  if (h === "sobre") return abrir("sobre", "sobre");
+  if (h && RECEITAS.some(r => r.id === h)) return abrir(h, "receita");
+  if (h && TECNICAS.some(t => t.id === h)) return abrir(h, "tecnica");
+  abrir(TECNICAS[0].id, "tecnica");
+})();
+window.addEventListener("hashchange", () => {
+  const h = location.hash.replace("#", "");
+  if (h === estado.itemId) return;
+  if (h === "sobre") return abrir("sobre", "sobre");
+  if (RECEITAS.some(r => r.id === h)) return abrir(h, "receita");
+  if (TECNICAS.some(t => t.id === h)) return abrir(h, "tecnica");
+});
+</script>
+</body>
+</html>
