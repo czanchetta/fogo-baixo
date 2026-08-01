@@ -232,6 +232,14 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
 .tech section{margin:34px 0}
 .tech h2{font-size:24px;letter-spacing:-.02em;margin:0 0 10px;line-height:1.15}
 .tech p{font-size:17px;line-height:1.62;margin:0}
+.tech table{width:100%;border-collapse:collapse;margin:18px 0 0;font-size:14px}
+.tech table caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+.tech th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:650;padding:0 12px 8px 0;border-bottom:1px solid var(--rule)}
+.tech td{padding:10px 12px 10px 0;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+.tech td:first-child,.tech th:first-child{font-weight:650;white-space:nowrap}
+.tech tr:last-child td{border-bottom:none}
 
 /* ---------- modo cozinha (sempre escuro) ---------- */
 .kitchen{position:fixed;inset:0;background:#12140d;color:#f2f4ea;z-index:60;display:none;
@@ -2297,6 +2305,51 @@ TECNICAS.push({
         "Lo que sostiene la serie entera no es una lista de ingredientes, sino una lista de familias: tubérculo o almidón para energía y cuerpo (papa, arracacha, calabaza, ñame); verdura de color para vitaminas, color y dulzor (zanahoria, remolacha, arveja, calabacín); hoja verde para hierro y sabor (espinaca, berza, brócoli, berro); proteína para hierro y construcción (carne, pollo, pescado, hígado, porotos, garbanzos, lentejas); aromático para sabor de comida de verdad (cebolla, ajo, puerro, apio); grasa; y condimento. Cada tanda arma una de cada, y quien ocupa cada lugar rota según el mercado, la estación y lo que haya en el congelador. Ninguna familia es obligatoria en cada tanda, pero ninguna tanda debería tener solo dos.",
         "What holds the whole series together is not an ingredient list, it is a list of families: a starchy root for energy and body (potato, arracacha, squash, yam); a coloured vegetable for vitamins, colour and sweetness (carrot, beetroot, peas, courgette); a leafy green for iron and flavour (spinach, collards, broccoli, watercress); a protein for iron and building (beef, chicken, fish, liver, beans, chickpeas, lentils); an aromatic for the taste of real cooking (onion, garlic, leek, celery); fat; and seasoning. Each batch picks one from each, and who fills each slot rotates with the market, the season and what is in the freezer. No family is compulsory in every batch, but no batch should have only two."
       ),
+      tabela: {
+        legenda: T("As sete famílias", "Las siete familias", "The seven families"),
+        cabecalho: [
+          T("Família", "Familia", "Family"),
+          T("O que resolve", "Qué resuelve", "What it does"),
+          T("Exemplos", "Ejemplos", "Examples"),
+        ],
+        linhas: [
+          [
+            T("Tubérculo / amiláceo", "Tubérculo / almidón", "Starchy root"),
+            T("energia e corpo", "energía y cuerpo", "energy and body"),
+            T("batata, mandioquinha, abóbora, inhame, mandioca", "papa, arracacha, calabaza, ñame, mandioca (yuca)", "potato, arracacha, squash, yam, cassava"),
+          ],
+          [
+            T("Legume colorido", "Verdura de color", "Coloured vegetable"),
+            T("vitaminas, cor, doçura", "vitaminas, color y dulzor", "vitamins, colour, sweetness"),
+            T("cenoura, beterraba, ervilha, abobrinha, chuchu", "zanahoria, remolacha, arveja, calabacín, chayote", "carrot, beetroot, peas, courgette, chayote"),
+          ],
+          [
+            T("Folha verde", "Hoja verde", "Leafy green"),
+            T("ferro, sabor, cor", "hierro, sabor y color", "iron, flavour, colour"),
+            T("espinafre, couve, brócolis, agrião, escarola", "espinaca, berza, brócoli, berro, escarola", "spinach, collards, broccoli, watercress, escarole"),
+          ],
+          [
+            T("Proteína", "Proteína", "Protein"),
+            T("ferro e construção", "hierro y construcción", "iron and building"),
+            T("carne moída, suína, frango, peixe, fígado, feijão, grão de bico, lentilha", "carne molida, cerdo, pollo, pescado, hígado, porotos, garbanzos, lentejas", "ground beef, pork, chicken, fish, liver, beans, chickpeas, lentils"),
+          ],
+          [
+            T("Aromático", "Aromático", "Aromatic"),
+            T("sabor de comida de verdade", "sabor de comida de verdad", "the taste of real cooking"),
+            T("cebola, alho, alho-poró, salsão", "cebolla, ajo, puerro, apio", "onion, garlic, leek, celery"),
+          ],
+          [
+            T("Gordura", "Grasa", "Fat"),
+            T("calorias e vitaminas lipossolúveis", "calorías y vitaminas liposolubles", "calories and fat-soluble vitamins"),
+            T("óleo neutro (girassol)", "aceite neutro (girasol)", "neutral oil (sunflower)"),
+          ],
+          [
+            T("Tempero", "Condimento", "Seasoning"),
+            T("educar o paladar", "educar el paladar", "training the palate"),
+            T("cominho, canela, louro, ervas, raspa de limão", "comino, canela, laurel, hierbas, ralladura de limón", "cumin, cinnamon, bay, herbs, lime zest"),
+          ],
+        ],
+      },
     },
     {
       h: T("O método base, em sete passos", "El método base, en siete pasos", "The base method, in seven steps"),
@@ -2959,6 +3012,18 @@ function renderSobre(m){
   m.appendChild(s);
 }
 
+function tabelaTecnica(tb){
+  const wrap = el("table");
+  let h = "";
+  if (tb.legenda) h += "<caption>" + esc(t(tb.legenda)) + "</caption>";
+  h += "<thead><tr>" + tb.cabecalho.map(c => "<th>" + esc(t(c)) + "</th>").join("") + "</tr></thead>";
+  h += "<tbody>" + tb.linhas.map(lin =>
+    "<tr>" + lin.map(c => "<td>" + esc(t(c)) + "</td>").join("") + "</tr>"
+  ).join("") + "</tbody>";
+  wrap.innerHTML = h;
+  return wrap;
+}
+
 function renderTecnica(m){
   const x = TECNICAS.find(y => y.id === estado.itemId);
   m.appendChild(el("p", "kicker", esc(t(x.kicker))));
@@ -2970,6 +3035,7 @@ function renderTecnica(m){
     const sec = el("section");
     sec.appendChild(el("h2", null, esc(t(s.h))));
     sec.appendChild(el("p", null, esc(t(s.p))));
+    if (s.tabela) sec.appendChild(tabelaTecnica(s.tabela));
     box.appendChild(sec);
   });
   const n = el("div", "notas");

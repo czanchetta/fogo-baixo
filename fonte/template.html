@@ -232,6 +232,14 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
 .tech section{margin:34px 0}
 .tech h2{font-size:24px;letter-spacing:-.02em;margin:0 0 10px;line-height:1.15}
 .tech p{font-size:17px;line-height:1.62;margin:0}
+.tech table{width:100%;border-collapse:collapse;margin:18px 0 0;font-size:14px}
+.tech table caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+.tech th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:650;padding:0 12px 8px 0;border-bottom:1px solid var(--rule)}
+.tech td{padding:10px 12px 10px 0;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+.tech td:first-child,.tech th:first-child{font-weight:650;white-space:nowrap}
+.tech tr:last-child td{border-bottom:none}
 
 /* ---------- modo cozinha (sempre escuro) ---------- */
 .kitchen{position:fixed;inset:0;background:#12140d;color:#f2f4ea;z-index:60;display:none;
@@ -631,6 +639,18 @@ function renderSobre(m){
   m.appendChild(s);
 }
 
+function tabelaTecnica(tb){
+  const wrap = el("table");
+  let h = "";
+  if (tb.legenda) h += "<caption>" + esc(t(tb.legenda)) + "</caption>";
+  h += "<thead><tr>" + tb.cabecalho.map(c => "<th>" + esc(t(c)) + "</th>").join("") + "</tr></thead>";
+  h += "<tbody>" + tb.linhas.map(lin =>
+    "<tr>" + lin.map(c => "<td>" + esc(t(c)) + "</td>").join("") + "</tr>"
+  ).join("") + "</tbody>";
+  wrap.innerHTML = h;
+  return wrap;
+}
+
 function renderTecnica(m){
   const x = TECNICAS.find(y => y.id === estado.itemId);
   m.appendChild(el("p", "kicker", esc(t(x.kicker))));
@@ -642,6 +662,7 @@ function renderTecnica(m){
     const sec = el("section");
     sec.appendChild(el("h2", null, esc(t(s.h))));
     sec.appendChild(el("p", null, esc(t(s.p))));
+    if (s.tabela) sec.appendChild(tabelaTecnica(s.tabela));
     box.appendChild(sec);
   });
   const n = el("div", "notas");

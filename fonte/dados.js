@@ -1985,6 +1985,51 @@ TECNICAS.push({
         "Lo que sostiene la serie entera no es una lista de ingredientes, sino una lista de familias: tubérculo o almidón para energía y cuerpo (papa, arracacha, calabaza, ñame); verdura de color para vitaminas, color y dulzor (zanahoria, remolacha, arveja, calabacín); hoja verde para hierro y sabor (espinaca, berza, brócoli, berro); proteína para hierro y construcción (carne, pollo, pescado, hígado, porotos, garbanzos, lentejas); aromático para sabor de comida de verdad (cebolla, ajo, puerro, apio); grasa; y condimento. Cada tanda arma una de cada, y quien ocupa cada lugar rota según el mercado, la estación y lo que haya en el congelador. Ninguna familia es obligatoria en cada tanda, pero ninguna tanda debería tener solo dos.",
         "What holds the whole series together is not an ingredient list, it is a list of families: a starchy root for energy and body (potato, arracacha, squash, yam); a coloured vegetable for vitamins, colour and sweetness (carrot, beetroot, peas, courgette); a leafy green for iron and flavour (spinach, collards, broccoli, watercress); a protein for iron and building (beef, chicken, fish, liver, beans, chickpeas, lentils); an aromatic for the taste of real cooking (onion, garlic, leek, celery); fat; and seasoning. Each batch picks one from each, and who fills each slot rotates with the market, the season and what is in the freezer. No family is compulsory in every batch, but no batch should have only two."
       ),
+      tabela: {
+        legenda: T("As sete famílias", "Las siete familias", "The seven families"),
+        cabecalho: [
+          T("Família", "Familia", "Family"),
+          T("O que resolve", "Qué resuelve", "What it does"),
+          T("Exemplos", "Ejemplos", "Examples"),
+        ],
+        linhas: [
+          [
+            T("Tubérculo / amiláceo", "Tubérculo / almidón", "Starchy root"),
+            T("energia e corpo", "energía y cuerpo", "energy and body"),
+            T("batata, mandioquinha, abóbora, inhame, mandioca", "papa, arracacha, calabaza, ñame, mandioca (yuca)", "potato, arracacha, squash, yam, cassava"),
+          ],
+          [
+            T("Legume colorido", "Verdura de color", "Coloured vegetable"),
+            T("vitaminas, cor, doçura", "vitaminas, color y dulzor", "vitamins, colour, sweetness"),
+            T("cenoura, beterraba, ervilha, abobrinha, chuchu", "zanahoria, remolacha, arveja, calabacín, chayote", "carrot, beetroot, peas, courgette, chayote"),
+          ],
+          [
+            T("Folha verde", "Hoja verde", "Leafy green"),
+            T("ferro, sabor, cor", "hierro, sabor y color", "iron, flavour, colour"),
+            T("espinafre, couve, brócolis, agrião, escarola", "espinaca, berza, brócoli, berro, escarola", "spinach, collards, broccoli, watercress, escarole"),
+          ],
+          [
+            T("Proteína", "Proteína", "Protein"),
+            T("ferro e construção", "hierro y construcción", "iron and building"),
+            T("carne moída, suína, frango, peixe, fígado, feijão, grão de bico, lentilha", "carne molida, cerdo, pollo, pescado, hígado, porotos, garbanzos, lentejas", "ground beef, pork, chicken, fish, liver, beans, chickpeas, lentils"),
+          ],
+          [
+            T("Aromático", "Aromático", "Aromatic"),
+            T("sabor de comida de verdade", "sabor de comida de verdad", "the taste of real cooking"),
+            T("cebola, alho, alho-poró, salsão", "cebolla, ajo, puerro, apio", "onion, garlic, leek, celery"),
+          ],
+          [
+            T("Gordura", "Grasa", "Fat"),
+            T("calorias e vitaminas lipossolúveis", "calorías y vitaminas liposolubles", "calories and fat-soluble vitamins"),
+            T("óleo neutro (girassol)", "aceite neutro (girasol)", "neutral oil (sunflower)"),
+          ],
+          [
+            T("Tempero", "Condimento", "Seasoning"),
+            T("educar o paladar", "educar el paladar", "training the palate"),
+            T("cominho, canela, louro, ervas, raspa de limão", "comino, canela, laurel, hierbas, ralladura de limón", "cumin, cinnamon, bay, herbs, lime zest"),
+          ],
+        ],
+      },
     },
     {
       h: T("O método base, em sete passos", "El método base, en siete pasos", "The base method, in seven steps"),

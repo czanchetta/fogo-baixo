@@ -50,6 +50,15 @@ function tabela(r){
   </div>`;
 }
 
+function tabelaTecnica(tb){
+  let h = '<table class="ftab">';
+  if (tb.legenda) h += `<caption>${esc(t(tb.legenda))}</caption>`;
+  h += `<thead><tr>${tb.cabecalho.map(c => `<th>${esc(t(c))}</th>`).join('')}</tr></thead>`;
+  h += `<tbody>${tb.linhas.map(lin => `<tr>${lin.map(c => `<td>${esc(t(c))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+  h += '</table>';
+  return h;
+}
+
 function documento(){
   const capa = `
 <section class="cover">
@@ -82,7 +91,7 @@ function documento(){
   <h1>${esc(t(x.titulo))}</h1>
   <p class="lede">${esc(t(x.resumo))}</p>
   <hr>
-  ${x.corpo.map(s => `<h3>${esc(t(s.h))}</h3><p class="body">${esc(t(s.p))}</p>`).join('')}
+  ${x.corpo.map(s => `<h3>${esc(t(s.h))}</h3><p class="body">${esc(t(s.p))}</p>${s.tabela ? tabelaTecnica(s.tabela) : ''}`).join('')}
   <div class="notas"><h4>${esc(t(UI.notas))}</h4><ul>${x.notas.map(y => `<li>${esc(t(y))}</li>`).join('')}</ul></div>
 </section>`).join('');
 
@@ -164,6 +173,14 @@ h4{font-family:ui-monospace,Menlo,monospace;font-size:8pt;letter-spacing:.18em;t
 .principio{margin:4mm 0 0;font-size:10pt;line-height:1.5;color:#3d4232;max-width:44em;
   border-left:1.2pt solid #c07d1c;padding-left:4mm}
 .cap-intro{font-size:8.6pt;line-height:1.45;color:#5c614f;margin:0 0 3mm;max-width:52em}
+table.ftab{width:100%;border-collapse:collapse;margin:3mm 0 5mm;font-size:8.6pt;break-inside:avoid}
+table.ftab caption{caption-side:top;text-align:left;font-family:ui-monospace,Menlo,monospace;font-size:7pt;
+  letter-spacing:.1em;text-transform:uppercase;color:#5c614f;margin-bottom:1.5mm}
+table.ftab th{text-align:left;font-size:7pt;letter-spacing:.06em;text-transform:uppercase;color:#5c614f;
+  font-weight:700;padding:0 3mm 1.8mm 0;border-bottom:.6pt solid #15180f}
+table.ftab td{padding:2mm 3mm 2mm 0;border-bottom:.5pt solid #c3cbb8;vertical-align:top;line-height:1.35}
+table.ftab td:first-child,table.ftab th:first-child{font-weight:700;white-space:nowrap}
+table.ftab tr:last-child td{border-bottom:none}
 .tab-h{margin-top:9mm}
 .grid-wrap{border:.8pt solid #15180f;break-inside:avoid}
 .grid-band{background:#15180f;color:#eef1e6;text-align:center;padding:2.2mm;font-family:ui-monospace,Menlo,monospace;font-size:7pt;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
