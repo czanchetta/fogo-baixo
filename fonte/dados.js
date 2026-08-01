@@ -1,198 +1,540 @@
 /* ============================================================
-   MODELO DE DADOS — Livro de Técnicas e Receitas
-   Todo o conteúdo vem dos documentos do projeto "Receitas".
+   FOGO BAIXO — conteúdo trilíngue
+   ------------------------------------------------------------
+   T("português", "español", "english") define uma string nos
+   três idiomas. Estrutura, quantidades, grades e timers são
+   definidos UMA vez só — só o texto é traduzido.
+
+   Para acrescentar uma receita: copie um bloco e preencha.
+   Se você só sabe o texto em português, repita o português nos
+   três campos — o site não quebra, só fica sem tradução.
    ============================================================ */
+
+const T = (pt, es, en) => ({ pt, es, en });
+
+const IDIOMAS = [
+  { cod: "pt", nome: "Português", curto: "PT", htmlLang: "pt-BR" },
+  { cod: "es", nome: "Español",   curto: "ES", htmlLang: "es" },
+  { cod: "en", nome: "English",   curto: "EN", htmlLang: "en" },
+];
+
+/* Unidades por código: [singular, plural] em cada idioma.
+   Assim a quantidade e a escala são definidas uma vez só. */
+const UNI = {
+  un:      { pt: ["un", "un"],             es: ["ud", "ud"],           en: ["", ""] },
+  g:       { pt: ["g", "g"],               es: ["g", "g"],             en: ["g", "g"] },
+  kg:      { pt: ["kg", "kg"],             es: ["kg", "kg"],           en: ["kg", "kg"] },
+  ml:      { pt: ["ml", "ml"],             es: ["ml", "ml"],           en: ["ml", "ml"] },
+  l:       { pt: ["l", "l"],               es: ["l", "l"],             en: ["l", "l"] },
+  cs:      { pt: ["col. sopa", "col. sopa"], es: ["cda", "cdas"],      en: ["tbsp", "tbsp"] },
+  cc:      { pt: ["col. chá", "col. chá"], es: ["cdta", "cdtas"],      en: ["tsp", "tsp"] },
+  xic:     { pt: ["xíc.", "xíc."],         es: ["taza", "tazas"],      en: ["cup", "cups"] },
+  dente:   { pt: ["dente", "dentes"],      es: ["diente", "dientes"],  en: ["clove", "cloves"] },
+  ramo:    { pt: ["ramo", "ramos"],        es: ["rama", "ramas"],      en: ["sprig", "sprigs"] },
+  folha:   { pt: ["folha", "folhas"],      es: ["hoja", "hojas"],      en: ["leaf", "leaves"] },
+  pitada:  { pt: ["pitada", "pitadas"],    es: ["pizca", "pizcas"],    en: ["pinch", "pinches"] },
+  peca:    { pt: ["peça", "peças"],        es: ["pieza", "piezas"],    en: ["piece", "pieces"] },
+  tablete: { pt: ["tablete", "tabletes"],  es: ["pastilla", "pastillas"], en: ["cube", "cubes"] },
+  maco:    { pt: ["maço", "maços"],        es: ["manojo", "manojos"],  en: ["bunch", "bunches"] },
+  pau:     { pt: ["pau", "paus"],          es: ["rama", "ramas"],      en: ["stick", "sticks"] },
+};
 
 const LIVRO = {
   titulo: "Fogo Baixo",
-  subtitulo: "Um livro de técnicas e receitas",
   autor: "Celso Zanchetta",
-  edicao: "Edição de julho de 2026",
+  subtitulo: T(
+    "Um caderno pessoal de cozinha",
+    "Un cuaderno personal de cocina",
+    "A personal cooking notebook"
+  ),
+  chamada: T(
+    "Técnicas e receitas testadas em casa, anotadas com os porquês.",
+    "Técnicas y recetas probadas en casa, anotadas con sus porqués.",
+    "Techniques and recipes tested at home, written down with the reasons why."
+  ),
+  chamadaPdf: T(
+    "Técnicas e receitas testadas em casa — cada uma em texto corrido e em tabela de cozimento.",
+    "Técnicas y recetas probadas en casa — cada una en texto corrido y en tabla de cocción.",
+    "Techniques and recipes tested at home — each one as running text and as a cooking table."
+  ),
+  edicao: T("Edição de julho de 2026", "Edición de julio de 2026", "July 2026 edition"),
 };
 
-const UNIDADES = { caseiro: "Caseiro", peso: "Gramas" };
+/* Textos da interface */
+const UI = {
+  tecnicas:     T("Técnicas", "Técnicas", "Techniques"),
+  receitas:     T("Receitas", "Recetas", "Recipes"),
+  sumario:      T("Sumário", "Índice", "Contents"),
+  tradicional:  T("Tradicional", "Tradicional", "Classic"),
+  tabela:       T("Tabela de cozimento", "Tabla de cocción", "Cooking table"),
+  interativo:   T("Interativo", "Interactivo", "Interactive"),
+  modoCozinha:  T("Modo cozinha ↗", "Modo cocina ↗", "Kitchen mode ↗"),
+  ingredientes: T("Ingredientes", "Ingredientes", "Ingredients"),
+  preparo:      T("Modo de preparo", "Preparación", "Method"),
+  notas:        T("Notas", "Notas", "Notes"),
+  rende:        T("Rende", "Rinde", "Serves"),
+  porcoes:      T("porções", "porciones", "servings"),
+  ativo:        T("Ativo", "Activo", "Active"),
+  totalT:       T("Total", "Total", "Total"),
+  utensilio:    T("Utensílio", "Utensilio", "Vessel"),
+  min:          T("min", "min", "min"),
+  ctlPorcoes:   T("Porções", "Porciones", "Serves"),
+  ctlUnidades:  T("Unidades", "Unidades", "Units"),
+  ctlLotes:     T("Lotes", "Tandas", "Batches"),
+  uCaseiro:     T("Caseiro", "Casero", "Cups"),
+  uPeso:        T("Gramas", "Gramos", "Grams"),
+  comecar:      T("Começar a cozinhar", "Empezar a cocinar", "Start cooking"),
+  passo:        T("PASSO", "PASO", "STEP"),
+  de:           T("DE", "DE", "OF"),
+  anterior:     T("← Anterior", "← Anterior", "← Previous"),
+  proximo:      T("Próximo →", "Siguiente →", "Next →"),
+  terminar:     T("Terminar ✓", "Terminar ✓", "Finish ✓"),
+  sair:         T("Sair  ✕", "Salir  ✕", "Exit  ✕"),
+  iniciar:      T("Iniciar", "Iniciar", "Start"),
+  pausar:       T("Pausar", "Pausar", "Pause"),
+  continuar:    T("Continuar", "Continuar", "Resume"),
+  zerar:        T("Zerar", "Reiniciar", "Reset"),
+  hintTabela:   T(
+    "Leia da esquerda para a direita: cada bloco reúne os ingredientes que entram naquela etapa.",
+    "Se lee de izquierda a derecha: cada bloque reúne los ingredientes que entran en esa etapa.",
+    "Read left to right: each block gathers the ingredients that join at that step."
+  ),
+  hintInterativo: T(
+    "Ajuste as porções e as unidades acima — a tabela recalcula sozinha.",
+    "Ajusta las porciones y las unidades arriba — la tabla se recalcula sola.",
+    "Adjust servings and units above — the table recalculates itself."
+  ),
+  hintScroll: T(
+    "→ A tabela é mais larga que a tela: arraste na horizontal para ver as últimas etapas.",
+    "→ La tabla es más ancha que la pantalla: desliza en horizontal para ver las últimas etapas.",
+    "→ The table is wider than the screen: scroll sideways to see the last steps."
+  ),
+  quatroFormatos: T(
+    "A mesma receita, quatro formatos",
+    "La misma receta, cuatro formatos",
+    "The same recipe, four formats"
+  ),
+  ctaTecnicas:  T("Começar pelas técnicas", "Empezar por las técnicas", "Start with the techniques"),
+  ctaReceitas:  T("Ir para as receitas", "Ir a las recetas", "Go to the recipes"),
+  ctaPdf:       T("Baixar o PDF", "Descargar el PDF", "Download the PDF"),
+  introTecnicas: T(
+    "Os princípios que se repetem em quase todas as receitas. Leia uma vez; depois é só consultar.",
+    "Los principios que se repiten en casi todas las recetas. Léelos una vez; después solo se consultan.",
+    "The principles that recur in nearly every recipe. Read them once; after that they are just reference."
+  ),
+  introReceitas: T(
+    "Cada receita em texto corrido e em tabela de cozimento. A tabela mostra de uma vez o que acontece em paralelo.",
+    "Cada receta en texto corrido y en tabla de cocción. La tabla muestra de una vez lo que ocurre en paralelo.",
+    "Each recipe as running text and as a cooking table. The table shows at a glance what happens in parallel."
+  ),
+  parteUm:      T("Parte um", "Parte uno", "Part one"),
+  parteDois:    T("Parte dois", "Parte dos", "Part two"),
+  sobreLink:    T("Sobre este caderno", "Sobre este cuaderno", "About this notebook"),
+  sobreTitulo:  T("Sobre este caderno", "Sobre este cuaderno", "About this notebook"),
+  sobreKicker:  T("SOBRE · PROJETO PESSOAL", "SOBRE · PROYECTO PERSONAL", "ABOUT · PERSONAL PROJECT"),
+  colofao:      T("Sobre", "Sobre", "About"),
+  tema:         T("Tema", "Tema", "Theme"),
+  claro:        T("Claro", "Claro", "Light"),
+  escuro:       T("Escuro", "Oscuro", "Dark"),
+  idioma:       T("Idioma", "Idioma", "Language"),
+  assinaturaSide: T(
+    "Um caderno pessoal de cozinha, de <strong>Celso Zanchetta</strong>.",
+    "Un cuaderno personal de cocina, de <strong>Celso Zanchetta</strong>.",
+    "A personal cooking notebook by <strong>Celso Zanchetta</strong>."
+  ),
+  colofaoTexto: T(
+    "<strong>Fogo Baixo</strong> é um caderno pessoal de cozinha de Celso Zanchetta — receitas e técnicas testadas em casa, anotadas para não esquecer. Não é publicação editorial nem consultoria gastronômica.",
+    "<strong>Fogo Baixo</strong> es un cuaderno personal de cocina de Celso Zanchetta — recetas y técnicas probadas en casa, anotadas para no olvidarlas. No es una publicación editorial ni asesoría gastronómica.",
+    "<strong>Fogo Baixo</strong> is Celso Zanchetta's personal cooking notebook — recipes and techniques tested at home, written down so they don't get lost. It is not an editorial publication or professional culinary advice."
+  ),
+  projetoPessoal: T(
+    "Projeto pessoal, sem fins comerciais.",
+    "Proyecto personal, sin fines comerciales.",
+    "Personal project, non-commercial."
+  ),
+  sobreResumo: T(
+    "Um arquivo de cozinha próprio, aberto porque não custa nada deixar aberto.",
+    "Un archivo de cocina propio, abierto porque no cuesta nada dejarlo abierto.",
+    "A cooking archive of my own, public because there is no cost in leaving it public."
+  ),
+  sobreCorpo: [
+    T(
+      "Isto não é um livro de receitas no sentido usual. É o caderno onde eu anoto o que deu certo na minha cozinha, com os porquês — por que a frigideira começa fria, por que o sal entra no fim, por que o arroz do fried rice tem que ser o de ontem. As receitas foram feitas, comidas e corrigidas antes de virarem texto.",
+      "Esto no es un libro de recetas en el sentido habitual. Es el cuaderno donde anoto lo que funcionó en mi cocina, con sus porqués — por qué la sartén empieza fría, por qué la sal entra al final, por qué el arroz del fried rice tiene que ser el de ayer. Las recetas se hicieron, se comieron y se corrigieron antes de volverse texto.",
+      "This is not a cookbook in the usual sense. It is the notebook where I write down what worked in my kitchen, with the reasons why — why the pan starts cold, why salt goes in last, why fried rice needs yesterday's rice. The recipes were cooked, eaten and corrected before they became text."
+    ),
+    T(
+      "Cada receita aparece em quatro formatos, porque a mesma receita serve para coisas diferentes. A visão tradicional é para ler antes. A tabela de cozimento — uma ideia emprestada do Cooking for Engineers — mostra a receita inteira de uma vez, e é a melhor forma de entender o que acontece em paralelo. A visão interativa recalcula porções e unidades. E o modo cozinha é para usar com as mãos sujas, um passo por vez, com os timers das etapas cronometradas.",
+      "Cada receta aparece en cuatro formatos, porque la misma receta sirve para cosas distintas. La vista tradicional es para leer antes. La tabla de cocción — una idea tomada de Cooking for Engineers — muestra la receta entera de una vez, y es la mejor forma de entender lo que ocurre en paralelo. La vista interactiva recalcula porciones y unidades. Y el modo cocina es para usar con las manos sucias, un paso a la vez, con temporizadores en las etapas cronometradas.",
+      "Each recipe appears in four formats, because the same recipe serves different purposes. The classic view is for reading beforehand. The cooking table — an idea borrowed from Cooking for Engineers — shows the whole recipe at once, and is the best way to see what happens in parallel. The interactive view rescales servings and units. And kitchen mode is for dirty hands: one step at a time, with timers on the timed stages."
+    ),
+    T(
+      "As quantidades são as que eu uso, não as que um teste de cozinha profissional validaria. Onde a receita original não tinha medida, não inventei uma. Onde o tempo depende do seu fogão, o texto diz o que olhar em vez de dar um número.",
+      "Las cantidades son las que yo uso, no las que validaría una cocina de pruebas profesional. Donde la receta original no tenía medida, no inventé ninguna. Donde el tiempo depende de tu cocina, el texto dice qué mirar en vez de dar un número.",
+      "The quantities are the ones I use, not ones a professional test kitchen validated. Where the original recipe had no measurement, I did not invent one. Where timing depends on your stove, the text tells you what to look for instead of giving a number."
+    ),
+    T(
+      "Se alguma coisa aqui te ajudar, ótimo. Se alguma coisa estiver errada, me avise.",
+      "Si algo de esto te sirve, perfecto. Si algo está mal, avísame.",
+      "If something here helps you, good. If something is wrong, tell me."
+    ),
+  ],
+  formatos: [
+    [T("Tradicional", "Tradicional", "Classic"),
+     T("Ingredientes em lista, preparo numerado. Para ler antes de começar.",
+       "Ingredientes en lista, preparación numerada. Para leer antes de empezar.",
+       "Ingredients as a list, numbered method. To read before you start.")],
+    [T("Tabela de cozimento", "Tabla de cocción", "Cooking table"),
+     T("A receita inteira de uma vez. Mostra o que acontece em paralelo.",
+       "La receta entera de una vez. Muestra lo que ocurre en paralelo.",
+       "The whole recipe at once. Shows what happens in parallel.")],
+    [T("Interativo", "Interactivo", "Interactive"),
+     T("A mesma tabela, com porções e unidades recalculadas ao vivo.",
+       "La misma tabla, con porciones y unidades recalculadas al vuelo.",
+       "The same table, with servings and units recalculated live.")],
+    [T("Modo cozinha", "Modo cocina", "Kitchen mode"),
+     T("Um passo por vez, letra grande, timers. Para usar com as mãos sujas.",
+       "Un paso a la vez, letra grande, temporizadores. Para usar con las manos sucias.",
+       "One step at a time, large type, timers. For dirty hands.")],
+  ],
+};
 
 const CAPITULOS = [
-  { id: "frango", nome: "Frango" },
-  { id: "carnes", nome: "Carnes na chapa e no forno" },
-  { id: "feijoada", nome: "Um dia inteiro: a feijoada" },
-  { id: "arroz", nome: "Arroz e massas rápidas" },
-  { id: "conservas", nome: "Conservas e fermentados" },
-  { id: "beber", nome: "Para beber" },
+  { id: "frango",   nome: T("Frango", "Pollo", "Chicken") },
+  { id: "carnes",   nome: T("Carnes na chapa e no forno", "Carnes a la plancha y al horno", "Meat on the griddle and in the oven") },
+  { id: "feijoada", nome: T("Um dia inteiro: a feijoada", "Un día entero: la feijoada", "A whole day: feijoada") },
+  { id: "arroz",    nome: T("Arroz e massas rápidas", "Arroz y pastas rápidas", "Rice and quick pasta") },
+  {
+    id: "semfogo",
+    nome: T("Sem fogo: molhos e acompanhamentos", "Sin fuego: salsas y guarniciones", "No heat: sauces and sides"),
+    intro: T(
+      "Duas receitas de família, anotadas à mão, que nunca vão ao fogo. Em uma, o ácido e a gordura hidratam a farinha crua; na outra, o liquidificador transforma legume cru em emulsão. As duas vivem da mesma disciplina do resto do caderno: o sal entra no fim, provando.",
+      "Dos recetas de familia, anotadas a mano, que nunca van al fuego. En una, el ácido y la grasa hidratan la harina cruda; en la otra, la licuadora convierte verdura cruda en emulsión. Las dos viven de la misma disciplina que el resto del cuaderno: la sal entra al final, probando.",
+      "Two family recipes, written by hand, that never see heat. In one, acid and fat hydrate raw flour; in the other, a blender turns raw vegetables into an emulsion. Both live by the same discipline as the rest of the notebook: salt goes in last, by tasting."
+    ),
+  },
+  { id: "conservas",nome: T("Conservas e fermentados", "Conservas y fermentados", "Preserves and ferments") },
+  {
+    id: "papinhas",
+    nome: T("Papinhas: a introdução alimentar", "Papillas: la alimentación complementaria", "Baby food: starting solids"),
+    intro: T(
+      "Cinco papinhas da série \"Papai Papinha\", recuperadas dos bilhetes manuscritos de junho a agosto de 2023 — foram mais de dezesseis ao todo. Todas na panela de pressão, todas sem sal, todas com a textura ajustada ao mês da criança. As listas são famílias de alimento, não regras: trocar espinafre por couve ou carne moída por fígado é o método funcionando. Onde o bilhete não trazia medida, não se inventou.",
+      "Cinco papillas de la serie \"Papai Papinha\", recuperadas de las notas manuscritas de junio a agosto de 2023 — fueron más de dieciséis en total. Todas en olla a presión, todas sin sal, todas con la textura ajustada al mes del bebé. Las listas son familias de alimentos, no reglas: cambiar espinaca por berza o carne molida por hígado es el método funcionando. Donde la nota no traía medida, no se inventó.",
+      "Five purées from the \"Papai Papinha\" series, recovered from handwritten notes between June and August 2023 — there were more than sixteen in all. All pressure-cooked, all saltless, all with texture matched to the baby's month. The lists are food families, not rules: swapping spinach for collards or ground beef for liver is the method working. Where the note gave no measurement, none was invented."
+    ),
+  },
+  { id: "beber",    nome: T("Para beber", "Para beber", "To drink") },
 ];
-
 /* ============================================================
    TÉCNICAS
    ============================================================ */
 const TECNICAS = [
   {
     id: "principio-pele",
-    titulo: "O princípio da pele crocante",
-    kicker: "TÉCNICA · VALE PARA TODA AVE COM PELE",
-    resumo:
+    titulo: T("O princípio da pele crocante", "El principio de la piel crujiente", "The crisp-skin principle"),
+    kicker: T("TÉCNICA · VALE PARA TODA AVE COM PELE", "TÉCNICA · SIRVE PARA CUALQUIER AVE CON PIEL", "TECHNIQUE · WORKS FOR ANY BIRD WITH SKIN"),
+    resumo: T(
       "Frigideira fria, fogo baixo e paciência produzem pele vidrada. Pressa produz borracha.",
+      "Sartén fría, fuego bajo y paciencia producen piel vidriada. La prisa produce goma.",
+      "Cold pan, low heat and patience produce glassy skin. Hurry produces rubber."
+    ),
     corpo: [
       {
-        h: "A gordura precisa sair antes de a superfície dourar",
-        p: "Sob a pele existe uma camada de gordura. Se a superfície doura antes de essa gordura derreter, ela fica presa: a pele endurece por fora e continua flácida por baixo. Começar com a frigideira fria e subir o calor devagar dá tempo para a gordura render e escapar — a pele então frita na própria gordura e vitrifica.",
+        h: T("A gordura precisa sair antes de a superfície dourar",
+             "La grasa tiene que salir antes de que la superficie dore",
+             "The fat has to render before the surface browns"),
+        p: T(
+          "Sob a pele existe uma camada de gordura. Se a superfície doura antes de essa gordura derreter, ela fica presa: a pele endurece por fora e continua flácida por baixo. Começar com a frigideira fria e subir o calor devagar dá tempo para a gordura render e escapar — a pele então frita na própria gordura e vitrifica.",
+          "Bajo la piel hay una capa de grasa. Si la superficie dora antes de que esa grasa se derrita, queda atrapada: la piel endurece por fuera y sigue fláccida por debajo. Empezar con la sartén fría y subir el calor despacio da tiempo a que la grasa se derrita y escape — la piel entonces se fríe en su propia grasa y se vidria.",
+          "Under the skin there is a layer of fat. If the surface browns before that fat melts, it stays trapped: the skin hardens on the outside and remains flabby underneath. Starting with a cold pan and raising the heat slowly gives the fat time to render and escape — the skin then fries in its own fat and turns to glass."
+        ),
       },
       {
-        h: "Água é a inimiga",
-        p: "Enquanto houver umidade na superfície, a pele não passa de 100 °C, e nada doura a 100 °C: toda a energia do fogo vai para evaporar água em vez de tostar. Secar com papel toalha não é capricho, é a etapa que mais muda o resultado. Frango que ficou marinando precisa de cuidado dobrado — o tempero deixa a pele encharcada.",
+        h: T("Água é a inimiga", "El agua es la enemiga", "Water is the enemy"),
+        p: T(
+          "Enquanto houver umidade na superfície, a pele não passa de 100 °C, e nada doura a 100 °C: toda a energia do fogo vai para evaporar água em vez de tostar. Secar com papel toalha não é capricho, é a etapa que mais muda o resultado. Frango que ficou marinando precisa de cuidado dobrado — o tempero deixa a pele encharcada.",
+          "Mientras haya humedad en la superficie, la piel no pasa de 100 °C, y nada dora a 100 °C: toda la energía del fuego se va en evaporar agua en vez de tostar. Secar con papel de cocina no es un capricho, es la etapa que más cambia el resultado. El pollo que estuvo marinando necesita el doble de cuidado — el adobo deja la piel empapada.",
+          "As long as there is moisture on the surface, the skin never gets past 100 °C, and nothing browns at 100 °C: all the heat goes into evaporating water instead of toasting. Patting dry with paper towel is not fussiness, it is the step that changes the result most. Chicken that has been marinating needs twice the care — the marinade leaves the skin soaked."
+        ),
       },
       {
-        h: "Contato total",
-        p: "A pele encolhe e empena ao esquentar, e o meio dela deixa de tocar a frigideira. Um peso por cima — outra panela, uma leiteira com água — mantém a superfície inteira em contato com o metal. Sem peso, o resultado é uma coroa dourada com um centro pálido.",
+        h: T("Contato total", "Contacto total", "Full contact"),
+        p: T(
+          "A pele encolhe e empena ao esquentar, e o meio dela deixa de tocar a frigideira. Um peso por cima — outra panela, uma leiteira com água — mantém a superfície inteira em contato com o metal. Sem peso, o resultado é uma coroa dourada com um centro pálido.",
+          "La piel encoge y se comba al calentarse, y su parte central deja de tocar la sartén. Un peso encima — otra olla, un cazo con agua — mantiene toda la superficie en contacto con el metal. Sin peso, el resultado es una corona dorada con un centro pálido.",
+          "Skin shrinks and buckles as it heats, and its middle stops touching the pan. A weight on top — another pan, a saucepan filled with water — keeps the whole surface against the metal. Without weight you get a browned rim around a pale centre."
+        ),
       },
       {
-        h: "Não cutuque",
-        p: "Cada vez que a peça é levantada, o vapor entra por baixo e amolece o que já estava crocante. Doze a quinze minutos sem tocar parece muito tempo na primeira vez. É o tempo certo.",
+        h: T("Não cutuque", "No lo toques", "Don't poke it"),
+        p: T(
+          "Cada vez que a peça é levantada, o vapor entra por baixo e amolece o que já estava crocante. Doze a quinze minutos sem tocar parece muito tempo na primeira vez. É o tempo certo.",
+          "Cada vez que levantas la pieza, el vapor entra por debajo y ablanda lo que ya estaba crujiente. Doce a quince minutos sin tocar parecen mucho la primera vez. Es el tiempo correcto.",
+          "Every time you lift the piece, steam gets underneath and softens what was already crisp. Twelve to fifteen minutes without touching feels like a long time the first time. It is the right time."
+        ),
       },
       {
-        h: "Açúcar queima antes",
-        p: "Mel, shoyu e molho barbecue caramelizam bem antes de a pele terminar. Para este método, tempero seco: sal, ervas, pimenta, páprica, alho. Doce entra depois, no prato, se entrar.",
+        h: T("Açúcar queima antes", "El azúcar se quema antes", "Sugar burns first"),
+        p: T(
+          "Mel, shoyu e molho barbecue caramelizam bem antes de a pele terminar. Para este método, tempero seco: sal, ervas, pimenta, páprica, alho. Doce entra depois, no prato, se entrar.",
+          "Miel, salsa de soja y salsa barbacoa caramelizan mucho antes de que la piel termine. Para este método, adobo seco: sal, hierbas, pimienta, pimentón, ajo. Lo dulce entra después, en el plato, si es que entra.",
+          "Honey, soy sauce and barbecue sauce caramelise long before the skin is done. For this method, dry seasoning only: salt, herbs, pepper, paprika, garlic. Sweetness goes on later, at the table, if at all."
+        ),
       },
     ],
     notas: [
-      "Ponto certo: 75 °C no centro, ou o osso soltando fácil da carne.",
-      "Frango cru temperado dura 1–2 dias na geladeira. No segundo dia, cheire e toque antes: cheiro neutro e superfície não pegajosa = ok, mas cozinhe naquele dia.",
-      "Marinada líquida atrapalha. Se usar, escorra e seque bem antes de levar ao fogo.",
+      T("Ponto certo: 75 °C no centro, ou o osso soltando fácil da carne.",
+        "Punto correcto: 75 °C en el centro, o el hueso soltándose fácil de la carne.",
+        "Doneness: 75 °C at the centre, or the bone pulling free easily."),
+      T("Frango cru temperado dura 1–2 dias na geladeira. No segundo dia, cheire e toque antes: cheiro neutro e superfície não pegajosa = ok, mas cozinhe naquele dia.",
+        "El pollo crudo ya sazonado dura 1–2 días en la nevera. Al segundo día, huélelo y tócalo antes: olor neutro y superficie no pegajosa = bien, pero cocínalo ese mismo día.",
+        "Seasoned raw chicken keeps 1–2 days in the fridge. On the second day, smell and touch it first: neutral smell and non-tacky surface means fine, but cook it that day."),
+      T("Marinada líquida atrapalha. Se usar, escorra e seque bem antes de levar ao fogo.",
+        "La marinada líquida estorba. Si la usas, escurre y seca bien antes de llevar al fuego.",
+        "A wet marinade works against you. If you use one, drain and dry thoroughly before it hits the heat."),
     ],
   },
 
   {
     id: "disciplina-do-sal",
-    titulo: "A disciplina do sal",
-    kicker: "TÉCNICA · A REGRA QUE ATRAVESSA O LIVRO INTEIRO",
-    resumo:
+    titulo: T("A disciplina do sal", "La disciplina de la sal", "Salt discipline"),
+    kicker: T("TÉCNICA · A REGRA QUE ATRAVESSA O LIVRO INTEIRO", "TÉCNICA · LA REGLA QUE ATRAVIESA TODO EL LIBRO", "TECHNIQUE · THE RULE THAT RUNS THROUGH THE WHOLE BOOK"),
+    resumo: T(
       "Quase toda receita daqui tem três ou quatro fontes de sódio escondidas. Prove antes, sempre.",
+      "Casi toda receta de aquí tiene tres o cuatro fuentes de sodio escondidas. Prueba antes, siempre.",
+      "Almost every recipe here has three or four hidden sources of sodium. Taste first, always."
+    ),
     corpo: [
       {
-        h: "O sal quase nunca vem só do saleiro",
-        p: "Olhe o padrão. A feijoada tem carne seca, costela salgada, orelha, rabo, paio e calabresa — seis fontes antes de qualquer pitada. O fried rice tem bacon, calabresa, shoyu e aji-no-moto. O risone tem tablete de caldo, hondashi e lemon pepper. A marinada da fraldinha tem shoyu, molho inglês, nam pla e sal. Os medalhões têm shoyu no molho. O escabeche tem o peixe e o banho de vinagre já salgados. Em todos esses casos, salgar no começo é apostar às cegas.",
+        h: T("O sal quase nunca vem só do saleiro", "La sal casi nunca viene solo del salero", "Salt almost never comes only from the salt cellar"),
+        p: T(
+          "Olhe o padrão. A feijoada tem carne seca, costela salgada, orelha, rabo, paio e calabresa — seis fontes antes de qualquer pitada. O fried rice tem bacon, calabresa, shoyu e aji-no-moto. O risone tem tablete de caldo, hondashi e lemon pepper. A marinada da fraldinha tem shoyu, molho inglês, nam pla e sal. Os medalhões têm shoyu no molho. O escabeche tem o peixe e o banho de vinagre já salgados. Em todos esses casos, salgar no começo é apostar às cegas.",
+          "Mira el patrón. La feijoada lleva carne seca, costilla salada, oreja, rabo, paio y chorizo calabresa — seis fuentes antes de cualquier pizca. El fried rice lleva bacon, calabresa, salsa de soja y glutamato. El risoni lleva pastilla de caldo, hondashi y lemon pepper. La marinada del vacío lleva salsa de soja, salsa Worcestershire, salsa de pescado y sal. Los medallones llevan salsa de soja en la salsa. El escabeche tiene el pescado y el baño de vinagre ya salados. En todos estos casos, salar al principio es apostar a ciegas.",
+          "Look at the pattern. Feijoada has dried salted beef, salted ribs, ear, tail, paio and calabresa sausage — six sources before any pinch. Fried rice has bacon, calabresa, soy sauce and MSG. The orzo has a stock cube, hondashi and lemon pepper. The flap steak marinade has soy sauce, Worcestershire, fish sauce and salt. The pork medallions have soy sauce in the sauce. The escabeche has both the fish and the vinegar bath already salted. In every one of these, salting at the start is betting blind."
+        ),
       },
       {
-        h: "A regra prática",
-        p: "Sal entra no fim, depois de provar — e frequentemente não entra. Nas receitas com redução (o molho dos medalhões, a redução da marinada da fraldinha), lembre que concentrar o líquido concentra o sal junto: um molho equilibrado no meio da redução fica salgado no fim.",
+        h: T("A regra prática", "La regla práctica", "The practical rule"),
+        p: T(
+          "Sal entra no fim, depois de provar — e frequentemente não entra. Nas receitas com redução (o molho dos medalhões, a redução da marinada da fraldinha), lembre que concentrar o líquido concentra o sal junto: um molho equilibrado no meio da redução fica salgado no fim.",
+          "La sal entra al final, después de probar — y muchas veces no entra. En las recetas con reducción (la salsa de los medallones, la reducción de la marinada del vacío), recuerda que concentrar el líquido concentra la sal con él: una salsa equilibrada a media reducción queda salada al final.",
+          "Salt goes in at the end, after tasting — and often it does not go in at all. In recipes with a reduction (the medallion sauce, the reduced steak marinade), remember that concentrating the liquid concentrates the salt with it: a sauce that tastes right halfway through the reduction will be salty by the end."
+        ),
       },
       {
-        h: "As exceções são poucas e claras",
-        p: "Carne que vai selar leva sal generoso na superfície, só na hora de ir para a chapa — ali o sal faz crosta, não tempero interno. Batata cozida leva sal na água, porque é a única chance de temperar por dentro; depois, sal leve por cima. Salada leva sal só na hora de servir, senão vira sopa. Vinagrete, idem.",
+        h: T("As exceções são poucas e claras", "Las excepciones son pocas y claras", "The exceptions are few and clear"),
+        p: T(
+          "Carne que vai selar leva sal generoso na superfície, só na hora de ir para a chapa — ali o sal faz crosta, não tempero interno. Batata cozida leva sal na água, porque é a única chance de temperar por dentro; depois, sal leve por cima. Salada leva sal só na hora de servir, senão vira sopa. Vinagrete, idem.",
+          "La carne que se va a sellar lleva sal generosa en la superficie, solo justo antes de ir a la plancha — ahí la sal hace costra, no sazón interior. La patata cocida lleva sal en el agua, porque es la única oportunidad de sazonarla por dentro; después, sal ligera por encima. La ensalada lleva sal solo al momento de servir, si no se vuelve sopa. El vinagreta, igual.",
+          "Meat that will be seared takes generous salt on the surface, only as it goes to the griddle — there the salt builds crust, not interior seasoning. Boiled potatoes take salt in the water, because that is the only chance to season them inside; afterwards, a light sprinkle. Salad takes salt only as it is served, or it turns to soup. Same for vinaigrette."
+        ),
       },
       {
-        h: "Quando o sal já foi longe demais",
-        p: "Nas carnes salgadas, o controle é a dessalga: 24 horas na geladeira em bastante água, trocando a cada 3 a 4 horas. Se o tempo foi menor, prove um pedacinho cru antes de cozinhar — se ainda estiver salgado, pré-cozinhe 15 minutos em vez de 10 e troque a água no meio.",
+        h: T("Quando o sal já foi longe demais", "Cuando la sal ya fue demasiado lejos", "When the salt has already gone too far"),
+        p: T(
+          "Nas carnes salgadas, o controle é a dessalga: 24 horas na geladeira em bastante água, trocando a cada 3 a 4 horas. Se o tempo foi menor, prove um pedacinho cru antes de cozinhar — se ainda estiver salgado, pré-cozinhe 15 minutos em vez de 10 e troque a água no meio.",
+          "En las carnes saladas, el control es el desalado: 24 horas en la nevera en abundante agua, cambiándola cada 3 o 4 horas. Si el tiempo fue menor, prueba un trocito crudo antes de cocinar — si sigue salado, precocina 15 minutos en vez de 10 y cambia el agua a mitad.",
+          "With salted meats, the control is the soak: 24 hours in the fridge in plenty of water, changed every 3 to 4 hours. If you had less time, taste a small raw piece before cooking — if it is still salty, pre-boil for 15 minutes instead of 10 and change the water halfway."
+        ),
       },
     ],
     notas: [
-      "Prove o líquido da marinada antes de reaproveitá-lo como molho.",
-      "Se o molho leva shoyu, alivie o sal de tudo o que vai junto no prato — carne e acompanhamentos.",
-      "Salgar no fim é corrigível. Salgar no começo, não.",
+      T("Prove o líquido da marinada antes de reaproveitá-lo como molho.",
+        "Prueba el líquido de la marinada antes de reaprovecharlo como salsa.",
+        "Taste the marinade liquid before reusing it as a sauce."),
+      T("Se o molho leva shoyu, alivie o sal de tudo o que vai junto no prato — carne e acompanhamentos.",
+        "Si la salsa lleva salsa de soja, alivia la sal de todo lo que va junto en el plato — carne y guarniciones.",
+        "If the sauce has soy sauce in it, ease off the salt everywhere else on the plate — meat and sides."),
+      T("Salgar no fim é corrigível. Salgar no começo, não.",
+        "Salar al final tiene arreglo. Salar al principio, no.",
+        "Salting at the end can be corrected. Salting at the start cannot."),
     ],
   },
 
   {
     id: "ponto-sem-termometro",
-    titulo: "Ponto de carne sem termômetro",
-    kicker: "TÉCNICA · CUT-AND-PEEK, DESCANSO E O CENTRO FRIO",
-    resumo:
+    titulo: T("Ponto de carne sem termômetro", "Punto de la carne sin termómetro", "Doneness without a thermometer"),
+    kicker: T("TÉCNICA · CUT-AND-PEEK, DESCANSO E O CENTRO FRIO", "TÉCNICA · CORTAR Y MIRAR, REPOSO Y EL CENTRO FRÍO", "TECHNIQUE · CUT-AND-PEEK, RESTING AND THE COLD CENTRE"),
+    resumo: T(
       "Três hábitos resolvem o ponto sem instrumento: tirar da geladeira antes, olhar por dentro, e descansar.",
+      "Tres hábitos resuelven el punto sin instrumento: sacar de la nevera antes, mirar por dentro y dejar reposar.",
+      "Three habits solve doneness without a gadget: take it out of the fridge early, look inside, and let it rest."
+    ),
     corpo: [
       {
-        h: "O centro frio é o maior inimigo",
-        p: "Carne que sai da geladeira direto para o fogo cozinha de fora para dentro com uma diferença enorme entre superfície e miolo — quando o centro chega ao ponto, a borda já passou. Peça fina de chapa: 20 a 30 minutos fora da geladeira. Peça alta: 30 a 40 minutos. Fraldinha inteira para o forno: uma hora cheia. Não é frescura; é o que torna o tempo previsível.",
+        h: T("O centro frio é o maior inimigo", "El centro frío es el mayor enemigo", "The cold centre is the biggest enemy"),
+        p: T(
+          "Carne que sai da geladeira direto para o fogo cozinha de fora para dentro com uma diferença enorme entre superfície e miolo — quando o centro chega ao ponto, a borda já passou. Peça fina de chapa: 20 a 30 minutos fora da geladeira. Peça alta: 30 a 40 minutos. Fraldinha inteira para o forno: uma hora cheia. Não é frescura; é o que torna o tempo previsível.",
+          "La carne que va de la nevera directa al fuego se cocina de fuera hacia dentro con una diferencia enorme entre superficie y centro — cuando el centro llega al punto, el borde ya se pasó. Pieza fina de plancha: 20 a 30 minutos fuera de la nevera. Pieza alta: 30 a 40 minutos. Vacío entero al horno: una hora completa. No es manía; es lo que hace previsible el tiempo.",
+          "Meat that goes from fridge straight to fire cooks outside-in with a huge gap between surface and middle — by the time the centre is right, the edge is overdone. Thin cut for the griddle: 20 to 30 minutes out of the fridge. Thick cut: 30 to 40 minutes. A whole flap steak for the oven: a full hour. This is not fussiness; it is what makes timing predictable."
+        ),
       },
       {
-        h: "Cut-and-peek",
-        p: "Sem termômetro, o método é olhar. Faça um corte pequeno no ponto mais grosso e leia a cor: vermelho frio no centro significa que falta; rosa quente é mal para ao ponto; levemente rosado, quase sem rosa e ainda úmido é o ponto+ — que costuma agradar mais em peça servida quente; cinza por igual é bem passado, e daí não volta. O corte perde alguns sucos e não tem importância nenhuma perto do prejuízo de errar o ponto.",
+        h: T("Cut-and-peek", "Cortar y mirar", "Cut and peek"),
+        p: T(
+          "Sem termômetro, o método é olhar. Faça um corte pequeno no ponto mais grosso e leia a cor: vermelho frio no centro significa que falta; rosa quente é mal para ao ponto; levemente rosado, quase sem rosa e ainda úmido é o ponto+ — que costuma agradar mais em peça servida quente; cinza por igual é bem passado, e daí não volta. O corte perde alguns sucos e não tem importância nenhuma perto do prejuízo de errar o ponto.",
+          "Sin termómetro, el método es mirar. Haz un corte pequeño en la parte más gruesa y lee el color: rojo frío en el centro significa que falta; rosa caliente es entre poco hecho y al punto; apenas rosado, casi sin rosa y todavía jugoso es el punto+ — el que suele gustar más en pieza servida caliente; gris parejo es muy hecho, y de ahí no se vuelve. El corte pierde algunos jugos y eso no tiene ninguna importancia frente al perjuicio de errar el punto.",
+          "Without a thermometer, the method is to look. Make a small cut at the thickest point and read the colour: cold red in the middle means it needs more; warm pink is rare to medium-rare; barely pink, almost no pink and still moist is medium-well — which usually pleases most people in a piece served hot; even grey is well done, and there is no coming back. The cut loses a little juice, which matters not at all next to the cost of getting doneness wrong."
+        ),
       },
       {
-        h: "Seco doura, úmido cozinha no vapor",
-        p: "O mesmo princípio da pele do frango vale para toda carne selada. Papel toalha na superfície antes de qualquer coisa — especialmente depois de marinada, que encharca. Panela de fundo fino e carne úmida é a combinação que faz a peça soltar água e cozinhar em vez de dourar.",
+        h: T("Seco doura, úmido cozinha no vapor", "Seco dora, húmedo se cuece al vapor", "Dry browns, wet steams"),
+        p: T(
+          "O mesmo princípio da pele do frango vale para toda carne selada. Papel toalha na superfície antes de qualquer coisa — especialmente depois de marinada, que encharca. Panela de fundo fino e carne úmida é a combinação que faz a peça soltar água e cozinhar em vez de dourar.",
+          "El mismo principio de la piel del pollo vale para toda carne sellada. Papel de cocina en la superficie antes que nada — sobre todo después de marinar, que empapa. Sartén de fondo fino más carne húmeda es la combinación que hace que la pieza suelte agua y se cueza en vez de dorarse.",
+          "The same principle as chicken skin applies to any seared meat. Paper towel on the surface before anything else — especially after marinating, which soaks it. A thin-bottomed pan plus wet meat is the combination that makes the piece release water and stew instead of browning."
+        ),
       },
       {
-        h: "O descanso não é opcional",
-        p: "Cinco minutos para peça fina, oito a dez para peça alta ou para uma fraldinha inteira. É nesse tempo que os sucos redistribuem. Fatiar antes disso esvazia a tábua e resseca a carne — e, no caso da fraldinha, o corte fino contra as fibras vale mais para a maciez do que qualquer outra coisa que você faça na receita.",
+        h: T("O descanso não é opcional", "El reposo no es opcional", "Resting is not optional"),
+        p: T(
+          "Cinco minutos para peça fina, oito a dez para peça alta ou para uma fraldinha inteira. É nesse tempo que os sucos redistribuem. Fatiar antes disso esvazia a tábua e resseca a carne — e, no caso da fraldinha, o corte fino contra as fibras vale mais para a maciez do que qualquer outra coisa que você faça na receita.",
+          "Cinco minutos para pieza fina, ocho a diez para pieza alta o para un vacío entero. Es en ese tiempo que los jugos se redistribuyen. Cortar antes vacía la tabla y reseca la carne — y, en el caso del vacío, el corte fino a contrafibra vale más para la terneza que cualquier otra cosa que hagas en la receta.",
+          "Five minutes for a thin cut, eight to ten for a thick one or a whole flap steak. That is when the juices redistribute. Slicing sooner floods the board and dries out the meat — and with flap steak, slicing thin against the grain does more for tenderness than anything else in the recipe."
+        ),
       },
       {
-        h: "O que não reaquece",
-        p: "Carne servida ao ponto não volta ao fogo: fraldinha ao ponto requentada vira borracha. Se não dá para servir na hora, mude de método — braseado a 150–160 °C por 2h30 a 3h com líquido cobrindo reaquece perfeitamente. Rosbife frio é o outro caminho válido: asse até o ponto, refrigere, fatie fino e sirva em temperatura ambiente. Nunca reaqueça.",
+        h: T("O que não reaquece", "Lo que no se recalienta", "What does not reheat"),
+        p: T(
+          "Carne servida ao ponto não volta ao fogo: fraldinha ao ponto requentada vira borracha. Se não dá para servir na hora, mude de método — braseado a 150–160 °C por 2h30 a 3h com líquido cobrindo reaquece perfeitamente. Rosbife frio é o outro caminho válido: asse até o ponto, refrigere, fatie fino e sirva em temperatura ambiente. Nunca reaqueça.",
+          "La carne servida al punto no vuelve al fuego: un vacío al punto recalentado se vuelve goma. Si no puedes servir al momento, cambia de método — el braseado a 150–160 °C durante 2h30 a 3h con líquido cubriendo se recalienta perfectamente. El rosbif frío es el otro camino válido: asa hasta el punto, refrigera, corta fino y sirve a temperatura ambiente. Nunca lo recalientes.",
+          "Meat served medium does not go back on the heat: reheated medium flap steak turns to rubber. If you cannot serve immediately, change method — braised at 150–160 °C for 2.5 to 3 hours with liquid covering it reheats perfectly. Cold roast beef is the other valid path: roast to temperature, chill, slice thin and serve at room temperature. Never reheat."
+        ),
       },
     ],
     notas: [
-      "Referência de termômetro, quando houver: ~63 °C para suíno rosado, com o descanso; 75 °C para frango.",
-      "Pimenta-do-reino queima na chapa: entra depois de selar.",
-      "Sal generoso na superfície só na hora de ir para o fogo.",
+      T("Referência de termômetro, quando houver: ~63 °C para suíno rosado, com o descanso; 75 °C para frango.",
+        "Referencia de termómetro, si lo tienes: ~63 °C para cerdo rosado, contando el reposo; 75 °C para pollo.",
+        "Thermometer reference, if you have one: ~63 °C for pink pork, counting the rest; 75 °C for chicken."),
+      T("Pimenta-do-reino queima na chapa: entra depois de selar.",
+        "La pimienta negra se quema en la plancha: entra después de sellar.",
+        "Black pepper burns on the griddle: add it after searing."),
+      T("Sal generoso na superfície só na hora de ir para o fogo.",
+        "Sal generosa en la superficie solo justo antes de ir al fuego.",
+        "Generous surface salt only as it goes to the heat."),
     ],
   },
 
   {
     id: "chapa-e-fogo",
-    titulo: "Chapa, panela e a boca de 4,5 kW",
-    kicker: "TÉCNICA · REGULE PELO QUE VOCÊ VÊ, NÃO PELO REGISTRO",
-    resumo:
+    titulo: T("Chapa, panela e a boca de 4,5 kW", "Plancha, sartén y el quemador de 4,5 kW", "Griddle, pan and the 4.5 kW burner"),
+    kicker: T("TÉCNICA · REGULE PELO QUE VOCÊ VÊ, NÃO PELO REGISTRO", "TÉCNICA · REGULA POR LO QUE VES, NO POR EL MANDO", "TECHNIQUE · JUDGE BY WHAT YOU SEE, NOT BY THE DIAL"),
+    resumo: T(
       "Fogo forte demais é o erro mais comum de quem tem uma boca turbo. Escolha da panela e calor de recuperação valem mais que potência.",
+      "Fuego demasiado fuerte es el error más común de quien tiene un quemador potente. La elección de la sartén y el calor de recuperación valen más que la potencia.",
+      "Too much heat is the commonest mistake for anyone with a powerful burner. Pan choice and heat recovery matter more than raw power."
+    ),
     corpo: [
       {
-        h: "Calor de recuperação",
-        p: "O que importa quando a carne fria toca o metal não é a temperatura máxima, é o quanto a superfície aguenta sem despencar. Chapa removível sobre a boca alta, ferro fundido e inox de fundo grosso seguram calor e formam um fond bonito. Alumínio de fundo fino serve, mas perde temperatura na hora: contorne pré-aquecendo bem e selando em lotes pequenos, deixando a panela recuperar entre um lote e outro.",
+        h: T("Calor de recuperação", "Calor de recuperación", "Heat recovery"),
+        p: T(
+          "O que importa quando a carne fria toca o metal não é a temperatura máxima, é o quanto a superfície aguenta sem despencar. Chapa removível sobre a boca alta, ferro fundido e inox de fundo grosso seguram calor e formam um fond bonito. Alumínio de fundo fino serve, mas perde temperatura na hora: contorne pré-aquecendo bem e selando em lotes pequenos, deixando a panela recuperar entre um lote e outro.",
+          "Lo que importa cuando la carne fría toca el metal no es la temperatura máxima, sino cuánto aguanta la superficie sin desplomarse. Plancha desmontable sobre el quemador potente, hierro fundido e inox de fondo grueso retienen calor y forman un buen fondo. El aluminio de fondo fino sirve, pero pierde temperatura al instante: compénsalo precalentando bien y sellando en tandas pequeñas, dejando que la sartén se recupere entre una y otra.",
+          "What matters when cold meat hits the metal is not peak temperature but how much the surface holds without collapsing. A removable griddle over the big burner, cast iron and heavy-bottomed stainless hold heat and build good fond. Thin aluminium works, but drops temperature instantly: compensate by preheating well and searing in small batches, letting the pan recover between them."
+        ),
       },
       {
-        h: "Regule pelo que você vê",
-        p: "Numa boca de 4,5 kW, 'médio' é bem menos chama do que parece. Olhe o borbulhar do risone, o chiado da carne, a cor do alho — não a posição do registro. A panela esquenta muito e segura calor: dê o comando e espere ela responder, em vez de ir no máximo e correr atrás do estrago.",
+        h: T("Regule pelo que você vê", "Regula por lo que ves", "Judge by what you see"),
+        p: T(
+          "Numa boca de 4,5 kW, 'médio' é bem menos chama do que parece. Olhe o borbulhar do risone, o chiado da carne, a cor do alho — não a posição do registro. A panela esquenta muito e segura calor: dê o comando e espere ela responder, em vez de ir no máximo e correr atrás do estrago.",
+          "En un quemador de 4,5 kW, «medio» es mucha menos llama de lo que parece. Mira el burbujeo del risoni, el chisporroteo de la carne, el color del ajo — no la posición del mando. La sartén se calienta mucho y retiene calor: da la orden y espera a que responda, en vez de ir al máximo y luego correr detrás del estropicio.",
+          "On a 4.5 kW burner, 'medium' is far less flame than it looks. Watch the orzo bubbling, the meat sizzling, the colour of the garlic — not the dial position. The pan gets very hot and holds heat: give the command and wait for it to respond, instead of going to maximum and then chasing the damage."
+        ),
       },
       {
-        h: "O alho queima em segundos",
-        p: "Aparece em quase toda receita deste livro e é a coisa que mais estraga um refogado. Fogo médio-baixo, e tire do fogo antes do que parece necessário — a panela quente continua cozinhando depois que você desliga. Alho escuro amarga o prato inteiro.",
+        h: T("O alho queima em segundos", "El ajo se quema en segundos", "Garlic burns in seconds"),
+        p: T(
+          "Aparece em quase toda receita deste livro e é a coisa que mais estraga um refogado. Fogo médio-baixo, e tire do fogo antes do que parece necessário — a panela quente continua cozinhando depois que você desliga. Alho escuro amarga o prato inteiro.",
+          "Aparece en casi toda receta de este libro y es lo que más arruina un sofrito. Fuego medio-bajo, y retíralo del fuego antes de lo que parece necesario — la sartén caliente sigue cocinando después de apagar. El ajo oscuro amarga el plato entero.",
+          "It appears in nearly every recipe here and it is the thing that most often ruins a base. Medium-low heat, and take it off sooner than seems necessary — the hot pan keeps cooking after you turn it off. Dark garlic makes the whole dish bitter."
+        ),
       },
       {
-        h: "Pré-aqueça e teste",
-        p: "Chapa: 5 a 8 minutos em registro baixo-médio para o calor espalhar. A chama concentra no centro, então sele no centro mesmo. O teste é a gota d'água — ela deve dançar e sumir em 1 a 2 segundos. Some instantaneamente: ainda não está quente o bastante para o modo Leidenfrost. Fica parada fervendo: falta muito.",
+        h: T("Pré-aqueça e teste", "Precalienta y prueba", "Preheat and test"),
+        p: T(
+          "Chapa: 5 a 8 minutos em registro baixo-médio para o calor espalhar. A chama concentra no centro, então sele no centro mesmo. O teste é a gota d'água — ela deve dançar e sumir em 1 a 2 segundos. Some instantaneamente: ainda não está quente o bastante para o modo Leidenfrost. Fica parada fervendo: falta muito.",
+          "Plancha: 5 a 8 minutos a fuego bajo-medio para que el calor se reparta. La llama se concentra en el centro, así que sella justo en el centro. La prueba es la gota de agua — debe bailar y desaparecer en 1 o 2 segundos. Si desaparece al instante: todavía no está lo bastante caliente para el efecto Leidenfrost. Si se queda quieta hirviendo: falta mucho.",
+          "Griddle: 5 to 8 minutes on low-medium so the heat spreads. The flame concentrates in the centre, so sear in the centre. The test is a drop of water — it should skitter and vanish in 1 to 2 seconds. Vanishing instantly means it is not yet hot enough for the Leidenfrost effect. Sitting there boiling means it has a long way to go."
+        ),
       },
       {
-        h: "Antiaderente não faz molho",
-        p: "Quase não forma fond, e o revestimento degrada em fogo alto. Se o molho vem do fundo da panela — e neste livro vem, quase sempre —, use inox ou ferro.",
+        h: T("Antiaderente não faz molho", "El antiadherente no hace salsa", "Non-stick makes no sauce"),
+        p: T(
+          "Quase não forma fond, e o revestimento degrada em fogo alto. Se o molho vem do fundo da panela — e neste livro vem, quase sempre —, use inox ou ferro.",
+          "Casi no forma fondo, y el recubrimiento se degrada a fuego alto. Si la salsa sale del fondo de la sartén — y en este libro sale, casi siempre —, usa inox o hierro.",
+          "It barely builds fond, and the coating degrades over high heat. If the sauce comes from the bottom of the pan — and in this book it almost always does — use stainless or iron."
+        ),
       },
     ],
     notas: [
-      "Fond que gruda no fundo não é erro, é sabor. Deglaceie com água, cachaça, cerveja ou shoyu e raspe.",
-      "Panela larga e baixa evapora e absorve por igual; panela funda e estreita empilha e abafa.",
-      "Álcool em panela muito quente pode inflamar: tire do fogo antes de acrescentar cachaça ou vinho.",
+      T("Fond que gruda no fundo não é erro, é sabor. Deglaceie com água, cachaça, cerveja ou shoyu e raspe.",
+        "El fondo pegado no es un error, es sabor. Desglasa con agua, cachaça, cerveza o salsa de soja y raspa.",
+        "Fond stuck to the bottom is not a mistake, it is flavour. Deglaze with water, cachaça, beer or soy sauce and scrape."),
+      T("Panela larga e baixa evapora e absorve por igual; panela funda e estreita empilha e abafa.",
+        "Sartén ancha y baja evapora y absorbe de forma pareja; olla honda y estrecha amontona y ahoga.",
+        "A wide, shallow pan evaporates and absorbs evenly; a deep, narrow one piles up and smothers."),
+      T("Álcool em panela muito quente pode inflamar: tire do fogo antes de acrescentar cachaça ou vinho.",
+        "El alcohol en una sartén muy caliente puede inflamarse: retira del fuego antes de añadir cachaça o vino.",
+        "Alcohol in a very hot pan can ignite: take it off the heat before adding cachaça or wine."),
     ],
   },
 
   {
     id: "fermentacao-segura",
-    titulo: "Fermentar em salmoura sem medo",
-    kicker: "TÉCNICA · SAL A 3%, TUDO SUBMERSO, O NARIZ DECIDE",
-    resumo:
+    titulo: T("Fermentar em salmoura sem medo", "Fermentar en salmuera sin miedo", "Brine fermenting without fear"),
+    kicker: T("TÉCNICA · SAL A 3%, TUDO SUBMERSO, O NARIZ DECIDE", "TÉCNICA · SAL AL 3%, TODO SUMERGIDO, LA NARIZ DECIDE", "TECHNIQUE · 3% SALT, EVERYTHING SUBMERGED, YOUR NOSE DECIDES"),
+    resumo: T(
       "Lacto-fermentação é simples e segura quando três regras são obedecidas. A quarta regra é saber quando descartar.",
+      "La lacto-fermentación es simple y segura cuando se obedecen tres reglas. La cuarta regla es saber cuándo desechar.",
+      "Lacto-fermentation is simple and safe when three rules are followed. The fourth rule is knowing when to throw it out."
+    ),
     corpo: [
       {
-        h: "Como funciona",
-        p: "Legumes submersos em salmoura fermentam pela ação de bactérias láticas, que acidificam o meio e protegem contra tudo o que estraga. O sal e o ácido fazem a conservação; o tempo só aprofunda o sabor, deixando mais azedo e mais redondo. Por isso o prazo é flexível: uma semana dá um resultado fresco, alguns meses dão um resultado complexo, e nenhum dos dois é mais seguro que o outro.",
+        h: T("Como funciona", "Cómo funciona", "How it works"),
+        p: T(
+          "Legumes submersos em salmoura fermentam pela ação de bactérias láticas, que acidificam o meio e protegem contra tudo o que estraga. O sal e o ácido fazem a conservação; o tempo só aprofunda o sabor, deixando mais azedo e mais redondo. Por isso o prazo é flexível: uma semana dá um resultado fresco, alguns meses dão um resultado complexo, e nenhum dos dois é mais seguro que o outro.",
+          "Las verduras sumergidas en salmuera fermentan por acción de bacterias lácticas, que acidifican el medio y protegen contra todo lo que estropea. La sal y el ácido hacen la conservación; el tiempo solo profundiza el sabor, dejándolo más ácido y más redondo. Por eso el plazo es flexible: una semana da un resultado fresco, unos meses dan un resultado complejo, y ninguno es más seguro que el otro.",
+          "Vegetables submerged in brine ferment through lactic acid bacteria, which acidify the environment and protect against everything that spoils. Salt and acid do the preserving; time only deepens flavour, making it more sour and more rounded. That is why the timeline is flexible: a week gives a fresh result, a few months give a complex one, and neither is safer than the other."
+        ),
       },
       {
-        h: "Sal a 3% do peso total",
-        p: "Três por cento do peso de vegetal mais água, não só da água. Pese o conjunto no pote e calcule daí. Sal comum funciona: o iodo, na quantidade que existe no sal de mesa, não atrapalha as bactérias — no máximo deixa a salmoura um pouco turva.",
+        h: T("Sal a 3% do peso total", "Sal al 3% del peso total", "Salt at 3% of total weight"),
+        p: T(
+          "Três por cento do peso de vegetal mais água, não só da água. Pese o conjunto no pote e calcule daí. Sal comum funciona: o iodo, na quantidade que existe no sal de mesa, não atrapalha as bactérias — no máximo deixa a salmoura um pouco turva.",
+          "Tres por ciento del peso de vegetal más agua, no solo del agua. Pesa el conjunto en el frasco y calcula desde ahí. La sal común funciona: el yodo, en la cantidad que hay en la sal de mesa, no molesta a las bacterias — como mucho deja la salmuera algo turbia.",
+          "Three per cent of the weight of vegetable plus water, not water alone. Weigh the whole thing in the jar and calculate from there. Ordinary salt works: iodine, at the levels found in table salt, does not bother the bacteria — at most it makes the brine slightly cloudy."
+        ),
       },
       {
-        h: "Tudo submerso",
-        p: "É acima da linha do líquido que mofa. Um saquinho limpo cheio de salmoura a 3% — não de água pura, para o caso de vazar — enfiado no gargalo faz peso e isola do ar. Tampa frouxa: a fermentação solta CO₂ e pote cheio transborda nos primeiros dias. Deixe num pratinho, longe do sol. Vai turvar e borbulhar: é o certo.",
+        h: T("Tudo submerso", "Todo sumergido", "Everything submerged"),
+        p: T(
+          "É acima da linha do líquido que mofa. Um saquinho limpo cheio de salmoura a 3% — não de água pura, para o caso de vazar — enfiado no gargalo faz peso e isola do ar. Tampa frouxa: a fermentação solta CO₂ e pote cheio transborda nos primeiros dias. Deixe num pratinho, longe do sol. Vai turvar e borbulhar: é o certo.",
+          "Es por encima de la línea del líquido donde aparece el moho. Una bolsita limpia llena de salmuera al 3% — no de agua pura, por si gotea — metida en el cuello hace peso y aísla del aire. Tapa floja: la fermentación suelta CO₂ y un frasco lleno se desborda los primeros días. Déjalo sobre un platito, lejos del sol. Se pondrá turbio y burbujeará: es lo correcto.",
+          "It is above the liquid line that mould appears. A clean bag filled with 3% brine — not plain water, in case it leaks — pushed into the neck acts as a weight and seals off the air. Loose lid: fermentation releases CO₂ and a full jar overflows in the first days. Keep it on a small plate, away from sunlight. It will turn cloudy and bubble: that is correct."
+        ),
       },
       {
-        h: "Kahm ou mofo",
-        p: "Película branca lisa na superfície é kahm, uma levedura inofensiva — retire com a colher e siga. Qualquer coisa felpuda ou peluda, de qualquer cor, é mofo: descarte o lote inteiro, sem tentar raspar para salvar. O cheiro tem que ser azedo e agradável, tipo picles; pútrido significa descarte. Fita de pH abaixo de 4 confirma que está seguro.",
+        h: T("Kahm ou mofo", "Kahm o moho", "Kahm or mould"),
+        p: T(
+          "Película branca lisa na superfície é kahm, uma levedura inofensiva — retire com a colher e siga. Qualquer coisa felpuda ou peluda, de qualquer cor, é mofo: descarte o lote inteiro, sem tentar raspar para salvar. O cheiro tem que ser azedo e agradável, tipo picles; pútrido significa descarte. Fita de pH abaixo de 4 confirma que está seguro.",
+          "Una película blanca lisa en la superficie es kahm, una levadura inofensiva — retírala con la cuchara y sigue. Cualquier cosa afelpada o peluda, de cualquier color, es moho: desecha el lote entero, sin intentar raspar para salvarlo. El olor tiene que ser ácido y agradable, tipo encurtido; pútrido significa desechar. Una tira de pH por debajo de 4 confirma que está seguro.",
+          "A smooth white film on the surface is kahm, a harmless yeast — spoon it off and carry on. Anything fuzzy or hairy, of any colour, is mould: discard the whole batch, no scraping to save it. The smell must be sour and pleasant, like pickles; putrid means discard. A pH strip below 4 confirms it is safe."
+        ),
       },
     ],
     notas: [
-      "Comece a provar do quinto ao sétimo dia. O ponto é o gosto, não o calendário.",
-      "Processador só no fim. A versão mash — purê fermentado, sal sobre o peso da pasta, sem água — é outro método, que fermenta mais rápido e seca no topo se descuidar.",
-      "Fermentar não tira ardência, só arredonda. Calibre o calor provando o blend cru: dá para subir, não para descer.",
+      T("Comece a provar do quinto ao sétimo dia. O ponto é o gosto, não o calendário.",
+        "Empieza a probar del quinto al séptimo día. El punto es el gusto, no el calendario.",
+        "Start tasting from day five to seven. The endpoint is taste, not the calendar."),
+      T("Processador só no fim. A versão mash — purê fermentado, sal sobre o peso da pasta, sem água — é outro método, que fermenta mais rápido e seca no topo se descuidar.",
+        "Procesadora solo al final. La versión mash — puré fermentado, sal sobre el peso de la pasta, sin agua — es otro método, que fermenta más rápido y se seca arriba si te descuidas.",
+        "Blender only at the end. The mash version — fermented purée, salt calculated on the paste's weight, no water — is a different method: it ferments faster and dries out on top if neglected."),
+      T("Fermentar não tira ardência, só arredonda. Calibre o calor provando o blend cru: dá para subir, não para descer.",
+        "Fermentar no quita picante, solo lo redondea. Calibra el calor probando la mezcla cruda: se puede subir, no bajar.",
+        "Fermenting does not remove heat, it only rounds it. Calibrate the heat by tasting the raw blend: you can go up, not down."),
     ],
   },
 ];
-
 /* ============================================================
    RECEITAS
    ============================================================ */
@@ -201,581 +543,1011 @@ const RECEITAS = [
   {
     id: "sobrecoxa-frigideira",
     capitulo: "frango",
-    titulo: "Sobrecoxa na frigideira",
-    kicker: "UMA FRIGIDEIRA · SEM MOLHO · O MELHOR RESULTADO",
-    subtitulo: "Pele vidrada, carne suculenta, arrematada na manteiga com alho e ervas.",
+    titulo: T("Sobrecoxa na frigideira", "Contramuslo de pollo a la sartén", "Chicken thighs in the skillet"),
+    kicker: T("UMA FRIGIDEIRA · SEM MOLHO · O MELHOR RESULTADO", "UNA SARTÉN · SIN SALSA · EL MEJOR RESULTADO", "ONE PAN · NO SAUCE · THE BEST RESULT"),
+    subtitulo: T(
+      "Pele vidrada, carne suculenta, arrematada na manteiga com alho e ervas.",
+      "Piel vidriada, carne jugosa, rematada en mantequilla con ajo y hierbas.",
+      "Glassy skin, juicy meat, finished in butter with garlic and herbs."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4, 6], ativo: 30, total: 55,
-    utensilio: "Frigideira de fundo grosso",
-    faixa: "SEQUE MUITO BEM A PELE ANTES DE COMEÇAR",
+    utensilio: T("Frigideira de fundo grosso", "Sartén de fondo grueso", "Heavy-bottomed skillet"),
+    faixa: T("SEQUE MUITO BEM A PELE ANTES DE COMEÇAR", "SECA MUY BIEN LA PIEL ANTES DE EMPEZAR", "DRY THE SKIN THOROUGHLY BEFORE YOU START"),
     ingredientes: [
-      { q: 4, u: "un", alt: { q: 720, u: "g" }, nome: "sobrecoxas com pele e osso", obs: "~180 g cada" },
-      { q: 1, u: "col. chá", alt: { q: 6, u: "g" }, nome: "sal", obs: "grosso, moído na hora" },
-      { q: 1, u: "col. chá", alt: { q: 1, u: "g" }, nome: "ervas secas", obs: "tomilho, alecrim ou orégano" },
-      { q: 0.5, u: "col. chá", alt: { q: 1, u: "g" }, nome: "pimenta-do-reino", obs: "moída na hora" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "ml" }, nome: "azeite ou óleo neutro", obs: "só para cobrir o fundo" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "g" }, nome: "manteiga", obs: "para arrematar" },
-      { q: 2, u: "dentes", alt: { q: 10, u: "g" }, nome: "alho", obs: "amassados, com casca" },
-      { q: 2, u: "ramos", alt: { q: 4, u: "g" }, nome: "alecrim ou tomilho frescos", obs: "opcional" },
+      { q: 4, u: "un", alt: { q: 720, u: "g" }, nome: T("sobrecoxas com pele e osso", "contramuslos con piel y hueso", "bone-in, skin-on chicken thighs"), obs: T("~180 g cada", "~180 g cada uno", "~180 g each") },
+      { q: 1, u: "cc", alt: { q: 6, u: "g" }, nome: T("sal", "sal", "salt"), obs: T("grosso, moído na hora", "grueso, molido al momento", "coarse, ground fresh") },
+      { q: 1, u: "cc", alt: { q: 1, u: "g" }, nome: T("ervas secas", "hierbas secas", "dried herbs"), obs: T("tomilho, alecrim ou orégano", "tomillo, romero u orégano", "thyme, rosemary or oregano") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida al momento", "freshly ground") },
+      { q: 1, u: "cs", alt: { q: 15, u: "ml" }, nome: T("azeite ou óleo neutro", "aceite de oliva o aceite neutro", "olive oil or neutral oil"), obs: T("só para cobrir o fundo", "solo para cubrir el fondo", "just to coat the base") },
+      { q: 1, u: "cs", alt: { q: 15, u: "g" }, nome: T("manteiga", "mantequilla", "butter"), obs: T("para arrematar", "para rematar", "to finish") },
+      { q: 2, u: "dente", alt: { q: 10, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("amassados, com casca", "aplastados, con piel", "smashed, skin on") },
+      { q: 2, u: "ramo", alt: { q: 4, u: "g" }, nome: T("alecrim ou tomilho frescos", "romero o tomillo frescos", "fresh rosemary or thyme"), obs: T("opcional", "opcional", "optional") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 3, titulo: "temperar e secar", detalhe: "20 min fora da geladeira · papel toalha" },
-      { col: 2, de: 0, ate: 4, titulo: "frigideira fria, pele para baixo", detalhe: "só então ligue o fogo médio-baixo" },
-      { col: 3, de: 0, ate: 4, titulo: "dourar sem mexer", detalhe: "12–15 min · com peso por cima" },
-      { col: 4, de: 0, ate: 4, titulo: "virar", detalhe: "5–6 min do lado da carne" },
-      { col: 5, de: 0, ate: 7, titulo: "arrematar na manteiga", detalhe: "1 min · regando com a colher" },
-      { col: 6, de: 0, ate: 7, titulo: "descansar", detalhe: "5 min · 75 °C no centro" },
+      { col: 1, de: 0, ate: 3, titulo: T("temperar e secar", "sazonar y secar", "season and dry"), detalhe: T("20 min fora da geladeira · papel toalha", "20 min fuera de la nevera · papel de cocina", "20 min out of the fridge · paper towel") },
+      { col: 2, de: 0, ate: 4, titulo: T("frigideira fria, pele para baixo", "sartén fría, piel hacia abajo", "cold pan, skin side down"), detalhe: T("só então ligue o fogo médio-baixo", "solo entonces enciende a fuego medio-bajo", "only then turn on medium-low heat") },
+      { col: 3, de: 0, ate: 4, titulo: T("dourar sem mexer", "dorar sin mover", "brown without moving"), detalhe: T("12–15 min · com peso por cima", "12–15 min · con peso encima", "12–15 min · with a weight on top") },
+      { col: 4, de: 0, ate: 4, titulo: T("virar", "voltear", "flip"), detalhe: T("5–6 min do lado da carne", "5–6 min del lado de la carne", "5–6 min on the meat side") },
+      { col: 5, de: 0, ate: 7, titulo: T("arrematar na manteiga", "rematar en mantequilla", "finish in butter"), detalhe: T("1 min · regando com a colher", "1 min · bañando con la cuchara", "1 min · basting with a spoon") },
+      { col: 6, de: 0, ate: 7, titulo: T("descansar", "reposar", "rest"), detalhe: T("5 min · 75 °C no centro", "5 min · 75 °C en el centro", "5 min · 75 °C at the centre") },
     ],
     modo: [
-      { t: "Tire o frango da geladeira 20 minutos antes. Tempere com o sal, as ervas secas e a pimenta." },
-      { t: "Seque muito bem a pele com papel toalha. Se o frango ficou marinando, esse passo é obrigatório — o tempero deixa a pele encharcada." },
-      { t: "Na frigideira fria, ponha um fio de óleo, só para cobrir o fundo. Acomode as sobrecoxas com a pele para baixo e só então ligue o fogo médio-baixo." },
-      { t: "Doure 12 a 15 minutos sem mexer e sem cutucar. Ponha um peso por cima — outra panela, uma leiteira com água — para garantir contato total da pele com a frigideira.", timer: 780 },
-      { t: "Vire as peças. Mais 5 a 6 minutos do lado da carne.", timer: 330 },
-      { t: "Junte a manteiga, o alho amassado e os ramos de alecrim ou tomilho. Incline a panela e regue a carne com a manteiga espumante por 1 minuto.", timer: 60 },
-      { t: "Descanse 5 minutos antes de servir. Ponto: 75 °C no centro, ou o osso soltando fácil da carne.", timer: 300 },
+      { t: T(
+        "Tire o frango da geladeira 20 minutos antes. Tempere com o sal, as ervas secas e a pimenta.",
+        "Saca el pollo de la nevera 20 minutos antes. Sazona con la sal, las hierbas secas y la pimienta.",
+        "Take the chicken out of the fridge 20 minutes ahead. Season with salt, dried herbs and pepper.") },
+      { t: T(
+        "Seque muito bem a pele com papel toalha. Se o frango ficou marinando, esse passo é obrigatório — o tempero deixa a pele encharcada.",
+        "Seca muy bien la piel con papel de cocina. Si el pollo estuvo marinando, este paso es obligatorio — el adobo deja la piel empapada.",
+        "Dry the skin thoroughly with paper towel. If the chicken has been marinating, this step is mandatory — the marinade leaves the skin soaked.") },
+      { t: T(
+        "Na frigideira fria, ponha um fio de óleo, só para cobrir o fundo. Acomode as sobrecoxas com a pele para baixo e só então ligue o fogo médio-baixo.",
+        "En la sartén fría, pon un chorrito de aceite, solo para cubrir el fondo. Coloca los contramuslos con la piel hacia abajo y solo entonces enciende el fuego medio-bajo.",
+        "In the cold pan, add a thin film of oil, just enough to coat the base. Lay the thighs skin side down and only then turn on medium-low heat.") },
+      { t: T(
+        "Doure 12 a 15 minutos sem mexer e sem cutucar. Ponha um peso por cima — outra panela, uma leiteira com água — para garantir contato total da pele com a frigideira.",
+        "Dora 12 a 15 minutos sin mover y sin tocar. Pon un peso encima — otra olla, un cazo con agua — para garantizar contacto total de la piel con la sartén.",
+        "Brown for 12 to 15 minutes without moving or poking. Put a weight on top — another pan, a saucepan of water — to guarantee full contact between skin and pan."), timer: 780 },
+      { t: T(
+        "Vire as peças. Mais 5 a 6 minutos do lado da carne.",
+        "Voltea las piezas. Otros 5 a 6 minutos del lado de la carne.",
+        "Flip the pieces. Another 5 to 6 minutes on the meat side."), timer: 330 },
+      { t: T(
+        "Junte a manteiga, o alho amassado e os ramos de alecrim ou tomilho. Incline a panela e regue a carne com a manteiga espumante por 1 minuto.",
+        "Añade la mantequilla, el ajo aplastado y las ramas de romero o tomillo. Inclina la sartén y baña la carne con la mantequilla espumosa durante 1 minuto.",
+        "Add the butter, smashed garlic and rosemary or thyme sprigs. Tilt the pan and baste the meat with the foaming butter for 1 minute."), timer: 60 },
+      { t: T(
+        "Descanse 5 minutos antes de servir. Ponto: 75 °C no centro, ou o osso soltando fácil da carne.",
+        "Deja reposar 5 minutos antes de servir. Punto: 75 °C en el centro, o el hueso soltándose fácil de la carne.",
+        "Rest 5 minutes before serving. Doneness: 75 °C at the centre, or the bone pulling free easily."), timer: 300 },
     ],
     notas: [
-      "A gordura que sobrou na frigideira é ingrediente, não sujeira: vale para as batatas ou para o arroz de alho.",
-      "Evite temperos com açúcar (mel, shoyu, barbecue) — queimam antes de a pele ficar pronta.",
-      "Sem peso por cima, a pele empena e doura só nas bordas.",
+      T("A gordura que sobrou na frigideira é ingrediente, não sujeira: vale para as batatas ou para o arroz de alho.",
+        "La grasa que quedó en la sartén es ingrediente, no suciedad: sirve para las patatas o para el arroz al ajo.",
+        "The fat left in the pan is an ingredient, not mess: it goes into the potatoes or the garlic rice."),
+      T("Evite temperos com açúcar (mel, shoyu, barbecue) — queimam antes de a pele ficar pronta.",
+        "Evita adobos con azúcar (miel, salsa de soja, barbacoa) — se queman antes de que la piel esté lista.",
+        "Avoid sugary seasonings (honey, soy, barbecue) — they burn before the skin is done."),
+      T("Sem peso por cima, a pele empena e doura só nas bordas.",
+        "Sin peso encima, la piel se comba y dora solo en los bordes.",
+        "Without a weight, the skin buckles and browns only at the edges."),
     ],
   },
+
   {
     id: "sobrecoxa-airfryer",
     capitulo: "frango",
-    titulo: "Sobrecoxa na airfryer",
-    kicker: "SEM VIGIAR · SEM SUJEIRA · O MAIS PRÁTICO",
-    subtitulo: "Quase tão bom quanto a frigideira, com um décimo do trabalho. Não precisa virar.",
+    titulo: T("Sobrecoxa na airfryer", "Contramuslo en freidora de aire", "Chicken thighs in the air fryer"),
+    kicker: T("SEM VIGIAR · SEM SUJEIRA · O MAIS PRÁTICO", "SIN VIGILAR · SIN ENSUCIAR · LO MÁS PRÁCTICO", "NO WATCHING · NO MESS · THE EASY WAY"),
+    subtitulo: T(
+      "Quase tão bom quanto a frigideira, com um décimo do trabalho. Não precisa virar.",
+      "Casi tan bueno como la sartén, con la décima parte del trabajo. No hay que voltear.",
+      "Almost as good as the skillet, for a tenth of the work. No flipping."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4, 6], ativo: 5, total: 30,
-    utensilio: "Airfryer",
-    faixa: "PELE PARA CIMA · NÃO LOTE O CESTO",
+    utensilio: T("Airfryer", "Freidora de aire", "Air fryer"),
+    faixa: T("PELE PARA CIMA · NÃO LOTE O CESTO", "PIEL HACIA ARRIBA · NO LLENES LA CESTA", "SKIN UP · DON'T CROWD THE BASKET"),
     ingredientes: [
-      { q: 4, u: "un", alt: { q: 720, u: "g" }, nome: "sobrecoxas com pele e osso" },
-      { q: 1, u: "col. chá", alt: { q: 6, u: "g" }, nome: "sal" },
-      { q: 1, u: "col. chá", alt: { q: 1, u: "g" }, nome: "ervas secas", obs: "ou lemon pepper, ou páprica" },
-      { q: 0.5, u: "col. chá", alt: { q: 1, u: "g" }, nome: "pimenta-do-reino", obs: "moída na hora" },
-      { q: 1, u: "col. chá", alt: { q: 5, u: "ml" }, nome: "azeite", obs: "opcional, um fio" },
+      { q: 4, u: "un", alt: { q: 720, u: "g" }, nome: T("sobrecoxas com pele e osso", "contramuslos con piel y hueso", "bone-in, skin-on chicken thighs") },
+      { q: 1, u: "cc", alt: { q: 6, u: "g" }, nome: T("sal", "sal", "salt") },
+      { q: 1, u: "cc", alt: { q: 1, u: "g" }, nome: T("ervas secas", "hierbas secas", "dried herbs"), obs: T("ou lemon pepper, ou páprica", "o lemon pepper, o pimentón", "or lemon pepper, or paprika") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida al momento", "freshly ground") },
+      { q: 1, u: "cc", alt: { q: 5, u: "ml" }, nome: T("azeite", "aceite de oliva", "olive oil"), obs: T("opcional, um fio", "opcional, un chorrito", "optional, a drizzle") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 3, titulo: "temperar e secar", detalhe: "papel toalha na pele" },
-      { col: 2, de: 0, ate: 4, titulo: "no cesto, pele para cima", detalhe: "sem encostar uma peça na outra" },
-      { col: 3, de: 0, ate: 4, titulo: "assar 180 °C", detalhe: "25 min · sem virar" },
-      { col: 4, de: 0, ate: 4, titulo: "descansar", detalhe: "5 min" },
+      { col: 1, de: 0, ate: 3, titulo: T("temperar e secar", "sazonar y secar", "season and dry"), detalhe: T("papel toalha na pele", "papel de cocina en la piel", "paper towel on the skin") },
+      { col: 2, de: 0, ate: 4, titulo: T("no cesto, pele para cima", "en la cesta, piel hacia arriba", "in the basket, skin up"), detalhe: T("sem encostar uma peça na outra", "sin que se toquen las piezas", "pieces not touching") },
+      { col: 3, de: 0, ate: 4, titulo: T("assar 180 °C", "hornear 180 °C", "cook at 180 °C"), detalhe: T("25 min · sem virar", "25 min · sin voltear", "25 min · no flipping") },
+      { col: 4, de: 0, ate: 4, titulo: T("descansar", "reposar", "rest"), detalhe: T("5 min", "5 min", "5 min") },
     ],
     modo: [
-      { t: "Tempere as sobrecoxas com sal, ervas e pimenta. Seque bem a pele com papel toalha." },
-      { t: "Arrume no cesto com a pele para cima, sem encostar uma peça na outra — se lotar, o ar não circula e a pele cozinha no vapor." },
-      { t: "Airfryer a 180 °C por 25 minutos. Não vire, não abra.", timer: 1500 },
-      { t: "Descanse 5 minutos. Fica muito bom, só um pouco menos vidrado que a frigideira.", timer: 300 },
+      { t: T(
+        "Tempere as sobrecoxas com sal, ervas e pimenta. Seque bem a pele com papel toalha.",
+        "Sazona los contramuslos con sal, hierbas y pimienta. Seca bien la piel con papel de cocina.",
+        "Season the thighs with salt, herbs and pepper. Dry the skin well with paper towel.") },
+      { t: T(
+        "Arrume no cesto com a pele para cima, sem encostar uma peça na outra — se lotar, o ar não circula e a pele cozinha no vapor.",
+        "Colócalos en la cesta con la piel hacia arriba, sin que se toquen — si llenas demasiado, el aire no circula y la piel se cuece al vapor.",
+        "Arrange them in the basket skin up, not touching — if you crowd it, air cannot circulate and the skin steams.") },
+      { t: T(
+        "Airfryer a 180 °C por 25 minutos. Não vire, não abra.",
+        "Freidora de aire a 180 °C durante 25 minutos. No voltees, no abras.",
+        "Air fryer at 180 °C for 25 minutes. Do not flip, do not open."), timer: 1500 },
+      { t: T(
+        "Descanse 5 minutos. Fica muito bom, só um pouco menos vidrado que a frigideira.",
+        "Deja reposar 5 minutos. Queda muy bien, solo un poco menos vidriado que en sartén.",
+        "Rest 5 minutes. Very good — just slightly less glassy than the skillet version."), timer: 300 },
     ],
     notas: [
-      "Se a airfryer for pequena, faça duas fornadas em vez de empilhar.",
-      "Um fio de azeite ajuda a dourar, mas não é necessário: a gordura da pele dá conta.",
+      T("Se a airfryer for pequena, faça duas fornadas em vez de empilhar.",
+        "Si la freidora es pequeña, haz dos tandas en vez de apilar.",
+        "If the air fryer is small, do two batches rather than stacking."),
+      T("Um fio de azeite ajuda a dourar, mas não é necessário: a gordura da pele dá conta.",
+        "Un chorrito de aceite ayuda a dorar, pero no es necesario: la grasa de la piel se basta.",
+        "A drizzle of oil helps browning, but is not needed: the skin's own fat is enough."),
     ],
   },
+
   {
     id: "sobrecoxa-forno",
     capitulo: "frango",
-    titulo: "Sobrecoxa no forno",
-    kicker: "PARA MUITAS PEÇAS DE UMA VEZ",
-    subtitulo: "A grelha sobre a assadeira é o que separa pele crocante de frango cozido no próprio caldo.",
+    titulo: T("Sobrecoxa no forno", "Contramuslo al horno", "Chicken thighs in the oven"),
+    kicker: T("PARA MUITAS PEÇAS DE UMA VEZ", "PARA MUCHAS PIEZAS A LA VEZ", "FOR MANY PIECES AT ONCE"),
+    subtitulo: T(
+      "A grelha sobre a assadeira é o que separa pele crocante de frango cozido no próprio caldo.",
+      "La rejilla sobre la bandeja es lo que separa la piel crujiente del pollo cocido en su propio jugo.",
+      "A rack over the tray is what separates crisp skin from chicken stewed in its own juices."
+    ),
     porcoes: 4, porcoesOpcoes: [4, 6, 8], ativo: 10, total: 50,
-    utensilio: "Assadeira com grelha",
-    faixa: "O AR PRECISA CIRCULAR POR BAIXO",
+    utensilio: T("Assadeira com grelha", "Bandeja con rejilla", "Roasting tray with rack"),
+    faixa: T("O AR PRECISA CIRCULAR POR BAIXO", "EL AIRE TIENE QUE CIRCULAR POR DEBAJO", "AIR HAS TO CIRCULATE UNDERNEATH"),
     ingredientes: [
-      { q: 8, u: "un", alt: { q: 1440, u: "g" }, nome: "sobrecoxas com pele e osso" },
-      { q: 2, u: "col. chá", alt: { q: 12, u: "g" }, nome: "sal" },
-      { q: 2, u: "col. chá", alt: { q: 2, u: "g" }, nome: "ervas secas" },
-      { q: 1, u: "col. chá", alt: { q: 2, u: "g" }, nome: "pimenta-do-reino", obs: "moída na hora" },
-      { q: 1, u: "col. chá", alt: { q: 3, u: "g" }, nome: "páprica", obs: "opcional" },
+      { q: 8, u: "un", alt: { q: 1440, u: "g" }, nome: T("sobrecoxas com pele e osso", "contramuslos con piel y hueso", "bone-in, skin-on chicken thighs") },
+      { q: 2, u: "cc", alt: { q: 12, u: "g" }, nome: T("sal", "sal", "salt") },
+      { q: 2, u: "cc", alt: { q: 2, u: "g" }, nome: T("ervas secas", "hierbas secas", "dried herbs") },
+      { q: 1, u: "cc", alt: { q: 2, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida al momento", "freshly ground") },
+      { q: 1, u: "cc", alt: { q: 3, u: "g" }, nome: T("páprica", "pimentón", "paprika"), obs: T("opcional", "opcional", "optional") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 4, titulo: "temperar e secar", detalhe: "papel toalha na pele" },
-      { col: 2, de: 0, ate: 4, titulo: "grelha sobre a assadeira", detalhe: "pele para cima, espaçadas" },
-      { col: 3, de: 0, ate: 4, titulo: "assar 220 °C", detalhe: "35–40 min" },
-      { col: 4, de: 0, ate: 4, titulo: "descansar", detalhe: "5 min" },
+      { col: 1, de: 0, ate: 4, titulo: T("temperar e secar", "sazonar y secar", "season and dry"), detalhe: T("papel toalha na pele", "papel de cocina en la piel", "paper towel on the skin") },
+      { col: 2, de: 0, ate: 4, titulo: T("grelha sobre a assadeira", "rejilla sobre la bandeja", "rack over the tray"), detalhe: T("pele para cima, espaçadas", "piel hacia arriba, separadas", "skin up, spaced apart") },
+      { col: 3, de: 0, ate: 4, titulo: T("assar 220 °C", "hornear 220 °C", "roast at 220 °C"), detalhe: T("35–40 min", "35–40 min", "35–40 min") },
+      { col: 4, de: 0, ate: 4, titulo: T("descansar", "reposar", "rest"), detalhe: T("5 min", "5 min", "5 min") },
     ],
     modo: [
-      { t: "Preaqueça o forno a 220 °C. Tempere e seque bem a pele." },
-      { t: "Disponha as peças sobre uma grelha encaixada na assadeira, pele para cima. Sem a grelha, a peça assa dentro da própria gordura e a pele de baixo nunca fica crocante." },
-      { t: "Asse 35 a 40 minutos, sem virar, até a pele vidrar.", timer: 2100 },
-      { t: "Descanse 5 minutos antes de servir.", timer: 300 },
+      { t: T(
+        "Preaqueça o forno a 220 °C. Tempere e seque bem a pele.",
+        "Precalienta el horno a 220 °C. Sazona y seca bien la piel.",
+        "Preheat the oven to 220 °C. Season and dry the skin well.") },
+      { t: T(
+        "Disponha as peças sobre uma grelha encaixada na assadeira, pele para cima. Sem a grelha, a peça assa dentro da própria gordura e a pele de baixo nunca fica crocante.",
+        "Coloca las piezas sobre una rejilla encajada en la bandeja, piel hacia arriba. Sin la rejilla, la pieza se asa dentro de su propia grasa y la piel de abajo nunca queda crujiente.",
+        "Arrange the pieces on a rack set in the tray, skin up. Without the rack, the piece roasts in its own fat and the underside skin never crisps.") },
+      { t: T(
+        "Asse 35 a 40 minutos, sem virar, até a pele vidrar.",
+        "Hornea 35 a 40 minutos, sin voltear, hasta que la piel se vidrie.",
+        "Roast 35 to 40 minutes, without turning, until the skin glazes."), timer: 2100 },
+      { t: T(
+        "Descanse 5 minutos antes de servir.",
+        "Deja reposar 5 minutos antes de servir.",
+        "Rest 5 minutes before serving."), timer: 300 },
     ],
     notas: [
-      "A gordura que pinga na assadeira é ouro: coe e guarde na geladeira por até uma semana.",
-      "Forno com ventilação acelera: comece a olhar aos 30 minutos.",
+      T("A gordura que pinga na assadeira é ouro: coe e guarde na geladeira por até uma semana.",
+        "La grasa que gotea en la bandeja es oro: cuélala y guárdala en la nevera hasta una semana.",
+        "The fat that drips into the tray is gold: strain it and keep it in the fridge for up to a week."),
+      T("Forno com ventilação acelera: comece a olhar aos 30 minutos.",
+        "El horno con ventilador acelera: empieza a mirar a los 30 minutos.",
+        "A fan oven speeds this up: start checking at 30 minutes."),
     ],
   },
+
   {
     id: "batatas-gordura",
     capitulo: "frango",
-    titulo: "Batatas na gordura do frango",
-    kicker: "MESMA FRIGIDEIRA · SEM LAVAR NADA",
-    subtitulo: "Feitas logo depois do frango, na gordura rendida, enquanto a carne descansa.",
+    titulo: T("Batatas na gordura do frango", "Patatas en la grasa del pollo", "Potatoes in chicken fat"),
+    kicker: T("MESMA FRIGIDEIRA · SEM LAVAR NADA", "MISMA SARTÉN · SIN LAVAR NADA", "SAME PAN · NOTHING TO WASH"),
+    subtitulo: T(
+      "Feitas logo depois do frango, na gordura rendida, enquanto a carne descansa.",
+      "Hechas justo después del pollo, en la grasa que soltó, mientras la carne reposa.",
+      "Made right after the chicken, in the rendered fat, while the meat rests."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4, 6], ativo: 20, total: 25,
-    utensilio: "A frigideira do frango",
-    faixa: "NÃO LAVE A FRIGIDEIRA — A GORDURA É O TEMPERO",
+    utensilio: T("A frigideira do frango", "La sartén del pollo", "The chicken pan"),
+    faixa: T("NÃO LAVE A FRIGIDEIRA — A GORDURA É O TEMPERO", "NO LAVES LA SARTÉN — LA GRASA ES EL CONDIMENTO", "DON'T WASH THE PAN — THE FAT IS THE SEASONING"),
     ingredientes: [
-      { q: 500, u: "g", nome: "batatas", obs: "em cubos de 2 cm" },
-      { q: 2, u: "col. sopa", alt: { q: 30, u: "ml" }, nome: "gordura rendida do frango", obs: "o que ficou na frigideira" },
-      { q: 2, u: "dentes", alt: { q: 10, u: "g" }, nome: "alho", obs: "fatiado" },
-      { q: 1, u: "ramo", alt: { q: 2, u: "g" }, nome: "alecrim", obs: "opcional" },
-      { q: 0.5, u: "col. chá", alt: { q: 3, u: "g" }, nome: "sal", obs: "só no fim" },
+      { q: 500, u: "g", nome: T("batatas", "patatas", "potatoes"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: 2, u: "cs", alt: { q: 30, u: "ml" }, nome: T("gordura rendida do frango", "grasa que soltó el pollo", "rendered chicken fat"), obs: T("o que ficou na frigideira", "lo que quedó en la sartén", "whatever is left in the pan") },
+      { q: 2, u: "dente", alt: { q: 10, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("fatiado", "en láminas", "sliced") },
+      { q: 1, u: "ramo", alt: { q: 2, u: "g" }, nome: T("alecrim", "romero", "rosemary"), obs: T("opcional", "opcional", "optional") },
+      { q: 0.5, u: "cc", alt: { q: 3, u: "g" }, nome: T("sal", "sal", "salt"), obs: T("só no fim", "solo al final", "only at the end") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 0, titulo: "cortar e secar", detalhe: "cubos de 2 cm · papel toalha" },
-      { col: 2, de: 0, ate: 1, titulo: "na gordura quente", detalhe: "camada única, sem empilhar" },
-      { col: 3, de: 0, ate: 1, titulo: "dourar", detalhe: "12–15 min · mexa pouco" },
-      { col: 4, de: 0, ate: 4, titulo: "alho, ervas e sal", detalhe: "2 min no fim" },
+      { col: 1, de: 0, ate: 0, titulo: T("cortar e secar", "cortar y secar", "cut and dry"), detalhe: T("cubos de 2 cm · papel toalha", "cubos de 2 cm · papel de cocina", "2 cm cubes · paper towel") },
+      { col: 2, de: 0, ate: 1, titulo: T("na gordura quente", "en la grasa caliente", "into the hot fat"), detalhe: T("camada única, sem empilhar", "una sola capa, sin apilar", "single layer, no stacking") },
+      { col: 3, de: 0, ate: 1, titulo: T("dourar", "dorar", "brown"), detalhe: T("12–15 min · mexa pouco", "12–15 min · remueve poco", "12–15 min · stir rarely") },
+      { col: 4, de: 0, ate: 4, titulo: T("alho, ervas e sal", "ajo, hierbas y sal", "garlic, herbs and salt"), detalhe: T("2 min no fim", "2 min al final", "2 min at the end") },
     ],
     modo: [
-      { t: "Corte as batatas em cubos de 2 cm e seque com papel toalha — batata molhada não doura, cozinha." },
-      { t: "Tire o frango da frigideira e deixe a gordura rendida. Se sobrou pouca, complete com azeite até cobrir o fundo." },
-      { t: "Ponha os cubos em camada única, sem empilhar, em fogo médio-alto. Se não couberem de uma vez, faça em duas levas." },
-      { t: "Doure 12 a 15 minutos, mexendo o mínimo possível — cada mexida interrompe a crosta que está se formando.", timer: 780 },
-      { t: "Nos últimos 2 minutos, junte o alho fatiado e o alecrim. Sal só agora: salgar antes puxa água e amolece.", timer: 120 },
+      { t: T(
+        "Corte as batatas em cubos de 2 cm e seque com papel toalha — batata molhada não doura, cozinha.",
+        "Corta las patatas en cubos de 2 cm y sécalas con papel de cocina — la patata mojada no dora, se cuece.",
+        "Cut the potatoes into 2 cm cubes and dry them with paper towel — wet potato does not brown, it boils.") },
+      { t: T(
+        "Tire o frango da frigideira e deixe a gordura rendida. Se sobrou pouca, complete com azeite até cobrir o fundo.",
+        "Saca el pollo de la sartén y deja la grasa. Si quedó poca, completa con aceite hasta cubrir el fondo.",
+        "Take the chicken out and leave the rendered fat. If there is little left, top up with oil until the base is coated.") },
+      { t: T(
+        "Ponha os cubos em camada única, sem empilhar, em fogo médio-alto. Se não couberem de uma vez, faça em duas levas.",
+        "Pon los cubos en una sola capa, sin apilar, a fuego medio-alto. Si no caben de una vez, hazlo en dos tandas.",
+        "Put the cubes in a single layer, not stacked, over medium-high heat. If they do not fit at once, do two batches.") },
+      { t: T(
+        "Doure 12 a 15 minutos, mexendo o mínimo possível — cada mexida interrompe a crosta que está se formando.",
+        "Dora 12 a 15 minutos, removiendo lo mínimo posible — cada remoción interrumpe la costra que se está formando.",
+        "Brown for 12 to 15 minutes, stirring as little as possible — every stir interrupts the crust that is forming."), timer: 780 },
+      { t: T(
+        "Nos últimos 2 minutos, junte o alho fatiado e o alecrim. Sal só agora: salgar antes puxa água e amolece.",
+        "En los últimos 2 minutos, añade el ajo laminado y el romero. Sal solo ahora: salar antes saca agua y ablanda.",
+        "In the last 2 minutes, add the sliced garlic and rosemary. Salt only now: salting earlier draws out water and softens them."), timer: 120 },
     ],
     notas: [
-      "Para acelerar: cozinhe os cubos 6 min em água salgada, escorra, seque, e só então doure. A crosta fica melhor ainda.",
-      "Para cortar a riqueza do prato, uma salada de folhas com limão puro e sal — sem azeite, a gordura já veio do frango.",
+      T("Para acelerar: cozinhe os cubos 6 min em água salgada, escorra, seque, e só então doure. A crosta fica melhor ainda.",
+        "Para acelerar: cuece los cubos 6 min en agua con sal, escurre, seca, y solo entonces dora. La costra queda aún mejor.",
+        "To speed things up: boil the cubes 6 min in salted water, drain, dry, then brown. The crust is even better."),
+      T("Para cortar a riqueza do prato, uma salada de folhas com limão puro e sal — sem azeite, a gordura já veio do frango.",
+        "Para cortar la riqueza del plato, una ensalada de hojas con limón puro y sal — sin aceite, la grasa ya vino del pollo.",
+        "To cut the richness, a leaf salad with plain lime and salt — no oil, the fat already came from the chicken."),
     ],
   },
+
   {
     id: "arroz-de-alho",
     capitulo: "frango",
-    titulo: "Arroz de alho na gordura rendida",
-    kicker: "UMA PANELA · 20 MINUTOS",
-    subtitulo: "Uma colher da gordura do frango no lugar do óleo muda o arroz inteiro.",
+    titulo: T("Arroz de alho na gordura rendida", "Arroz al ajo en la grasa del pollo", "Garlic rice in rendered fat"),
+    kicker: T("UMA PANELA · 20 MINUTOS", "UNA OLLA · 20 MINUTOS", "ONE POT · 20 MINUTES"),
+    subtitulo: T(
+      "Uma colher da gordura do frango no lugar do óleo muda o arroz inteiro.",
+      "Una cucharada de la grasa del pollo en lugar del aceite cambia el arroz entero.",
+      "One spoonful of chicken fat instead of oil changes the whole pot of rice."
+    ),
     porcoes: 4, porcoesOpcoes: [2, 4, 6], ativo: 10, total: 25,
-    utensilio: "Panela com tampa",
-    faixa: "ÁGUA QUENTE — ARROZ NÃO GOSTA DE CHOQUE TÉRMICO",
+    utensilio: T("Panela com tampa", "Olla con tapa", "Saucepan with lid"),
+    faixa: T("ÁGUA QUENTE — ARROZ NÃO GOSTA DE CHOQUE TÉRMICO", "AGUA CALIENTE — AL ARROZ NO LE GUSTA EL CHOQUE TÉRMICO", "HOT WATER — RICE DOES NOT LIKE THERMAL SHOCK"),
     ingredientes: [
-      { q: 2, u: "xíc.", alt: { q: 360, u: "g" }, nome: "arroz branco", obs: "lavado e escorrido" },
-      { q: 2, u: "col. sopa", alt: { q: 30, u: "ml" }, nome: "gordura rendida do frango" },
-      { q: 4, u: "dentes", alt: { q: 20, u: "g" }, nome: "alho", obs: "fatiado fino" },
-      { q: 3, u: "xíc.", alt: { q: 720, u: "ml" }, nome: "água quente" },
-      { q: 1, u: "col. chá", alt: { q: 6, u: "g" }, nome: "sal" },
+      { q: 2, u: "xic", alt: { q: 360, u: "g" }, nome: T("arroz branco", "arroz blanco", "white rice"), obs: T("lavado e escorrido", "lavado y escurrido", "rinsed and drained") },
+      { q: 2, u: "cs", alt: { q: 30, u: "ml" }, nome: T("gordura rendida do frango", "grasa que soltó el pollo", "rendered chicken fat") },
+      { q: 4, u: "dente", alt: { q: 20, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("fatiado fino", "en láminas finas", "thinly sliced") },
+      { q: 3, u: "xic", alt: { q: 720, u: "ml" }, nome: T("água quente", "agua caliente", "hot water") },
+      { q: 1, u: "cc", alt: { q: 6, u: "g" }, nome: T("sal", "sal", "salt") },
     ],
     grade: [
-      { col: 1, de: 1, ate: 2, titulo: "fritar o alho", detalhe: "2 min · até dourar claro" },
-      { col: 2, de: 0, ate: 2, titulo: "refogar o arroz", detalhe: "2 min · grãos translúcidos" },
-      { col: 3, de: 0, ate: 4, titulo: "água e sal, ferver", detalhe: "sem tampa, até secar a superfície" },
-      { col: 4, de: 0, ate: 4, titulo: "tampar, fogo baixo", detalhe: "15 min · não abra" },
-      { col: 5, de: 0, ate: 4, titulo: "descansar e soltar", detalhe: "5 min tampado · garfo" },
+      { col: 1, de: 1, ate: 2, titulo: T("fritar o alho", "freír el ajo", "fry the garlic"), detalhe: T("2 min · até dourar claro", "2 min · hasta dorar claro", "2 min · to pale gold") },
+      { col: 2, de: 0, ate: 2, titulo: T("refogar o arroz", "sofreír el arroz", "toast the rice"), detalhe: T("2 min · grãos translúcidos", "2 min · granos translúcidos", "2 min · grains translucent") },
+      { col: 3, de: 0, ate: 4, titulo: T("água e sal, ferver", "agua y sal, hervir", "water and salt, boil"), detalhe: T("sem tampa, até secar a superfície", "sin tapa, hasta que seque la superficie", "uncovered, until the surface dries") },
+      { col: 4, de: 0, ate: 4, titulo: T("tampar, fogo baixo", "tapar, fuego bajo", "cover, low heat"), detalhe: T("15 min · não abra", "15 min · no abras", "15 min · do not open") },
+      { col: 5, de: 0, ate: 4, titulo: T("descansar e soltar", "reposar y soltar", "rest and fluff"), detalhe: T("5 min tampado · garfo", "5 min tapado · tenedor", "5 min covered · fork") },
     ],
     modo: [
-      { t: "Aqueça a gordura rendida e frite o alho fatiado até dourar claro. Alho escuro amarga o arroz inteiro — tire do fogo antes do que parece necessário.", timer: 120 },
-      { t: "Junte o arroz lavado e escorrido. Refogue 2 minutos, até os grãos ficarem translúcidos nas bordas.", timer: 120 },
-      { t: "Adicione a água quente e o sal. Deixe ferver sem tampa até a água desaparecer da superfície e aparecerem crateras." },
-      { t: "Tampe, baixe o fogo ao mínimo e conte 15 minutos. Não abra a panela nesse tempo.", timer: 900 },
-      { t: "Desligue e descanse 5 minutos ainda tampado. Solte com um garfo, nunca com colher.", timer: 300 },
+      { t: T(
+        "Aqueça a gordura rendida e frite o alho fatiado até dourar claro. Alho escuro amarga o arroz inteiro — tire do fogo antes do que parece necessário.",
+        "Calienta la grasa y fríe el ajo laminado hasta dorar claro. El ajo oscuro amarga el arroz entero — retíralo del fuego antes de lo que parece necesario.",
+        "Heat the rendered fat and fry the sliced garlic to pale gold. Dark garlic makes the whole pot bitter — take it off sooner than seems necessary."), timer: 120 },
+      { t: T(
+        "Junte o arroz lavado e escorrido. Refogue 2 minutos, até os grãos ficarem translúcidos nas bordas.",
+        "Añade el arroz lavado y escurrido. Sofríe 2 minutos, hasta que los granos queden translúcidos en los bordes.",
+        "Add the rinsed, drained rice. Toast 2 minutes, until the grains turn translucent at the edges."), timer: 120 },
+      { t: T(
+        "Adicione a água quente e o sal. Deixe ferver sem tampa até a água desaparecer da superfície e aparecerem crateras.",
+        "Añade el agua caliente y la sal. Deja hervir sin tapa hasta que el agua desaparezca de la superficie y aparezcan cráteres.",
+        "Add the hot water and salt. Boil uncovered until the water disappears from the surface and craters appear.") },
+      { t: T(
+        "Tampe, baixe o fogo ao mínimo e conte 15 minutos. Não abra a panela nesse tempo.",
+        "Tapa, baja el fuego al mínimo y cuenta 15 minutos. No abras la olla en ese tiempo.",
+        "Cover, drop to the lowest heat and count 15 minutes. Do not open the pot in that time."), timer: 900 },
+      { t: T(
+        "Desligue e descanse 5 minutos ainda tampado. Solte com um garfo, nunca com colher.",
+        "Apaga y deja reposar 5 minutos aún tapado. Suelta con un tenedor, nunca con cuchara.",
+        "Turn it off and rest 5 minutes still covered. Fluff with a fork, never a spoon."), timer: 300 },
     ],
     notas: [
-      "Proporção 1 de arroz para 1½ de água. Com gordura no refogado, o grão fica mais solto que com óleo.",
-      "Gordura de frango coada guarda uma semana na geladeira e três meses no congelador.",
+      T("Proporção 1 de arroz para 1½ de água. Com gordura no refogado, o grão fica mais solto que com óleo.",
+        "Proporción 1 de arroz por 1½ de agua. Con grasa en el sofrito, el grano queda más suelto que con aceite.",
+        "Ratio 1 part rice to 1½ water. With animal fat in the base, the grains stay looser than with oil."),
+      T("Gordura de frango coada guarda uma semana na geladeira e três meses no congelador.",
+        "La grasa de pollo colada se guarda una semana en la nevera y tres meses en el congelador.",
+        "Strained chicken fat keeps a week in the fridge and three months in the freezer."),
     ],
   },
-
-  /* ===================== CARNES ===================== */
+];
+/* ===================== CARNES ===================== */
+RECEITAS.push(
   {
     id: "prime-rib-chapa",
     capitulo: "carnes",
-    titulo: "Prime rib na chapa",
-    kicker: "DUAS FASES · PEÇA ALTA DE 4 CM",
-    subtitulo: "Selar forte e depois fogo mínimo virando a cada minuto — a chapa vira um forno.",
+    titulo: T("Prime rib na chapa", "Prime rib a la plancha", "Prime rib on the griddle"),
+    kicker: T("DUAS FASES · PEÇA ALTA DE 4 CM", "DOS FASES · PIEZA ALTA DE 4 CM", "TWO PHASES · 4 CM THICK CUT"),
+    subtitulo: T(
+      "Selar forte e depois fogo mínimo virando a cada minuto — a chapa vira um forno.",
+      "Sellar fuerte y después fuego mínimo volteando cada minuto — la plancha se vuelve un horno.",
+      "Sear hard, then minimum heat flipping every minute — the griddle becomes an oven."
+    ),
     porcoes: 1, porcoesOpcoes: [1, 2, 4], ativo: 25, total: 45,
-    utensilio: "Chapa removível sobre a boca alta",
-    faixa: "GOTA D'ÁGUA DANÇA E SOME EM 1–2 SEGUNDOS",
+    utensilio: T("Chapa removível sobre a boca alta", "Plancha desmontable sobre el quemador potente", "Removable griddle over the big burner"),
+    faixa: T("GOTA D'ÁGUA DANÇA E SOME EM 1–2 SEGUNDOS", "LA GOTA DE AGUA BAILA Y DESAPARECE EN 1–2 SEGUNDOS", "A WATER DROP SKITTERS AND VANISHES IN 1–2 SECONDS"),
     ingredientes: [
-      { q: 1, u: "peça", alt: { q: 700, u: "g" }, nome: "prime rib", obs: "~4 cm de altura" },
-      { q: 1, u: "col. sopa", alt: { q: 12, u: "g" }, nome: "sal grosso", obs: "generoso, só na hora" },
-      { q: 1, u: "col. chá", alt: { q: 5, u: "ml" }, nome: "banha ou óleo", obs: "filme fino na chapa" },
-      { q: 0.5, u: "col. chá", alt: { q: 1, u: "g" }, nome: "pimenta-do-reino", obs: "só depois de selar" },
+      { q: 1, u: "peca", alt: { q: 700, u: "g" }, nome: T("prime rib", "prime rib", "prime rib"), obs: T("~4 cm de altura", "~4 cm de altura", "~4 cm thick") },
+      { q: 1, u: "cs", alt: { q: 12, u: "g" }, nome: T("sal grosso", "sal gruesa", "coarse salt"), obs: T("generoso, só na hora", "generosa, solo al momento", "generous, only at the last moment") },
+      { q: 1, u: "cc", alt: { q: 5, u: "ml" }, nome: T("banha ou óleo", "manteca o aceite", "lard or oil"), obs: T("filme fino na chapa", "película fina en la plancha", "thin film on the griddle") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("só depois de selar", "solo después de sellar", "only after searing") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 0, titulo: "secar e atemperar", detalhe: "papel toalha · 30–40 min fora da geladeira" },
-      { col: 2, de: 0, ate: 1, titulo: "salgar na hora", detalhe: "generoso, só ao ir para a chapa" },
-      { col: 3, de: 0, ate: 2, titulo: "selar na chapa quente", detalhe: "2–3 min por lado" },
-      { col: 4, de: 0, ate: 3, titulo: "fogo mínimo, virar a cada minuto", detalhe: "6–10 min · cut-and-peek" },
-      { col: 5, de: 0, ate: 3, titulo: "selar as bordas de gordura", detalhe: "30 s na vertical, com pinça" },
-      { col: 6, de: 0, ate: 3, titulo: "descansar", detalhe: "8–10 min" },
+      { col: 1, de: 0, ate: 0, titulo: T("secar e atemperar", "secar y atemperar", "dry and temper"), detalhe: T("papel toalha · 30–40 min fora da geladeira", "papel de cocina · 30–40 min fuera de la nevera", "paper towel · 30–40 min out of the fridge") },
+      { col: 2, de: 0, ate: 1, titulo: T("salgar na hora", "salar al momento", "salt at the last moment"), detalhe: T("generoso, só ao ir para a chapa", "generosa, solo al ir a la plancha", "generous, only as it goes on") },
+      { col: 3, de: 0, ate: 2, titulo: T("selar na chapa quente", "sellar en la plancha caliente", "sear on the hot griddle"), detalhe: T("2–3 min por lado", "2–3 min por lado", "2–3 min per side") },
+      { col: 4, de: 0, ate: 3, titulo: T("fogo mínimo, virar a cada minuto", "fuego mínimo, voltear cada minuto", "minimum heat, flip every minute"), detalhe: T("6–10 min · cut-and-peek", "6–10 min · cortar y mirar", "6–10 min · cut and peek") },
+      { col: 5, de: 0, ate: 3, titulo: T("selar as bordas de gordura", "sellar los bordes de grasa", "sear the fat edges"), detalhe: T("30 s na vertical, com pinça", "30 s en vertical, con pinzas", "30 s upright, with tongs") },
+      { col: 6, de: 0, ate: 3, titulo: T("descansar", "reposar", "rest"), detalhe: T("8–10 min", "8–10 min", "8–10 min") },
     ],
     modo: [
-      { t: "Seque muito bem com papel toalha e deixe 30 a 40 minutos fora da geladeira. Centro gelado é o maior inimigo." },
-      { t: "Pré-aqueça a chapa 5 a 8 minutos em registro baixo-médio, para o calor espalhar. A chama concentra no centro, então sele no centro mesmo. Teste com uma gota d'água: ela deve dançar e sumir em 1 a 2 segundos.", timer: 420 },
-      { t: "Sal generoso só agora. Filme fino de banha ou óleo na chapa quente." },
-      { t: "Sele 2 a 3 minutos de cada lado, até formar crosta bonita.", timer: 150 },
-      { t: "Baixe para o fogo mínimo e vire a cada minuto por mais 6 a 10 minutos, conforme o ponto. Virar com frequência cozinha o centro de forma uniforme.", timer: 480 },
-      { t: "Sele as bordas de gordura na vertical, cerca de 30 segundos, segurando com a pinça. Pimenta-do-reino agora — antes ela queima.", timer: 30 },
-      { t: "A partir dos 6 minutos de fogo baixo, faça um corte pequeno no centro e espie: ao ponto para menos é rosado quente; vermelho frio pede mais tempo." },
-      { t: "Descanse 8 a 10 minutos. Peça alta precisa desse tempo para redistribuir os sucos.", timer: 540 },
+      { t: T(
+        "Seque muito bem com papel toalha e deixe 30 a 40 minutos fora da geladeira. Centro gelado é o maior inimigo.",
+        "Seca muy bien con papel de cocina y deja 30 a 40 minutos fuera de la nevera. El centro helado es el mayor enemigo.",
+        "Dry thoroughly with paper towel and leave it 30 to 40 minutes out of the fridge. A cold centre is the biggest enemy.") },
+      { t: T(
+        "Pré-aqueça a chapa 5 a 8 minutos em registro baixo-médio, para o calor espalhar. A chama concentra no centro, então sele no centro mesmo. Teste com uma gota d'água: ela deve dançar e sumir em 1 a 2 segundos.",
+        "Precalienta la plancha 5 a 8 minutos a fuego bajo-medio, para que el calor se reparta. La llama se concentra en el centro, así que sella justo ahí. Prueba con una gota de agua: debe bailar y desaparecer en 1 o 2 segundos.",
+        "Preheat the griddle 5 to 8 minutes on low-medium so the heat spreads. The flame concentrates in the centre, so sear there. Test with a drop of water: it should skitter and vanish in 1 to 2 seconds."), timer: 420 },
+      { t: T(
+        "Sal generoso só agora. Filme fino de banha ou óleo na chapa quente.",
+        "Sal generosa solo ahora. Película fina de manteca o aceite en la plancha caliente.",
+        "Generous salt only now. A thin film of lard or oil on the hot griddle.") },
+      { t: T(
+        "Sele 2 a 3 minutos de cada lado, até formar crosta bonita.",
+        "Sella 2 a 3 minutos por cada lado, hasta formar una costra bonita.",
+        "Sear 2 to 3 minutes per side, until a good crust forms."), timer: 150 },
+      { t: T(
+        "Baixe para o fogo mínimo e vire a cada minuto por mais 6 a 10 minutos, conforme o ponto. Virar com frequência cozinha o centro de forma uniforme.",
+        "Baja al fuego mínimo y voltea cada minuto durante 6 a 10 minutos más, según el punto. Voltear seguido cocina el centro de forma uniforme.",
+        "Drop to minimum heat and flip every minute for another 6 to 10 minutes, depending on doneness. Frequent flipping cooks the centre evenly."), timer: 480 },
+      { t: T(
+        "Sele as bordas de gordura na vertical, cerca de 30 segundos, segurando com a pinça. Pimenta-do-reino agora — antes ela queima.",
+        "Sella los bordes de grasa en vertical, unos 30 segundos, sujetando con pinzas. La pimienta negra ahora — antes se quema.",
+        "Sear the fat edges upright, about 30 seconds, holding with tongs. Black pepper now — earlier it burns."), timer: 30 },
+      { t: T(
+        "A partir dos 6 minutos de fogo baixo, faça um corte pequeno no centro e espie: ao ponto para menos é rosado quente; vermelho frio pede mais tempo.",
+        "A partir de los 6 minutos de fuego bajo, haz un corte pequeño en el centro y mira: al punto para menos es rosado caliente; rojo frío pide más tiempo.",
+        "From 6 minutes into the low-heat phase, make a small cut in the centre and look: medium-rare is warm pink; cold red needs more time.") },
+      { t: T(
+        "Descanse 8 a 10 minutos. Peça alta precisa desse tempo para redistribuir os sucos.",
+        "Deja reposar 8 a 10 minutos. Una pieza alta necesita ese tiempo para redistribuir los jugos.",
+        "Rest 8 to 10 minutes. A thick cut needs that time to redistribute its juices."), timer: 540 },
     ],
     notas: [
-      "Peça fina (~2 cm) é outro método: 2 a 2,5 minutos por lado virando uma vez só, 20–30 min fora da geladeira, descanso de 5 min. Cada 30 segundos a mais muda o ponto.",
-      "Molho de fond: devolva a chapa ao fogo baixo e deglaceie com um pouco de cachaça ou shoyu mais manteiga. Se levar shoyu, alivie o sal do resto do prato.",
-      "Use a chapa removível, não a integrada: a boca alta tem calor de recuperação melhor.",
+      T("Peça fina (~2 cm) é outro método: 2 a 2,5 minutos por lado virando uma vez só, 20–30 min fora da geladeira, descanso de 5 min. Cada 30 segundos a mais muda o ponto.",
+        "La pieza fina (~2 cm) es otro método: 2 a 2,5 minutos por lado volteando una sola vez, 20–30 min fuera de la nevera, reposo de 5 min. Cada 30 segundos de más cambia el punto.",
+        "A thin cut (~2 cm) is a different method: 2 to 2.5 minutes per side flipping once only, 20–30 min out of the fridge, 5 min rest. Every extra 30 seconds changes the doneness."),
+      T("Molho de fond: devolva a chapa ao fogo baixo e deglaceie com um pouco de cachaça ou shoyu mais manteiga. Se levar shoyu, alivie o sal do resto do prato.",
+        "Salsa de fondo: devuelve la plancha al fuego bajo y desglasa con un poco de cachaça o salsa de soja más mantequilla. Si lleva soja, alivia la sal del resto del plato.",
+        "Pan sauce: return the griddle to low heat and deglaze with a little cachaça or soy sauce plus butter. If it has soy, ease off the salt elsewhere on the plate."),
+      T("Use a chapa removível, não a integrada: a boca alta tem calor de recuperação melhor.",
+        "Usa la plancha desmontable, no la integrada: el quemador potente tiene mejor calor de recuperación.",
+        "Use the removable griddle, not the built-in one: the big burner has better heat recovery."),
     ],
   },
+
   {
     id: "smashed-potatoes",
     capitulo: "carnes",
-    titulo: "Smashed potatoes na air fryer",
-    kicker: "SUPERFÍCIE IRREGULAR · GORDURA GENEROSA · NÃO MEXER",
-    subtitulo: "Rachaduras e bordas soltas são o que vira crocância. Não tente arrumar.",
+    titulo: T("Smashed potatoes na air fryer", "Patatas aplastadas en freidora de aire", "Smashed potatoes in the air fryer"),
+    kicker: T("SUPERFÍCIE IRREGULAR · GORDURA GENEROSA · NÃO MEXER", "SUPERFICIE IRREGULAR · GRASA GENEROSA · NO REMOVER", "ROUGH SURFACE · GENEROUS FAT · DON'T STIR"),
+    subtitulo: T(
+      "Rachaduras e bordas soltas são o que vira crocância. Não tente arrumar.",
+      "Las grietas y los bordes sueltos son lo que se vuelve crujiente. No intentes arreglarlos.",
+      "Cracks and loose edges are what turn crisp. Don't tidy them up."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4], ativo: 15, total: 40,
-    utensilio: "Air fryer",
-    faixa: "GORDURA DE MENOS É O ERRO Nº 1 NA AIR FRYER",
+    utensilio: T("Air fryer", "Freidora de aire", "Air fryer"),
+    faixa: T("GORDURA DE MENOS É O ERRO Nº 1 NA AIR FRYER", "POCA GRASA ES EL ERROR Nº 1 EN LA FREIDORA DE AIRE", "TOO LITTLE FAT IS THE #1 AIR FRYER MISTAKE"),
     ingredientes: [
-      { q: 4, u: "un", alt: { q: 600, u: "g" }, nome: "batatas médias", obs: "inteiras, com casca" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "g" }, nome: "sal grosso", obs: "para a água" },
-      { q: 3, u: "col. sopa", alt: { q: 45, u: "ml" }, nome: "banha ou azeite", obs: "dos dois lados" },
-      { q: 1, u: "pitada", alt: { q: 2, u: "g" }, nome: "sal fino", obs: "leve, por cima", escala: false },
-      { q: 1, u: "ramo", alt: { q: 2, u: "g" }, nome: "alecrim" },
+      { q: 4, u: "un", alt: { q: 600, u: "g" }, nome: T("batatas médias", "patatas medianas", "medium potatoes"), obs: T("inteiras, com casca", "enteras, con piel", "whole, skin on") },
+      { q: 1, u: "cs", alt: { q: 15, u: "g" }, nome: T("sal grosso", "sal gruesa", "coarse salt"), obs: T("para a água", "para el agua", "for the water") },
+      { q: 3, u: "cs", alt: { q: 45, u: "ml" }, nome: T("banha ou azeite", "manteca o aceite de oliva", "lard or olive oil"), obs: T("dos dois lados", "por ambos lados", "on both sides") },
+      { q: 1, u: "pitada", alt: { q: 2, u: "g" }, nome: T("sal fino", "sal fina", "fine salt"), obs: T("leve, por cima", "ligera, por encima", "light, on top"), escala: false },
+      { q: 1, u: "ramo", alt: { q: 2, u: "g" }, nome: T("alecrim", "romero", "rosemary") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 1, titulo: "cozinhar inteiras", detalhe: "água bem salgada · ~20 min" },
-      { col: 2, de: 0, ate: 1, titulo: "escorrer e secar", detalhe: "2–3 min soltando vapor" },
-      { col: 3, de: 0, ate: 1, titulo: "amassar com o fundo do copo", detalhe: "até ~1,5 cm · rachaduras = crocância" },
-      { col: 4, de: 0, ate: 4, titulo: "gordura, sal e alecrim", detalhe: "dos dois lados, inclusive nos pedacinhos" },
-      { col: 5, de: 0, ate: 4, titulo: "air fryer 200 °C", detalhe: "15–18 min · sem virar e sem mexer" },
+      { col: 1, de: 0, ate: 1, titulo: T("cozinhar inteiras", "cocer enteras", "boil whole"), detalhe: T("água bem salgada · ~20 min", "agua bien salada · ~20 min", "well-salted water · ~20 min") },
+      { col: 2, de: 0, ate: 1, titulo: T("escorrer e secar", "escurrir y secar", "drain and dry"), detalhe: T("2–3 min soltando vapor", "2–3 min soltando vapor", "2–3 min letting steam off") },
+      { col: 3, de: 0, ate: 1, titulo: T("amassar com o fundo do copo", "aplastar con el culo de un vaso", "smash with the base of a glass"), detalhe: T("até ~1,5 cm · rachaduras = crocância", "hasta ~1,5 cm · grietas = crujiente", "to ~1.5 cm · cracks = crunch") },
+      { col: 4, de: 0, ate: 4, titulo: T("gordura, sal e alecrim", "grasa, sal y romero", "fat, salt and rosemary"), detalhe: T("dos dois lados, inclusive nos pedacinhos", "por ambos lados, incluso en los trocitos", "both sides, including the loose bits") },
+      { col: 5, de: 0, ate: 4, titulo: T("air fryer 200 °C", "freidora de aire 200 °C", "air fryer 200 °C"), detalhe: T("15–18 min · sem virar e sem mexer", "15–18 min · sin voltear ni remover", "15–18 min · no flipping, no stirring") },
     ],
     modo: [
-      { t: "Cozinhe as batatas inteiras em água bem salgada até o garfo entrar fácil, cerca de 20 minutos.", timer: 1200 },
-      { t: "Escorra e deixe secar 2 a 3 minutos soltando vapor.", timer: 150 },
-      { t: "Amasse cada uma com o fundo de um copo até uns 1,5 cm. Rachaduras e bordas irregulares são o que vira crocância — não re-formate se desmontar." },
-      { t: "Gordura generosa dos dois lados, inclusive nos pedacinhos soltos. Sal leve por cima (a água já salgou por dentro) e alecrim." },
-      { t: "Air fryer a 200 °C por 15 a 18 minutos, sem virar e sem mexer. Cesta pequena: duas levas de duas batatas — amontoada não croca.", timer: 1000 },
+      { t: T(
+        "Cozinhe as batatas inteiras em água bem salgada até o garfo entrar fácil, cerca de 20 minutos.",
+        "Cuece las patatas enteras en agua bien salada hasta que el tenedor entre fácil, unos 20 minutos.",
+        "Boil the potatoes whole in well-salted water until a fork slides in easily, about 20 minutes."), timer: 1200 },
+      { t: T(
+        "Escorra e deixe secar 2 a 3 minutos soltando vapor.",
+        "Escurre y deja secar 2 a 3 minutos soltando vapor.",
+        "Drain and let them dry for 2 to 3 minutes, steaming off."), timer: 150 },
+      { t: T(
+        "Amasse cada uma com o fundo de um copo até uns 1,5 cm. Rachaduras e bordas irregulares são o que vira crocância — não re-formate se desmontar.",
+        "Aplasta cada una con el culo de un vaso hasta unos 1,5 cm. Las grietas y bordes irregulares son lo que se vuelve crujiente — no las rearmes si se desmontan.",
+        "Smash each one with the base of a glass to about 1.5 cm. Cracks and ragged edges are what turn crisp — do not reshape them if they fall apart.") },
+      { t: T(
+        "Gordura generosa dos dois lados, inclusive nos pedacinhos soltos. Sal leve por cima (a água já salgou por dentro) e alecrim.",
+        "Grasa generosa por ambos lados, incluso en los trocitos sueltos. Sal ligera por encima (el agua ya saló por dentro) y romero.",
+        "Generous fat on both sides, including the loose bits. Light salt on top (the water already seasoned the inside) and rosemary.") },
+      { t: T(
+        "Air fryer a 200 °C por 15 a 18 minutos, sem virar e sem mexer. Cesta pequena: duas levas de duas batatas — amontoada não croca.",
+        "Freidora de aire a 200 °C durante 15 a 18 minutos, sin voltear ni remover. Cesta pequeña: dos tandas de dos patatas — amontonadas no crujen.",
+        "Air fryer at 200 °C for 15 to 18 minutes, no flipping, no stirring. Small basket: two batches of two potatoes — piled up they will not crisp."), timer: 1000 },
     ],
     notas: [
-      "Batata muito cozida solta mais umidade: compense com mais gordura.",
-      "Se precisarem esperar, 2 a 3 minutos de volta na air fryer re-crocam.",
-      "Forno para quatro batatas é desperdício — a circulação de ar da air fryer croca até mais.",
+      T("Batata muito cozida solta mais umidade: compense com mais gordura.",
+        "La patata muy cocida suelta más humedad: compensa con más grasa.",
+        "Overcooked potato releases more moisture: compensate with more fat."),
+      T("Se precisarem esperar, 2 a 3 minutos de volta na air fryer re-crocam.",
+        "Si tienen que esperar, 2 a 3 minutos de vuelta en la freidora las vuelven a poner crujientes.",
+        "If they have to wait, 2 to 3 minutes back in the air fryer re-crisps them."),
+      T("Forno para quatro batatas é desperdício — a circulação de ar da air fryer croca até mais.",
+        "El horno para cuatro patatas es un desperdicio — la circulación de aire de la freidora las deja incluso más crujientes.",
+        "An oven for four potatoes is a waste — the air fryer's circulation crisps them even better."),
     ],
   },
+
   {
     id: "medalhoes-suinos",
     capitulo: "carnes",
-    titulo: "Medalhões de filé mignon suíno ao molho de mostarda",
-    kicker: "ALMOÇO A DOIS · SELAR E TERMINAR NO MOLHO",
-    subtitulo: "Corte magro: sela só para a crosta e deixa o molho terminar o cozimento devagar.",
+    titulo: T("Medalhões de filé mignon suíno ao molho de mostarda", "Medallones de solomillo de cerdo a la mostaza", "Pork tenderloin medallions in mustard sauce"),
+    kicker: T("ALMOÇO A DOIS · SELAR E TERMINAR NO MOLHO", "ALMUERZO PARA DOS · SELLAR Y TERMINAR EN LA SALSA", "LUNCH FOR TWO · SEAR AND FINISH IN THE SAUCE"),
+    subtitulo: T(
+      "Corte magro: sela só para a crosta e deixa o molho terminar o cozimento devagar.",
+      "Corte magro: se sella solo por la costra y se deja que la salsa termine la cocción despacio.",
+      "A lean cut: sear only for the crust and let the sauce finish the cooking slowly."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4], ativo: 30, total: 35,
-    utensilio: "Inox de fundo grosso ou ferro fundido",
-    faixa: "SELE COM O CENTRO AINDA CRU — O MOLHO TERMINA",
+    utensilio: T("Inox de fundo grosso ou ferro fundido", "Inox de fondo grueso o hierro fundido", "Heavy stainless or cast iron"),
+    faixa: T("SELE COM O CENTRO AINDA CRU — O MOLHO TERMINA", "SELLA CON EL CENTRO AÚN CRUDO — LA SALSA TERMINA", "SEAR WITH THE CENTRE STILL RAW — THE SAUCE FINISHES IT"),
     ingredientes: [
-      { q: 650, u: "g", nome: "filé mignon suíno", obs: "2 cordões, em medalhões de 2,5 cm" },
-      { q: 1, u: "col. chá", alt: { q: 6, u: "g" }, nome: "sal", obs: "leve — o shoyu já salga" },
-      { q: 0.5, u: "col. chá", alt: { q: 1, u: "g" }, nome: "pimenta-do-reino", obs: "moída na hora" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "ml" }, nome: "óleo" },
-      { q: 2, u: "col. sopa", alt: { q: 30, u: "g" }, nome: "manteiga gelada", obs: "metade no início, metade no fim" },
-      { q: 1, u: "dente", alt: { q: 5, u: "g" }, nome: "alho", obs: "amassado" },
-      { q: 2, u: "col. sopa", alt: { q: 30, u: "ml" }, nome: "cachaça" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "g" }, nome: "mostarda Dijon" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "ml" }, nome: "shoyu" },
-      { q: 100, u: "ml", nome: "creme de leite" },
+      { q: 650, u: "g", nome: T("filé mignon suíno", "solomillo de cerdo", "pork tenderloin"), obs: T("2 cordões, em medalhões de 2,5 cm", "2 piezas, en medallones de 2,5 cm", "2 whole loins, in 2.5 cm medallions") },
+      { q: 1, u: "cc", alt: { q: 6, u: "g" }, nome: T("sal", "sal", "salt"), obs: T("leve — o shoyu já salga", "ligera — la salsa de soja ya sala", "light — the soy sauce already salts") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida al momento", "freshly ground") },
+      { q: 1, u: "cs", alt: { q: 15, u: "ml" }, nome: T("óleo", "aceite", "oil") },
+      { q: 2, u: "cs", alt: { q: 30, u: "g" }, nome: T("manteiga gelada", "mantequilla fría", "cold butter"), obs: T("metade no início, metade no fim", "mitad al principio, mitad al final", "half at the start, half at the end") },
+      { q: 1, u: "dente", alt: { q: 5, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("amassado", "aplastado", "smashed") },
+      { q: 2, u: "cs", alt: { q: 30, u: "ml" }, nome: T("cachaça", "cachaça", "cachaça") },
+      { q: 1, u: "cs", alt: { q: 15, u: "g" }, nome: T("mostarda Dijon", "mostaza de Dijon", "Dijon mustard") },
+      { q: 1, u: "cs", alt: { q: 15, u: "ml" }, nome: T("shoyu", "salsa de soja", "soy sauce") },
+      { q: 100, u: "ml", nome: T("creme de leite", "nata líquida", "heavy cream") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 0, titulo: "cortar 2,5 cm e secar", detalhe: "a ponta fina dobra com palito" },
-      { col: 2, de: 0, ate: 2, titulo: "temperar só na hora", detalhe: "sal leve e pimenta" },
-      { col: 3, de: 0, ate: 3, titulo: "selar e retirar", detalhe: "2 min · virar · 2 min · centro cru" },
-      { col: 4, de: 4, ate: 5, titulo: "manteiga e alho", detalhe: "só até perfumar" },
-      { col: 5, de: 4, ate: 6, titulo: "fora do fogo: cachaça", detalhe: "volte e raspe o fond" },
-      { col: 6, de: 4, ate: 9, titulo: "mostarda, shoyu e creme", detalhe: "reduzir até cobrir a colher" },
-      { col: 7, de: 0, ate: 9, titulo: "devolver a carne", detalhe: "aquecer gentil · provar o sal" },
+      { col: 1, de: 0, ate: 0, titulo: T("cortar 2,5 cm e secar", "cortar 2,5 cm y secar", "cut 2.5 cm and dry"), detalhe: T("a ponta fina dobra com palito", "la punta fina se dobla con un palillo", "fold the thin tail and pin it") },
+      { col: 2, de: 0, ate: 2, titulo: T("temperar só na hora", "sazonar solo al momento", "season at the last moment"), detalhe: T("sal leve e pimenta", "sal ligera y pimienta", "light salt and pepper") },
+      { col: 3, de: 0, ate: 3, titulo: T("selar e retirar", "sellar y retirar", "sear and remove"), detalhe: T("2 min · virar · 2 min · centro cru", "2 min · voltear · 2 min · centro crudo", "2 min · flip · 2 min · raw centre") },
+      { col: 4, de: 4, ate: 5, titulo: T("manteiga e alho", "mantequilla y ajo", "butter and garlic"), detalhe: T("só até perfumar", "solo hasta que perfume", "just until fragrant") },
+      { col: 5, de: 4, ate: 6, titulo: T("fora do fogo: cachaça", "fuera del fuego: cachaça", "off the heat: cachaça"), detalhe: T("volte e raspe o fond", "vuelve y raspa el fondo", "return and scrape the fond") },
+      { col: 6, de: 4, ate: 9, titulo: T("mostarda, shoyu e creme", "mostaza, soja y nata", "mustard, soy and cream"), detalhe: T("reduzir até cobrir a colher", "reducir hasta que cubra la cuchara", "reduce until it coats the spoon") },
+      { col: 7, de: 0, ate: 9, titulo: T("devolver a carne", "devolver la carne", "return the meat"), detalhe: T("aquecer gentil · provar o sal", "calentar suave · probar la sal", "warm gently · taste for salt") },
     ],
     modo: [
-      { t: "Corte os medalhões com cerca de 2,5 cm de altura. O que manda no ponto é a espessura, não o diâmetro — se uns saírem mais largos, tudo bem. A ponta fina dobra sobre si mesma e prende com um palito para ganhar altura." },
-      { t: "Seque muito bem com papel toalha. Carne úmida cozinha no vapor, não doura. Tempere com sal e pimenta só na hora de ir para a panela." },
-      { t: "Panela quente com o óleo. Acomode sem amontoar — se a panela for de fundo fino, sele em lotes pequenos e deixe ela recuperar entre um e outro." },
-      { t: "Sele 2 minutos, vire, mais 2 minutos — só até a crosta dourada dos dois lados. O centro fica cru de propósito. Retire e reserve num prato.", timer: 240 },
-      { t: "Abaixe para fogo médio. Junte metade da manteiga e o alho amassado; refogue só até perfumar — nessa boca o alho queima em segundos." },
-      { t: "Tire a panela do fogo e adicione a cachaça (álcool em panela muito quente pode inflamar). Volte ao fogo e raspe o fundo para soltar o fond." },
-      { t: "Junte a mostarda, o shoyu e o creme de leite. Mexa e reduza em fogo baixo até encorpar e cobrir as costas da colher." },
-      { t: "Desligue e incorpore a manteiga gelada restante para dar brilho." },
-      { t: "Devolva os medalhões e o líquido que soltaram; aqueça gentilmente só para terminar o ponto. Rosado claro com sucos rosados = pronto. Prove o molho antes de acertar o sal." },
+      { t: T(
+        "Corte os medalhões com cerca de 2,5 cm de altura. O que manda no ponto é a espessura, não o diâmetro — se uns saírem mais largos, tudo bem. A ponta fina dobra sobre si mesma e prende com um palito para ganhar altura.",
+        "Corta los medallones de unos 2,5 cm de alto. Lo que manda en el punto es el grosor, no el diámetro — si algunos salen más anchos, no pasa nada. La punta fina se dobla sobre sí misma y se sujeta con un palillo para ganar altura.",
+        "Cut the medallions about 2.5 cm thick. What governs doneness is thickness, not diameter — if some come out wider, fine. Fold the thin tail back on itself and pin it with a toothpick to match the height.") },
+      { t: T(
+        "Seque muito bem com papel toalha. Carne úmida cozinha no vapor, não doura. Tempere com sal e pimenta só na hora de ir para a panela.",
+        "Seca muy bien con papel de cocina. La carne húmeda se cuece al vapor, no dora. Sazona con sal y pimienta solo al ir a la sartén.",
+        "Dry thoroughly with paper towel. Wet meat steams instead of browning. Season with salt and pepper only as it goes into the pan.") },
+      { t: T(
+        "Panela quente com o óleo. Acomode sem amontoar — se a panela for de fundo fino, sele em lotes pequenos e deixe ela recuperar entre um e outro.",
+        "Sartén caliente con el aceite. Coloca sin amontonar — si la sartén es de fondo fino, sella en tandas pequeñas y deja que se recupere entre una y otra.",
+        "Hot pan with the oil. Lay them out without crowding — if the pan is thin-bottomed, sear in small batches and let it recover between them.") },
+      { t: T(
+        "Sele 2 minutos, vire, mais 2 minutos — só até a crosta dourada dos dois lados. O centro fica cru de propósito. Retire e reserve num prato.",
+        "Sella 2 minutos, voltea, otros 2 minutos — solo hasta la costra dorada por ambos lados. El centro queda crudo a propósito. Retira y reserva en un plato.",
+        "Sear 2 minutes, flip, 2 more minutes — only until golden crust on both sides. The centre stays raw on purpose. Remove and set aside on a plate."), timer: 240 },
+      { t: T(
+        "Abaixe para fogo médio. Junte metade da manteiga e o alho amassado; refogue só até perfumar — nessa boca o alho queima em segundos.",
+        "Baja a fuego medio. Añade la mitad de la mantequilla y el ajo aplastado; sofríe solo hasta que perfume — en ese quemador el ajo se quema en segundos.",
+        "Drop to medium heat. Add half the butter and the smashed garlic; cook just until fragrant — on this burner garlic burns in seconds.") },
+      { t: T(
+        "Tire a panela do fogo e adicione a cachaça (álcool em panela muito quente pode inflamar). Volte ao fogo e raspe o fundo para soltar o fond.",
+        "Retira la sartén del fuego y añade la cachaça (el alcohol en sartén muy caliente puede inflamarse). Vuelve al fuego y raspa el fondo para soltar el fondo tostado.",
+        "Take the pan off the heat and add the cachaça (alcohol in a very hot pan can ignite). Return to the heat and scrape the base to lift the fond.") },
+      { t: T(
+        "Junte a mostarda, o shoyu e o creme de leite. Mexa e reduza em fogo baixo até encorpar e cobrir as costas da colher.",
+        "Añade la mostaza, la salsa de soja y la nata. Remueve y reduce a fuego bajo hasta que espese y cubra el dorso de la cuchara.",
+        "Add the mustard, soy sauce and cream. Stir and reduce over low heat until it thickens and coats the back of a spoon.") },
+      { t: T(
+        "Desligue e incorpore a manteiga gelada restante para dar brilho.",
+        "Apaga e incorpora la mantequilla fría restante para dar brillo.",
+        "Turn off the heat and whisk in the remaining cold butter for shine.") },
+      { t: T(
+        "Devolva os medalhões e o líquido que soltaram; aqueça gentilmente só para terminar o ponto. Rosado claro com sucos rosados = pronto. Prove o molho antes de acertar o sal.",
+        "Devuelve los medallones y el líquido que soltaron; calienta suavemente solo para terminar el punto. Rosado claro con jugos rosados = listo. Prueba la salsa antes de corregir la sal.",
+        "Return the medallions and any juices they released; warm gently just to finish cooking. Pale pink with pink juices means done. Taste the sauce before adjusting salt.") },
     ],
     notas: [
-      "Evite antiaderente: quase não forma fond, e o molho fica sem graça.",
-      "Variação clássica: troque o shoyu por uma pitada extra de sal e capriche na mostarda. Variação leve: pule o creme e faça só a redução de cachaça com manteiga gelada.",
-      "Acompanhamentos: arroz branco, purê ou batatas douradas, e pão para aproveitar o molho.",
+      T("Evite antiaderente: quase não forma fond, e o molho fica sem graça.",
+        "Evita el antiadherente: casi no forma fondo, y la salsa queda sosa.",
+        "Avoid non-stick: it barely builds fond, and the sauce comes out flat."),
+      T("Variação clássica: troque o shoyu por uma pitada extra de sal e capriche na mostarda. Variação leve: pule o creme e faça só a redução de cachaça com manteiga gelada.",
+        "Variación clásica: cambia la soja por una pizca extra de sal y carga la mostaza. Variación ligera: sáltate la nata y haz solo la reducción de cachaça con mantequilla fría.",
+        "Classic variation: swap the soy for an extra pinch of salt and go heavier on the mustard. Light variation: skip the cream and make only the cachaça reduction with cold butter."),
+      T("Acompanhamentos: arroz branco, purê ou batatas douradas, e pão para aproveitar o molho.",
+        "Guarniciones: arroz blanco, puré o patatas doradas, y pan para aprovechar la salsa.",
+        "Sides: white rice, mash or browned potatoes, and bread for the sauce."),
     ],
   },
+
   {
     id: "fraldinha-forno",
     capitulo: "carnes",
-    titulo: "Fraldinha marinada assada no forno",
-    kicker: "PEÇA INTEIRA · FATIADA NA MESA",
-    subtitulo: "Servida quente, ao ponto+, fatiada fino contra as fibras na hora de servir.",
+    titulo: T("Fraldinha marinada assada no forno", "Vacío marinado al horno", "Marinated flap steak in the oven"),
+    kicker: T("PEÇA INTEIRA · FATIADA NA MESA", "PIEZA ENTERA · CORTADA EN LA MESA", "WHOLE CUT · SLICED AT THE TABLE"),
+    subtitulo: T(
+      "Servida quente, ao ponto+, fatiada fino contra as fibras na hora de servir.",
+      "Servida caliente, al punto+, cortada fina a contrafibra al momento de servir.",
+      "Served hot, medium-well, sliced thin against the grain as it goes to the table."
+    ),
     porcoes: 4, porcoesOpcoes: [4, 6, 8], ativo: 20, total: 185,
-    utensilio: "Assadeira e papel alumínio",
-    faixa: "A MARINADA TEM QUATRO FONTES DE SÓDIO — PROVE ANTES",
+    utensilio: T("Assadeira e papel alumínio", "Bandeja y papel de aluminio", "Roasting tray and foil"),
+    faixa: T("A MARINADA TEM QUATRO FONTES DE SÓDIO — PROVE ANTES", "LA MARINADA TIENE CUATRO FUENTES DE SODIO — PRUEBA ANTES", "THE MARINADE HAS FOUR SOURCES OF SODIUM — TASTE FIRST"),
     ingredientes: [
-      { q: 1.2, u: "kg", alt: { q: 1200, u: "g" }, nome: "fraldinha", obs: "peça inteira" },
-      { q: null, u: "", nome: "sal" },
-      { q: null, u: "", nome: "shoyu" },
-      { q: null, u: "", nome: "molho inglês", obs: "Worcestershire" },
-      { q: null, u: "", nome: "nam pla", obs: "molho de peixe" },
-      { q: null, u: "", nome: "vinagre" },
-      { q: null, u: "", nome: "cerveja" },
-      { q: null, u: "", nome: "louro" },
-      { q: null, u: "", nome: "pimenta-do-reino" },
-      { q: null, u: "", nome: "pimenta-da-Jamaica" },
+      { q: 1.2, u: "kg", alt: { q: 1200, u: "g" }, nome: T("fraldinha", "vacío", "flap steak (bavette)"), obs: T("peça inteira", "pieza entera", "whole cut") },
+      { q: null, u: "", nome: T("sal", "sal", "salt") },
+      { q: null, u: "", nome: T("shoyu", "salsa de soja", "soy sauce") },
+      { q: null, u: "", nome: T("molho inglês", "salsa Worcestershire", "Worcestershire sauce") },
+      { q: null, u: "", nome: T("nam pla", "salsa de pescado", "fish sauce") },
+      { q: null, u: "", nome: T("vinagre", "vinagre", "vinegar") },
+      { q: null, u: "", nome: T("cerveja", "cerveza", "beer") },
+      { q: null, u: "", nome: T("louro", "laurel", "bay leaf") },
+      { q: null, u: "", nome: T("pimenta-do-reino", "pimienta negra", "black pepper") },
+      { q: null, u: "", nome: T("pimenta-da-Jamaica", "pimienta de Jamaica", "allspice") },
     ],
     grade: [
-      { col: 1, de: 1, ate: 9, titulo: "montar a marinada", detalhe: "provar o líquido antes de usar" },
-      { col: 2, de: 0, ate: 9, titulo: "marinar 2 h", detalhe: "geladeira" },
-      { col: 3, de: 0, ate: 9, titulo: "1 h fora da geladeira", detalhe: "e secar bem a superfície" },
-      { col: 4, de: 0, ate: 9, titulo: "coberta com alumínio, 200 °C", detalhe: "checar a partir dos 45 min" },
-      { col: 5, de: 0, ate: 9, titulo: "sem alumínio + grill", detalhe: "só para corar" },
-      { col: 6, de: 0, ate: 9, titulo: "descansar e fatiar", detalhe: "8–10 min · fino, contra as fibras" },
+      { col: 1, de: 1, ate: 9, titulo: T("montar a marinada", "montar la marinada", "mix the marinade"), detalhe: T("provar o líquido antes de usar", "probar el líquido antes de usarlo", "taste the liquid before using it") },
+      { col: 2, de: 0, ate: 9, titulo: T("marinar 2 h", "marinar 2 h", "marinate 2 h"), detalhe: T("geladeira", "nevera", "refrigerated") },
+      { col: 3, de: 0, ate: 9, titulo: T("1 h fora da geladeira", "1 h fuera de la nevera", "1 h out of the fridge"), detalhe: T("e secar bem a superfície", "y secar bien la superficie", "and dry the surface well") },
+      { col: 4, de: 0, ate: 9, titulo: T("coberta com alumínio, 200 °C", "cubierta con aluminio, 200 °C", "covered with foil, 200 °C"), detalhe: T("checar a partir dos 45 min", "revisar a partir de los 45 min", "start checking at 45 min") },
+      { col: 5, de: 0, ate: 9, titulo: T("sem alumínio + grill", "sin aluminio + gratinador", "foil off + grill"), detalhe: T("só para corar", "solo para dorar", "just to colour") },
+      { col: 6, de: 0, ate: 9, titulo: T("descansar e fatiar", "reposar y cortar", "rest and slice"), detalhe: T("8–10 min · fino, contra as fibras", "8–10 min · fino, a contrafibra", "8–10 min · thin, against the grain") },
     ],
     modo: [
-      { t: "Monte a marinada com sal, shoyu, molho inglês, nam pla, vinagre, cerveja, louro, pimenta-do-reino e pimenta-da-Jamaica. São quatro fontes de sódio juntas — prove o líquido antes de usá-lo também como molho." },
-      { t: "Marine 2 horas na geladeira." },
-      { t: "Tire da geladeira 1 hora antes de ir para o forno. Centro frio é o maior inimigo sem termômetro.", timer: 3600 },
-      { t: "Seque bem a superfície com papel toalha — a marinada encharca a carne." },
-      { t: "Cubra com papel alumínio e leve ao forno a 200 °C." },
-      { t: "Comece a checar aos 45 minutos: faça um corte no ponto mais grosso e leia a cor. Vermelho frio no centro segue; rosa quente é mal para ao ponto; levemente rosado, quase sem rosa e ainda úmido é o ponto+, o ideal. Cinza por igual é bem passado e não volta atrás.", timer: 2700 },
-      { t: "Perto do ponto, tire o alumínio e ligue o grill só para corar a superfície." },
-      { t: "Descanse 8 a 10 minutos antes de fatiar. Não pule.", timer: 540 },
-      { t: "Leve a peça inteira e quente à mesa e fatie na hora, bem fino e contra as fibras — é o fator que mais pesa na maciez deste corte." },
+      { t: T(
+        "Monte a marinada com sal, shoyu, molho inglês, nam pla, vinagre, cerveja, louro, pimenta-do-reino e pimenta-da-Jamaica. São quatro fontes de sódio juntas — prove o líquido antes de usá-lo também como molho.",
+        "Monta la marinada con sal, salsa de soja, salsa Worcestershire, salsa de pescado, vinagre, cerveza, laurel, pimienta negra y pimienta de Jamaica. Son cuatro fuentes de sodio juntas — prueba el líquido antes de usarlo también como salsa.",
+        "Mix the marinade: salt, soy sauce, Worcestershire, fish sauce, vinegar, beer, bay, black pepper and allspice. That is four sources of sodium at once — taste the liquid before also using it as a sauce.") },
+      { t: T("Marine 2 horas na geladeira.", "Marina 2 horas en la nevera.", "Marinate 2 hours in the fridge.") },
+      { t: T(
+        "Tire da geladeira 1 hora antes de ir para o forno. Centro frio é o maior inimigo sem termômetro.",
+        "Sácala de la nevera 1 hora antes de ir al horno. El centro frío es el mayor enemigo sin termómetro.",
+        "Take it out of the fridge 1 hour before it goes in the oven. A cold centre is the biggest enemy without a thermometer."), timer: 3600 },
+      { t: T(
+        "Seque bem a superfície com papel toalha — a marinada encharca a carne.",
+        "Seca bien la superficie con papel de cocina — la marinada empapa la carne.",
+        "Dry the surface well with paper towel — the marinade soaks the meat.") },
+      { t: T(
+        "Cubra com papel alumínio e leve ao forno a 200 °C.",
+        "Cubre con papel de aluminio y lleva al horno a 200 °C.",
+        "Cover with foil and put it in the oven at 200 °C.") },
+      { t: T(
+        "Comece a checar aos 45 minutos: faça um corte no ponto mais grosso e leia a cor. Vermelho frio no centro segue; rosa quente é mal para ao ponto; levemente rosado, quase sem rosa e ainda úmido é o ponto+, o ideal. Cinza por igual é bem passado e não volta atrás.",
+        "Empieza a revisar a los 45 minutos: haz un corte en la parte más gruesa y lee el color. Rojo frío en el centro, sigue; rosa caliente es entre poco hecho y al punto; apenas rosado, casi sin rosa y todavía jugoso es el punto+, el ideal. Gris parejo es muy hecho y no tiene vuelta.",
+        "Start checking at 45 minutes: cut into the thickest point and read the colour. Cold red in the centre means keep going; warm pink is rare to medium-rare; barely pink, almost none, still moist is medium-well — the target. Even grey is well done and there is no going back."), timer: 2700 },
+      { t: T(
+        "Perto do ponto, tire o alumínio e ligue o grill só para corar a superfície.",
+        "Cerca del punto, retira el aluminio y enciende el gratinador solo para dorar la superficie.",
+        "Near the target, take off the foil and turn on the grill just to colour the surface.") },
+      { t: T(
+        "Descanse 8 a 10 minutos antes de fatiar. Não pule.",
+        "Deja reposar 8 a 10 minutos antes de cortar. No te lo saltes.",
+        "Rest 8 to 10 minutes before slicing. Do not skip this."), timer: 540 },
+      { t: T(
+        "Leve a peça inteira e quente à mesa e fatie na hora, bem fino e contra as fibras — é o fator que mais pesa na maciez deste corte.",
+        "Lleva la pieza entera y caliente a la mesa y córtala al momento, bien fina y a contrafibra — es el factor que más pesa en la terneza de este corte.",
+        "Bring the whole hot cut to the table and slice it there, very thin and against the grain — it is the single biggest factor in this cut's tenderness.") },
     ],
     notas: [
-      "Tempo total aproximado: 50 a 65 minutos de forno para peça de ~1,2 kg a 200 °C.",
-      "Molho opcional: reduza o líquido da marinada em fogo baixo até concentrar. Prove o sal antes — a redução intensifica bastante.",
-      "Reaquecimento destrói: fraldinha ao ponto que volta ao fogo vira borracha. Se não dá para servir na hora, faça braseado (150–160 °C, 2h30–3h com líquido cobrindo) ou rosbife frio.",
+      T("Tempo total aproximado: 50 a 65 minutos de forno para peça de ~1,2 kg a 200 °C.",
+        "Tiempo total aproximado: 50 a 65 minutos de horno para una pieza de ~1,2 kg a 200 °C.",
+        "Approximate total: 50 to 65 minutes in the oven for a ~1.2 kg cut at 200 °C."),
+      T("Molho opcional: reduza o líquido da marinada em fogo baixo até concentrar. Prove o sal antes — a redução intensifica bastante.",
+        "Salsa opcional: reduce el líquido de la marinada a fuego bajo hasta concentrar. Prueba la sal antes — la reducción intensifica bastante.",
+        "Optional sauce: reduce the marinade liquid over low heat until concentrated. Taste for salt first — reducing intensifies it considerably."),
+      T("Reaquecimento destrói: fraldinha ao ponto que volta ao fogo vira borracha. Se não dá para servir na hora, faça braseado (150–160 °C, 2h30–3h com líquido cobrindo) ou rosbife frio.",
+        "El recalentado destruye: un vacío al punto que vuelve al fuego se vuelve goma. Si no puedes servir al momento, hazlo braseado (150–160 °C, 2h30–3h con líquido cubriendo) o rosbif frío.",
+        "Reheating destroys it: medium flap steak that goes back on the heat turns to rubber. If you cannot serve immediately, braise instead (150–160 °C, 2.5–3 h with liquid covering) or serve it as cold roast beef."),
     ],
-  },
-
-  /* ===================== FEIJOADA ===================== */
+  }
+);
+/* ===================== FEIJOADA ===================== */
+RECEITAS.push(
   {
     id: "feijoada",
     capitulo: "feijoada",
-    titulo: "Feijoada completa",
-    kicker: "TRÊS DIAS · 10 A 15 PESSOAS · SOBRA PARA CONGELAR",
-    subtitulo:
+    titulo: T("Feijoada completa", "Feijoada completa", "Full feijoada"),
+    kicker: T("TRÊS DIAS · 10 A 15 PESSOAS · SOBRA PARA CONGELAR", "TRES DÍAS · 10 A 15 PERSONAS · SOBRA PARA CONGELAR", "THREE DAYS · 10 TO 15 PEOPLE · LEFTOVERS TO FREEZE"),
+    subtitulo: T(
       "Dessalga correta, sequência de entrada das carnes e fogo baixo por 4 a 5 horas. O resto é paciência.",
+      "Desalado correcto, secuencia de entrada de las carnes y fuego bajo por 4 a 5 horas. El resto es paciencia.",
+      "Correct soaking, the right order for the meats, and low heat for 4 to 5 hours. The rest is patience."
+    ),
     porcoes: 20, porcoesOpcoes: [10, 20, 30], ativo: 180, total: 300,
-    utensilio: "Caldeirão de 28 cm (~10 L)",
-    faixa: "3 KG DE CARNE PARA 1 KG DE FEIJÃO · SAL SÓ NO FINAL",
+    utensilio: T("Caldeirão de 28 cm (~10 L)", "Olla grande de 28 cm (~10 L)", "28 cm stockpot (~10 L)"),
+    faixa: T("3 KG DE CARNE PARA 1 KG DE FEIJÃO · SAL SÓ NO FINAL", "3 KG DE CARNE POR 1 KG DE FRIJOL · SAL SOLO AL FINAL", "3 KG OF MEAT TO 1 KG OF BEANS · SALT ONLY AT THE END"),
     ingredientes: [
-      { q: 828, u: "g", nome: "carne seca", obs: "em cubos de 3 cm" },
-      { q: 1220, u: "g", nome: "costela suína salgada", obs: "em cubos de 3 cm" },
-      { q: 518, u: "g", nome: "orelha de porco salgada" },
-      { q: 276, u: "g", nome: "rabo de porco salgado" },
-      { q: 1500, u: "g", nome: "feijão preto", obs: "de molho por 30 min" },
-      { q: 5, u: "un", alt: { q: 700, u: "g" }, nome: "cebolas grandes", obs: "picadas fino" },
-      { q: 8, u: "dentes", alt: { q: 40, u: "g" }, nome: "alho", obs: "picado fino" },
-      { q: 0.33, u: "xíc.", alt: { q: 70, u: "g" }, nome: "banha", obs: "melhor que azeite aqui" },
-      { q: 1.5, u: "col. chá", alt: { q: 4, u: "g" }, nome: "cominho em pó" },
-      { q: 5, u: "folhas", alt: { q: 2, u: "g" }, nome: "louro" },
-      { q: 7, u: "l", nome: "água", obs: "proporcional ao feijão" },
-      { q: 1, u: "un", alt: { q: 200, u: "g" }, nome: "laranja inteira com casca" },
-      { q: 1000, u: "g", nome: "lombo suíno salgado" },
-      { q: 366, u: "g", nome: "paio", obs: "inteiro" },
-      { q: 460, u: "g", nome: "calabresa", obs: "inteira" },
-      { q: null, u: "", nome: "sal e pimenta-do-reino", obs: "só no fim, provando", escala: false },
+      { q: 828, u: "g", nome: T("carne seca", "cecina (carne seca)", "carne seca (dried salted beef)"), obs: T("em cubos de 3 cm", "en cubos de 3 cm", "in 3 cm cubes") },
+      { q: 1220, u: "g", nome: T("costela suína salgada", "costilla de cerdo salada", "salted pork ribs"), obs: T("em cubos de 3 cm", "en cubos de 3 cm", "in 3 cm cubes") },
+      { q: 518, u: "g", nome: T("orelha de porco salgada", "oreja de cerdo salada", "salted pig's ear") },
+      { q: 276, u: "g", nome: T("rabo de porco salgado", "rabo de cerdo salado", "salted pig's tail") },
+      { q: 1500, u: "g", nome: T("feijão preto", "frijol negro", "black beans"), obs: T("de molho por 30 min", "en remojo 30 min", "soaked 30 min") },
+      { q: 5, u: "un", alt: { q: 700, u: "g" }, nome: T("cebolas grandes", "cebollas grandes", "large onions"), obs: T("picadas fino", "picadas finas", "finely chopped") },
+      { q: 8, u: "dente", alt: { q: 40, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("picado fino", "picado fino", "finely chopped") },
+      { q: 0.33, u: "xic", alt: { q: 70, u: "g" }, nome: T("banha", "manteca de cerdo", "lard"), obs: T("melhor que azeite aqui", "mejor que aceite aquí", "better than oil here") },
+      { q: 1.5, u: "cc", alt: { q: 4, u: "g" }, nome: T("cominho em pó", "comino molido", "ground cumin") },
+      { q: 5, u: "folha", alt: { q: 2, u: "g" }, nome: T("louro", "laurel", "bay") },
+      { q: 7, u: "l", nome: T("água", "agua", "water"), obs: T("proporcional ao feijão", "proporcional al frijol", "in proportion to the beans") },
+      { q: 1, u: "un", alt: { q: 200, u: "g" }, nome: T("laranja inteira com casca", "naranja entera con piel", "whole orange, unpeeled") },
+      { q: 1000, u: "g", nome: T("lombo suíno salgado", "lomo de cerdo salado", "salted pork loin") },
+      { q: 366, u: "g", nome: T("paio", "paio (embutido ahumado)", "paio (smoked pork sausage)"), obs: T("inteiro", "entero", "whole") },
+      { q: 460, u: "g", nome: T("calabresa", "chorizo calabresa", "calabresa sausage"), obs: T("inteira", "entera", "whole") },
+      { q: null, u: "", nome: T("sal e pimenta-do-reino", "sal y pimienta negra", "salt and black pepper"), obs: T("só no fim, provando", "solo al final, probando", "only at the end, by tasting"), escala: false },
     ],
     grade: [
-      { col: 1, de: 0, ate: 3, titulo: "dessalgar 24 h", detalhe: "cubos de 3 cm · trocar a água a cada 3–4 h" },
-      { col: 2, de: 0, ate: 3, titulo: "ferventar 10 min", detalhe: "descartar a água" },
-      { col: 3, de: 5, ate: 9, titulo: "refogar na banha", detalhe: "cebola 8 min · alho, cominho e louro 1 min" },
-      { col: 4, de: 0, ate: 10, titulo: "feijão, carnes e água", detalhe: "fogo alto até ferver" },
-      { col: 5, de: 0, ate: 11, titulo: "laranja e fogo mínimo", detalhe: "tampa entreaberta · ~1h40" },
-      { col: 6, de: 0, ate: 14, titulo: "lombo ferventado, paio e calabresa", detalhe: "inteiros · +2 h mexendo a cada 20–30 min" },
-      { col: 7, de: 0, ate: 14, titulo: "tirar a laranja, fatiar as linguiças", detalhe: "espremer o caldo da laranja antes" },
-      { col: 8, de: 0, ate: 15, titulo: "provar o sal e apurar", detalhe: "amassar feijão · descansar 5–10 min" },
+      { col: 1, de: 0, ate: 3, titulo: T("dessalgar 24 h", "desalar 24 h", "soak 24 h"), detalhe: T("cubos de 3 cm · trocar a água a cada 3–4 h", "cubos de 3 cm · cambiar el agua cada 3–4 h", "3 cm cubes · change the water every 3–4 h") },
+      { col: 2, de: 0, ate: 3, titulo: T("ferventar 10 min", "hervir 10 min", "pre-boil 10 min"), detalhe: T("descartar a água", "desechar el agua", "discard the water") },
+      { col: 3, de: 5, ate: 9, titulo: T("refogar na banha", "sofreír en la manteca", "fry in the lard"), detalhe: T("cebola 8 min · alho, cominho e louro 1 min", "cebolla 8 min · ajo, comino y laurel 1 min", "onion 8 min · garlic, cumin and bay 1 min") },
+      { col: 4, de: 0, ate: 10, titulo: T("feijão, carnes e água", "frijol, carnes y agua", "beans, meats and water"), detalhe: T("fogo alto até ferver", "fuego alto hasta hervir", "high heat until it boils") },
+      { col: 5, de: 0, ate: 11, titulo: T("laranja e fogo mínimo", "naranja y fuego mínimo", "orange and minimum heat"), detalhe: T("tampa entreaberta · ~1h40", "tapa entreabierta · ~1h40", "lid ajar · ~1h40") },
+      { col: 6, de: 0, ate: 14, titulo: T("lombo ferventado, paio e calabresa", "lomo hervido, paio y calabresa", "pre-boiled loin, paio and calabresa"), detalhe: T("inteiros · +2 h mexendo a cada 20–30 min", "enteros · +2 h removiendo cada 20–30 min", "whole · +2 h stirring every 20–30 min") },
+      { col: 7, de: 0, ate: 14, titulo: T("tirar a laranja, fatiar as linguiças", "retirar la naranja, cortar los embutidos", "remove the orange, slice the sausages"), detalhe: T("espremer o caldo da laranja antes", "exprimir el jugo de la naranja antes", "squeeze the orange juice in first") },
+      { col: 8, de: 0, ate: 15, titulo: T("provar o sal e apurar", "probar la sal y apurar", "taste for salt and thicken"), detalhe: T("amassar feijão · descansar 5–10 min", "aplastar frijol · reposar 5–10 min", "mash some beans · rest 5–10 min") },
     ],
     modo: [
-      { t: "Dia 1 — Dessalga. Corte as carnes salgadas em cubos de 3 cm, cubra com bastante água em tigelas separadas e leve à geladeira. Troque a água a cada 3 ou 4 horas ao longo do dia. Vinte e quatro horas é o ideal." },
-      { t: "Dia 2, 5h45 — Ferventa as carnes salgadas num caldeirão com água. Dez minutos após ferver, descarte a água e reserve as carnes.", timer: 600 },
-      { t: "6h30 — Refogue a cebola na banha até dourar, cerca de 8 minutos. Adicione o alho, o cominho e o louro e mexa 1 minuto. Se pegar um pouco no fundo, tudo bem: fond é sabor, e você deglaceia depois.", timer: 480 },
-      { t: "6h50 — Adicione o feijão (que ficou de molho 30 min), 6 a 8 litros de água e as carnes ferventadas. Fogo alto até ferver." },
-      { t: "7h40 — Na fervura, acrescente a laranja inteira, abaixe para o fogo mínimo e deixe a tampa entreaberta." },
-      { t: "9h20 — Ferventa o lombo separadamente por 10 minutos e adicione à panela, junto com o paio e a calabresa inteiros. Não coloque bacon: ele todo vai para a farofa.", timer: 600 },
-      { t: "9h20 às 11h30 — Mexa a cada 20 ou 30 minutos, raspando delicadamente o fundo. Confira o nível de água: as carnes têm que ficar cobertas. Complete se precisar." },
-      { t: "10h30 — Tire a laranja e esprema o caldo dela na panela antes de descartar. Deixar mais tempo amarga." },
-      { t: "11h50 — Tire o paio e a calabresa, corte em rodelas de 1 cm na diagonal e devolva à panela." },
-      { t: "12h — Prove o sal pela primeira vez. Provavelmente nem precisa. Se o caldo estiver ralo, amasse um pouco do feijão contra a parede da panela com o dorso da concha." },
-      { t: "12h20 — Desligue. Descanse 5 a 10 minutos com a tampa entreaberta antes de servir: o caldo termina de engrossar.", timer: 600 },
+      { t: T(
+        "Dia 1 — Dessalga. Corte as carnes salgadas em cubos de 3 cm, cubra com bastante água em tigelas separadas e leve à geladeira. Troque a água a cada 3 ou 4 horas ao longo do dia. Vinte e quatro horas é o ideal.",
+        "Día 1 — Desalado. Corta las carnes saladas en cubos de 3 cm, cúbrelas con abundante agua en boles separados y llévalas a la nevera. Cambia el agua cada 3 o 4 horas a lo largo del día. Veinticuatro horas es lo ideal.",
+        "Day 1 — Soaking. Cut the salted meats into 3 cm cubes, cover with plenty of water in separate bowls and refrigerate. Change the water every 3 or 4 hours through the day. Twenty-four hours is ideal.") },
+      { t: T(
+        "Dia 2, 5h45 — Ferventa as carnes salgadas num caldeirão com água. Dez minutos após ferver, descarte a água e reserve as carnes.",
+        "Día 2, 5:45 — Hierve las carnes saladas en una olla con agua. Diez minutos después de romper el hervor, desecha el agua y reserva las carnes.",
+        "Day 2, 5:45 — Pre-boil the salted meats in a pot of water. Ten minutes after it boils, discard the water and set the meats aside."), timer: 600 },
+      { t: T(
+        "6h30 — Refogue a cebola na banha até dourar, cerca de 8 minutos. Adicione o alho, o cominho e o louro e mexa 1 minuto. Se pegar um pouco no fundo, tudo bem: fond é sabor, e você deglaceia depois.",
+        "6:30 — Sofríe la cebolla en la manteca hasta dorar, unos 8 minutos. Añade el ajo, el comino y el laurel y remueve 1 minuto. Si se pega un poco al fondo, no pasa nada: el fondo es sabor, y lo desglasas después.",
+        "6:30 — Fry the onion in the lard until golden, about 8 minutes. Add the garlic, cumin and bay and stir for 1 minute. If it catches slightly on the base, fine: fond is flavour, and you deglaze later."), timer: 480 },
+      { t: T(
+        "6h50 — Adicione o feijão (que ficou de molho 30 min), 6 a 8 litros de água e as carnes ferventadas. Fogo alto até ferver.",
+        "6:50 — Añade el frijol (que estuvo en remojo 30 min), 6 a 8 litros de agua y las carnes hervidas. Fuego alto hasta que hierva.",
+        "6:50 — Add the beans (soaked 30 min), 6 to 8 litres of water and the pre-boiled meats. High heat until it boils.") },
+      { t: T(
+        "7h40 — Na fervura, acrescente a laranja inteira, abaixe para o fogo mínimo e deixe a tampa entreaberta.",
+        "7:40 — Al hervir, agrega la naranja entera, baja al fuego mínimo y deja la tapa entreabierta.",
+        "7:40 — Once boiling, add the whole orange, drop to minimum heat and leave the lid ajar.") },
+      { t: T(
+        "9h20 — Ferventa o lombo separadamente por 10 minutos e adicione à panela, junto com o paio e a calabresa inteiros. Não coloque bacon: ele todo vai para a farofa.",
+        "9:20 — Hierve el lomo por separado 10 minutos y añádelo a la olla, junto con el paio y la calabresa enteros. No pongas bacon: todo va para la farofa.",
+        "9:20 — Pre-boil the loin separately for 10 minutes and add it to the pot, along with the whole paio and calabresa. No bacon here: all of it goes into the farofa."), timer: 600 },
+      { t: T(
+        "9h20 às 11h30 — Mexa a cada 20 ou 30 minutos, raspando delicadamente o fundo. Confira o nível de água: as carnes têm que ficar cobertas. Complete se precisar.",
+        "9:20 a 11:30 — Remueve cada 20 o 30 minutos, raspando con cuidado el fondo. Revisa el nivel de agua: las carnes tienen que quedar cubiertas. Completa si hace falta.",
+        "9:20 to 11:30 — Stir every 20 or 30 minutes, gently scraping the base. Check the water level: the meats must stay covered. Top up if needed.") },
+      { t: T(
+        "10h30 — Tire a laranja e esprema o caldo dela na panela antes de descartar. Deixar mais tempo amarga.",
+        "10:30 — Retira la naranja y exprime su jugo en la olla antes de desecharla. Dejarla más tiempo amarga.",
+        "10:30 — Take out the orange and squeeze its juice into the pot before discarding it. Leaving it longer turns bitter.") },
+      { t: T(
+        "11h50 — Tire o paio e a calabresa, corte em rodelas de 1 cm na diagonal e devolva à panela.",
+        "11:50 — Retira el paio y la calabresa, corta en rodajas de 1 cm en diagonal y devuélvelos a la olla.",
+        "11:50 — Take out the paio and calabresa, cut into 1 cm diagonal slices and return them to the pot.") },
+      { t: T(
+        "12h — Prove o sal pela primeira vez. Provavelmente nem precisa. Se o caldo estiver ralo, amasse um pouco do feijão contra a parede da panela com o dorso da concha.",
+        "12:00 — Prueba la sal por primera vez. Probablemente ni haga falta. Si el caldo está ralo, aplasta un poco de frijol contra la pared de la olla con el dorso del cucharón.",
+        "12:00 — Taste for salt for the first time. It probably needs none. If the broth is thin, mash some beans against the side of the pot with the back of the ladle.") },
+      { t: T(
+        "12h20 — Desligue. Descanse 5 a 10 minutos com a tampa entreaberta antes de servir: o caldo termina de engrossar.",
+        "12:20 — Apaga. Deja reposar 5 a 10 minutos con la tapa entreabierta antes de servir: el caldo termina de espesar.",
+        "12:20 — Turn it off. Rest 5 to 10 minutes with the lid ajar before serving: the broth finishes thickening."), timer: 600 },
     ],
     notas: [
-      "Feijoada tem várias fontes de sal: carnes salgadas, paio, calabresa. Nunca sale antes de provar no final.",
-      "1,5 kg de feijão fica carnuda; 2 kg dá mais caldo para dividir. Teste 2 kg se o grupo passar de 15.",
-      "Bacon todo na farofa: a feijoada já tem gordura de sobra com paio, calabresa, costela e lombo.",
-      "Congela muito bem e melhora no dia seguinte. Separe potes limpos antes de servir. Para descongelar: geladeira 24 h antes, requentar em fogo baixo mexendo.",
-      "Molho de pimenta: Tabasco é o clássico, biquinho em conserva é o suave universal. Sriracha e sweet chilli não combinam — perfil errado.",
-    ],
-  },
-  {
-    id: "farofa-bacon",
-    capitulo: "feijoada",
-    titulo: "Farofa de bacon com azeitona",
-    kicker: "SEPARE METADE DA GORDURA PARA A COUVE",
-    subtitulo: "O bacon inteiro da feijoada vem parar aqui — rende mais como farofa crocante.",
-    porcoes: 20, porcoesOpcoes: [10, 20, 30], ativo: 25, total: 25,
-    utensilio: "Frigideira grande",
-    faixa: "FARINHA AOS POUCOS, MEXENDO SEMPRE",
-    ingredientes: [
-      { q: 240, u: "g", nome: "bacon", obs: "em cubos de 1 cm" },
-      { q: 1, u: "un", alt: { q: 140, u: "g" }, nome: "cebola média", obs: "picada" },
-      { q: 2, u: "dentes", alt: { q: 10, u: "g" }, nome: "alho", obs: "picado" },
-      { q: 2, u: "xíc.", alt: { q: 300, u: "g" }, nome: "farinha de mandioca", obs: "fina ou biju" },
-      { q: 0.5, u: "xíc.", alt: { q: 70, u: "g" }, nome: "azeitonas", obs: "picadas" },
-      { q: 2, u: "col. sopa", alt: { q: 8, u: "g" }, nome: "salsinha", obs: "picada" },
-      { q: 0.5, u: "col. chá", alt: { q: 1, u: "g" }, nome: "pimenta-do-reino", obs: "moída na hora" },
-    ],
-    grade: [
-      { col: 1, de: 0, ate: 0, titulo: "fritar o bacon", detalhe: "~7 min · retirar com escumadeira" },
-      { col: 2, de: 0, ate: 0, titulo: "separar metade da gordura", detalhe: "reservar para a couve" },
-      { col: 3, de: 0, ate: 2, titulo: "refogar cebola e alho", detalhe: "5 min + 1 min" },
-      { col: 4, de: 0, ate: 3, titulo: "voltar o bacon, fogo baixo" },
-      { col: 5, de: 0, ate: 3, titulo: "farinha aos poucos, torrar", detalhe: "7–10 min · mexendo sempre" },
-      { col: 6, de: 0, ate: 6, titulo: "salsinha, azeitona e pimenta", detalhe: "provar o sal" },
-    ],
-    modo: [
-      { t: "Frite o bacon em cubos de 1 cm até dourar, cerca de 7 minutos. Tire com escumadeira e reserve.", timer: 420 },
-      { t: "Separe metade da gordura numa tigelinha, para a couve. Esse passo é crucial — couve com gordura de bacon é imbatível." },
-      { t: "Na gordura restante, refogue a cebola picada até dourar, cerca de 5 minutos. Adicione o alho e refogue mais 1 minuto.", timer: 300 },
-      { t: "Volte o bacon à frigideira e abaixe o fogo." },
-      { t: "Adicione a farinha aos poucos, mexendo sempre. Torre 7 a 10 minutos até dourar — farinha fina precisa de mais torra que biju.", timer: 540 },
-      { t: "No final, junte a salsinha picada, as azeitonas e a pimenta-do-reino moída na hora. Prove o sal. Reserve tampada." },
-    ],
-    notas: [
-      "Ovo mexido antes da farinha faz uma farofa premium.",
-      "O bacon é a única fonte de gordura aqui, e já é bastante — não acrescente óleo.",
-    ],
-  },
-  {
-    id: "couve-bacon",
-    capitulo: "feijoada",
-    titulo: "Couve na gordura de bacon",
-    kicker: "CHIFFONADE NA FACA · NUNCA NO PROCESSADOR",
-    subtitulo: "Dois a três minutos de frigideira. Passou do ponto, perdeu.",
-    porcoes: 20, porcoesOpcoes: [10, 20, 30], ativo: 15, total: 15,
-    utensilio: "Frigideira bem quente",
-    faixa: "TEM QUE SAIR VERDE-VIBRANTE",
-    ingredientes: [
-      { q: 3, u: "maços", alt: { q: 450, u: "g" }, nome: "couve manteiga", obs: "em chiffonade de 2–3 mm" },
-      { q: 2, u: "col. sopa", alt: { q: 30, u: "ml" }, nome: "gordura de bacon", obs: "a que você reservou da farofa" },
-      { q: 1, u: "dente", alt: { q: 5, u: "g" }, nome: "alho", obs: "picado" },
-      { q: 0.5, u: "col. chá", alt: { q: 3, u: "g" }, nome: "sal", obs: "no fim" },
-    ],
-    grade: [
-      { col: 1, de: 0, ate: 0, titulo: "chiffonade fina", detalhe: "empilhar, enrolar apertado, fatiar 2–3 mm" },
-      { col: 2, de: 1, ate: 2, titulo: "frigideira bem quente", detalhe: "gordura e alho" },
-      { col: 3, de: 0, ate: 3, titulo: "saltear", detalhe: "2–3 min · mexendo rápido" },
-    ],
-    modo: [
-      { t: "Empilhe as folhas, enrole apertado e fatie bem fino — 2 a 3 mm, com faca. Processador amassa a folha, dá corte irregular e oxida." },
-      { t: "Frigideira bem quente com a gordura reservada do bacon e o alho picado." },
-      { t: "Jogue a couve e mexa rápido por 2 a 3 minutos. Sal no fim. Não pode passar do ponto: tem que ficar verde-vibrante.", timer: 150 },
-    ],
-    notas: [
-      "É o último item a sair da cozinha, imediatamente antes de servir.",
-      "Sem feijoada no dia? Gordura de bacon guardada na geladeira faz o mesmo serviço.",
+      T("Feijoada tem várias fontes de sal: carnes salgadas, paio, calabresa. Nunca sale antes de provar no final.",
+        "La feijoada tiene varias fuentes de sal: carnes saladas, paio, calabresa. Nunca sales antes de probar al final.",
+        "Feijoada has several sources of salt: the salted meats, the paio, the calabresa. Never salt before tasting at the end."),
+      T("1,5 kg de feijão fica carnuda; 2 kg dá mais caldo para dividir. Teste 2 kg se o grupo passar de 15.",
+        "1,5 kg de frijol queda muy carnosa; 2 kg da más caldo para repartir. Prueba con 2 kg si el grupo pasa de 15.",
+        "1.5 kg of beans makes it meat-heavy; 2 kg gives more broth to go round. Try 2 kg if the group is over 15."),
+      T("Bacon todo na farofa: a feijoada já tem gordura de sobra com paio, calabresa, costela e lombo.",
+        "Todo el bacon a la farofa: la feijoada ya tiene grasa de sobra con paio, calabresa, costilla y lomo.",
+        "All the bacon goes into the farofa: the feijoada already has plenty of fat from paio, calabresa, ribs and loin."),
+      T("Congela muito bem e melhora no dia seguinte. Separe potes limpos antes de servir. Para descongelar: geladeira 24 h antes, requentar em fogo baixo mexendo.",
+        "Congela muy bien y mejora al día siguiente. Separa recipientes limpios antes de servir. Para descongelar: nevera 24 h antes, recalentar a fuego bajo removiendo.",
+        "It freezes very well and improves the next day. Set aside clean containers before serving. To thaw: fridge 24 h ahead, reheat over low heat, stirring."),
+      T("Molho de pimenta: Tabasco é o clássico, biquinho em conserva é o suave universal. Sriracha e sweet chilli não combinam — perfil errado.",
+        "Salsa picante: el Tabasco es el clásico, la pimienta biquinho en conserva es la suave universal. Sriracha y sweet chilli no combinan — perfil equivocado.",
+        "Hot sauce: Tabasco is the classic, pickled biquinho peppers the mild crowd-pleaser. Sriracha and sweet chilli do not work — wrong profile."),
     ],
   },
 
-  /* ===================== ARROZ E MASSAS ===================== */
+  {
+    id: "farofa-bacon",
+    capitulo: "feijoada",
+    titulo: T("Farofa de bacon com azeitona", "Farofa de bacon con aceitunas", "Bacon farofa with olives"),
+    kicker: T("SEPARE METADE DA GORDURA PARA A COUVE", "SEPARA LA MITAD DE LA GRASA PARA LA BERZA", "SET ASIDE HALF THE FAT FOR THE GREENS"),
+    subtitulo: T(
+      "O bacon inteiro da feijoada vem parar aqui — rende mais como farofa crocante.",
+      "Todo el bacon de la feijoada acaba aquí — rinde más como farofa crujiente.",
+      "All the bacon from the feijoada ends up here — it goes further as crisp farofa."
+    ),
+    porcoes: 20, porcoesOpcoes: [10, 20, 30], ativo: 25, total: 25,
+    utensilio: T("Frigideira grande", "Sartén grande", "Large skillet"),
+    faixa: T("FARINHA AOS POUCOS, MEXENDO SEMPRE", "LA HARINA POCO A POCO, REMOVIENDO SIEMPRE", "FLOUR A LITTLE AT A TIME, STIRRING CONSTANTLY"),
+    ingredientes: [
+      { q: 240, u: "g", nome: T("bacon", "bacon", "bacon"), obs: T("em cubos de 1 cm", "en cubos de 1 cm", "in 1 cm cubes") },
+      { q: 1, u: "un", alt: { q: 140, u: "g" }, nome: T("cebola média", "cebolla mediana", "medium onion"), obs: T("picada", "picada", "chopped") },
+      { q: 2, u: "dente", alt: { q: 10, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("picado", "picado", "chopped") },
+      { q: 2, u: "xic", alt: { q: 300, u: "g" }, nome: T("farinha de mandioca", "harina de mandioca", "cassava flour"), obs: T("fina ou biju", "fina o tipo biju", "fine or coarse (biju)") },
+      { q: 0.5, u: "xic", alt: { q: 70, u: "g" }, nome: T("azeitonas", "aceitunas", "olives"), obs: T("picadas", "picadas", "chopped") },
+      { q: 2, u: "cs", alt: { q: 8, u: "g" }, nome: T("salsinha", "perejil", "parsley"), obs: T("picada", "picado", "chopped") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida al momento", "freshly ground") },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("fritar o bacon", "freír el bacon", "fry the bacon"), detalhe: T("~7 min · retirar com escumadeira", "~7 min · retirar con espumadera", "~7 min · lift out with a slotted spoon") },
+      { col: 2, de: 0, ate: 0, titulo: T("separar metade da gordura", "separar la mitad de la grasa", "set aside half the fat"), detalhe: T("reservar para a couve", "reservar para la berza", "keep it for the greens") },
+      { col: 3, de: 0, ate: 2, titulo: T("refogar cebola e alho", "sofreír cebolla y ajo", "fry onion and garlic"), detalhe: T("5 min + 1 min", "5 min + 1 min", "5 min + 1 min") },
+      { col: 4, de: 0, ate: 3, titulo: T("voltar o bacon, fogo baixo", "devolver el bacon, fuego bajo", "return the bacon, low heat") },
+      { col: 5, de: 0, ate: 3, titulo: T("farinha aos poucos, torrar", "harina poco a poco, tostar", "flour bit by bit, toast"), detalhe: T("7–10 min · mexendo sempre", "7–10 min · removiendo siempre", "7–10 min · stirring constantly") },
+      { col: 6, de: 0, ate: 6, titulo: T("salsinha, azeitona e pimenta", "perejil, aceitunas y pimienta", "parsley, olives and pepper"), detalhe: T("provar o sal", "probar la sal", "taste for salt") },
+    ],
+    modo: [
+      { t: T(
+        "Frite o bacon em cubos de 1 cm até dourar, cerca de 7 minutos. Tire com escumadeira e reserve.",
+        "Fríe el bacon en cubos de 1 cm hasta dorar, unos 7 minutos. Sácalo con espumadera y resérvalo.",
+        "Fry the bacon in 1 cm cubes until golden, about 7 minutes. Lift it out with a slotted spoon and set aside."), timer: 420 },
+      { t: T(
+        "Separe metade da gordura numa tigelinha, para a couve. Esse passo é crucial — couve com gordura de bacon é imbatível.",
+        "Separa la mitad de la grasa en un bol pequeño, para la berza. Este paso es crucial — la berza con grasa de bacon es imbatible.",
+        "Pour half the fat into a small bowl, for the greens. This step matters — collards in bacon fat are unbeatable.") },
+      { t: T(
+        "Na gordura restante, refogue a cebola picada até dourar, cerca de 5 minutos. Adicione o alho e refogue mais 1 minuto.",
+        "En la grasa restante, sofríe la cebolla picada hasta dorar, unos 5 minutos. Añade el ajo y sofríe 1 minuto más.",
+        "In the remaining fat, fry the chopped onion until golden, about 5 minutes. Add the garlic and cook 1 minute more."), timer: 300 },
+      { t: T(
+        "Volte o bacon à frigideira e abaixe o fogo.",
+        "Devuelve el bacon a la sartén y baja el fuego.",
+        "Return the bacon to the pan and lower the heat.") },
+      { t: T(
+        "Adicione a farinha aos poucos, mexendo sempre. Torre 7 a 10 minutos até dourar — farinha fina precisa de mais torra que biju.",
+        "Añade la harina poco a poco, removiendo siempre. Tuesta 7 a 10 minutos hasta dorar — la harina fina necesita más tueste que la tipo biju.",
+        "Add the flour a little at a time, stirring constantly. Toast for 7 to 10 minutes until golden — fine flour needs more toasting than coarse."), timer: 540 },
+      { t: T(
+        "No final, junte a salsinha picada, as azeitonas e a pimenta-do-reino moída na hora. Prove o sal. Reserve tampada.",
+        "Al final, añade el perejil picado, las aceitunas y la pimienta negra molida al momento. Prueba la sal. Reserva tapada.",
+        "At the end, add the chopped parsley, olives and freshly ground black pepper. Taste for salt. Keep it covered.") },
+    ],
+    notas: [
+      T("Ovo mexido antes da farinha faz uma farofa premium.",
+        "Huevo revuelto antes de la harina hace una farofa de lujo.",
+        "Scrambled egg before the flour makes a deluxe farofa."),
+      T("O bacon é a única fonte de gordura aqui, e já é bastante — não acrescente óleo.",
+        "El bacon es la única fuente de grasa aquí, y ya es bastante — no añadas aceite.",
+        "The bacon is the only source of fat here, and it is plenty — do not add oil."),
+    ],
+  },
+
+  {
+    id: "couve-bacon",
+    capitulo: "feijoada",
+    titulo: T("Couve na gordura de bacon", "Berza en grasa de bacon", "Collard greens in bacon fat"),
+    kicker: T("CHIFFONADE NA FACA · NUNCA NO PROCESSADOR", "CHIFFONADE A CUCHILLO · NUNCA EN PROCESADORA", "CHIFFONADE BY KNIFE · NEVER IN A PROCESSOR"),
+    subtitulo: T(
+      "Dois a três minutos de frigideira. Passou do ponto, perdeu.",
+      "Dos o tres minutos de sartén. Si se pasa, se perdió.",
+      "Two to three minutes in the pan. Past that point, it's gone."
+    ),
+    porcoes: 20, porcoesOpcoes: [10, 20, 30], ativo: 15, total: 15,
+    utensilio: T("Frigideira bem quente", "Sartén bien caliente", "Very hot skillet"),
+    faixa: T("TEM QUE SAIR VERDE-VIBRANTE", "TIENE QUE SALIR VERDE VIBRANTE", "IT HAS TO COME OUT VIVID GREEN"),
+    ingredientes: [
+      { q: 3, u: "maco", alt: { q: 450, u: "g" }, nome: T("couve manteiga", "berza", "collard greens"), obs: T("em chiffonade de 2–3 mm", "en chiffonade de 2–3 mm", "chiffonade, 2–3 mm") },
+      { q: 2, u: "cs", alt: { q: 30, u: "ml" }, nome: T("gordura de bacon", "grasa de bacon", "bacon fat"), obs: T("a que você reservou da farofa", "la que reservaste de la farofa", "the one you saved from the farofa") },
+      { q: 1, u: "dente", alt: { q: 5, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("picado", "picado", "chopped") },
+      { q: 0.5, u: "cc", alt: { q: 3, u: "g" }, nome: T("sal", "sal", "salt"), obs: T("no fim", "al final", "at the end") },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("chiffonade fina", "chiffonade fina", "fine chiffonade"), detalhe: T("empilhar, enrolar apertado, fatiar 2–3 mm", "apilar, enrollar apretado, cortar 2–3 mm", "stack, roll tight, slice 2–3 mm") },
+      { col: 2, de: 1, ate: 2, titulo: T("frigideira bem quente", "sartén bien caliente", "very hot skillet"), detalhe: T("gordura e alho", "grasa y ajo", "fat and garlic") },
+      { col: 3, de: 0, ate: 3, titulo: T("saltear", "saltear", "sauté"), detalhe: T("2–3 min · mexendo rápido", "2–3 min · removiendo rápido", "2–3 min · stirring fast") },
+    ],
+    modo: [
+      { t: T(
+        "Empilhe as folhas, enrole apertado e fatie bem fino — 2 a 3 mm, com faca. Processador amassa a folha, dá corte irregular e oxida.",
+        "Apila las hojas, enróllalas apretadas y córtalas muy finas — 2 a 3 mm, a cuchillo. La procesadora machaca la hoja, da un corte irregular y la oxida.",
+        "Stack the leaves, roll them tight and slice very thin — 2 to 3 mm, with a knife. A processor bruises the leaf, cuts unevenly and oxidises it.") },
+      { t: T(
+        "Frigideira bem quente com a gordura reservada do bacon e o alho picado.",
+        "Sartén bien caliente con la grasa reservada del bacon y el ajo picado.",
+        "Very hot skillet with the reserved bacon fat and the chopped garlic.") },
+      { t: T(
+        "Jogue a couve e mexa rápido por 2 a 3 minutos. Sal no fim. Não pode passar do ponto: tem que ficar verde-vibrante.",
+        "Echa la berza y remueve rápido 2 a 3 minutos. Sal al final. No puede pasarse: tiene que quedar verde vibrante.",
+        "Throw in the greens and stir fast for 2 to 3 minutes. Salt at the end. It must not overcook: it has to stay vivid green."), timer: 150 },
+    ],
+    notas: [
+      T("É o último item a sair da cozinha, imediatamente antes de servir.",
+        "Es lo último que sale de la cocina, justo antes de servir.",
+        "It is the last thing to leave the kitchen, immediately before serving."),
+      T("Sem feijoada no dia? Gordura de bacon guardada na geladeira faz o mesmo serviço.",
+        "¿Sin feijoada ese día? La grasa de bacon guardada en la nevera hace el mismo trabajo.",
+        "No feijoada that day? Bacon fat kept in the fridge does the same job."),
+    ],
+  }
+);
+/* ===================== ARROZ E MASSAS ===================== */
+RECEITAS.push(
   {
     id: "fried-rice",
     capitulo: "arroz",
-    titulo: "Fried rice de bacon e calabresa",
-    kicker: "15 MINUTOS · ARROZ DE ONTEM É OBRIGATÓRIO",
-    subtitulo: "A ordem é o método: cada etapa aproveita a gordura da anterior.",
+    titulo: T("Fried rice de bacon e calabresa", "Fried rice de bacon y calabresa", "Bacon and calabresa fried rice"),
+    kicker: T("15 MINUTOS · ARROZ DE ONTEM É OBRIGATÓRIO", "15 MINUTOS · EL ARROZ DE AYER ES OBLIGATORIO", "15 MINUTES · YESTERDAY'S RICE IS MANDATORY"),
+    subtitulo: T(
+      "A ordem é o método: cada etapa aproveita a gordura da anterior.",
+      "El orden es el método: cada etapa aprovecha la grasa de la anterior.",
+      "The order is the method: each step uses the fat from the one before."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4], ativo: 15, total: 15,
-    utensilio: "Wok ou frigideira grande",
-    faixa: "MISE EN PLACE ANTES DE LIGAR O FOGO",
+    utensilio: T("Wok ou frigideira grande", "Wok o sartén grande", "Wok or large skillet"),
+    faixa: T("MISE EN PLACE ANTES DE LIGAR O FOGO", "MISE EN PLACE ANTES DE ENCENDER EL FUEGO", "MISE EN PLACE BEFORE YOU TURN ON THE HEAT"),
     ingredientes: [
-      { q: 80, u: "g", nome: "bacon", obs: "em cubinhos" },
-      { q: 80, u: "g", nome: "linguiça calabresa", obs: "fatiada bem fina" },
-      { q: 2, u: "un", alt: { q: 110, u: "g" }, nome: "ovos grandes", obs: "batidos" },
-      { q: 2, u: "col. chá", alt: { q: 8, u: "g" }, nome: "gengibre", obs: "ralado" },
-      { q: 3, u: "xíc.", alt: { q: 450, u: "g" }, nome: "arroz branco de ontem", obs: "frio e esfarelado" },
-      { q: 1.5, u: "col. sopa", alt: { q: 22, u: "ml" }, nome: "shoyu", obs: "pela borda da panela" },
-      { q: 1, u: "col. sopa", alt: { q: 15, u: "ml" }, nome: "sake seco" },
-      { q: 1, u: "pitada", alt: { q: 1, u: "g" }, nome: "aji-no-moto", obs: "opcional", escala: false },
-      { q: 1, u: "col. chá", alt: { q: 5, u: "ml" }, nome: "óleo de gergelim", obs: "fora do fogo" },
-      { q: null, u: "", nome: "togarashi", obs: "a gosto, para finalizar" },
-      { q: null, u: "", nome: "cebolinha", obs: "picada, opcional" },
+      { q: 80, u: "g", nome: T("bacon", "bacon", "bacon"), obs: T("em cubinhos", "en cubitos", "in small cubes") },
+      { q: 80, u: "g", nome: T("linguiça calabresa", "chorizo calabresa", "calabresa sausage"), obs: T("fatiada bem fina", "en rodajas muy finas", "very thinly sliced") },
+      { q: 2, u: "un", alt: { q: 110, u: "g" }, nome: T("ovos grandes", "huevos grandes", "large eggs"), obs: T("batidos", "batidos", "beaten") },
+      { q: 2, u: "cc", alt: { q: 8, u: "g" }, nome: T("gengibre", "jengibre", "ginger"), obs: T("ralado", "rallado", "grated") },
+      { q: 3, u: "xic", alt: { q: 450, u: "g" }, nome: T("arroz branco de ontem", "arroz blanco de ayer", "day-old white rice"), obs: T("frio e esfarelado", "frío y desgranado", "cold and broken up") },
+      { q: 1.5, u: "cs", alt: { q: 22, u: "ml" }, nome: T("shoyu", "salsa de soja", "soy sauce"), obs: T("pela borda da panela", "por el borde de la sartén", "down the side of the pan") },
+      { q: 1, u: "cs", alt: { q: 15, u: "ml" }, nome: T("sake seco", "sake seco", "dry sake") },
+      { q: 1, u: "pitada", alt: { q: 1, u: "g" }, nome: T("aji-no-moto", "glutamato monosódico", "MSG"), obs: T("opcional", "opcional", "optional"), escala: false },
+      { q: 1, u: "cc", alt: { q: 5, u: "ml" }, nome: T("óleo de gergelim", "aceite de sésamo", "sesame oil"), obs: T("fora do fogo", "fuera del fuego", "off the heat") },
+      { q: null, u: "", nome: T("togarashi", "togarashi", "togarashi"), obs: T("a gosto, para finalizar", "al gusto, para terminar", "to taste, to finish") },
+      { q: null, u: "", nome: T("cebolinha", "cebollino", "spring onion"), obs: T("picada, opcional", "picado, opcional", "chopped, optional") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 0, titulo: "fritar o bacon", detalhe: "reservar · deixar toda a gordura" },
-      { col: 2, de: 1, ate: 1, titulo: "dourar a calabresa", detalhe: "até pegar cor nas bordas" },
-      { col: 3, de: 2, ate: 2, titulo: "ovos na mesma gordura", detalhe: "tirar ainda cremoso" },
-      { col: 4, de: 3, ate: 3, titulo: "gengibre no fogo alto", detalhe: "segundos, só até perfumar" },
-      { col: 5, de: 3, ate: 4, titulo: "arroz espalhado, parado", detalhe: "uns segundos antes de mexer" },
-      { col: 6, de: 3, ate: 7, titulo: "shoyu pela borda, sake, aji", detalhe: "misturar rápido" },
-      { col: 7, de: 0, ate: 7, titulo: "juntar tudo", detalhe: "só até aquecer" },
-      { col: 8, de: 0, ate: 10, titulo: "fora do fogo", detalhe: "gergelim, togarashi, cebolinha" },
+      { col: 1, de: 0, ate: 0, titulo: T("fritar o bacon", "freír el bacon", "fry the bacon"), detalhe: T("reservar · deixar toda a gordura", "reservar · dejar toda la grasa", "set aside · leave all the fat") },
+      { col: 2, de: 1, ate: 1, titulo: T("dourar a calabresa", "dorar la calabresa", "brown the calabresa"), detalhe: T("até pegar cor nas bordas", "hasta que tome color en los bordes", "until the edges colour") },
+      { col: 3, de: 2, ate: 2, titulo: T("ovos na mesma gordura", "huevos en la misma grasa", "eggs in the same fat"), detalhe: T("tirar ainda cremoso", "sacar aún cremoso", "take them out still creamy") },
+      { col: 4, de: 3, ate: 3, titulo: T("gengibre no fogo alto", "jengibre a fuego alto", "ginger over high heat"), detalhe: T("segundos, só até perfumar", "segundos, solo hasta que perfume", "seconds, just until fragrant") },
+      { col: 5, de: 3, ate: 4, titulo: T("arroz espalhado, parado", "arroz extendido, quieto", "rice spread out, left alone"), detalhe: T("uns segundos antes de mexer", "unos segundos antes de remover", "a few seconds before stirring") },
+      { col: 6, de: 3, ate: 7, titulo: T("shoyu pela borda, sake, aji", "soja por el borde, sake, glutamato", "soy down the side, sake, MSG"), detalhe: T("misturar rápido", "mezclar rápido", "toss quickly") },
+      { col: 7, de: 0, ate: 7, titulo: T("juntar tudo", "juntar todo", "bring it all together"), detalhe: T("só até aquecer", "solo hasta calentar", "just until heated through") },
+      { col: 8, de: 0, ate: 10, titulo: T("fora do fogo", "fuera del fuego", "off the heat"), detalhe: T("gergelim, togarashi, cebolinha", "sésamo, togarashi, cebollino", "sesame, togarashi, spring onion") },
     ],
     modo: [
-      { t: "Mise en place primeiro — o salteado é rápido demais para picar no meio. Esfarele o arroz com as mãos, fatie a calabresa fina, bata os ovos, rale o gengibre. Tudo ao alcance antes de ligar o fogo." },
-      { t: "Panela quase seca, fogo médio. Frite o bacon até render e ficar dourado e crocante. Retire com escumadeira e deixe toda a gordura na panela — é a base de tudo." },
-      { t: "Na gordura do bacon, doure a calabresa até pegar cor nas bordas. Retire e reserve junto com o bacon." },
-      { t: "Despeje os ovos batidos na mesma gordura e mexa em fogo médio, puxando do fundo. Tire ainda mole e cremoso, antes de secar — ele termina de cozinhar depois." },
-      { t: "Suba para o fogo alto. Jogue o gengibre e mexa só até perfumar, sem queimar — nessa boca são segundos." },
-      { t: "Entra o arroz esfarelado. Espalhe numa camada e deixe parado uns segundos para pegar na panela antes de mexer — é isso que dá o tostadinho. Depois salteie até os grãos soltarem e dourarem de leve." },
-      { t: "Regue o shoyu pela borda da panela, que carameliza melhor que jogado por cima. Splash de sake para soltar o fundo, pitada de aji. Misture rápido." },
-      { t: "Devolva bacon, calabresa e ovo. Misture só até aquecer e o ovo se quebrar em pedaços pelo arroz." },
-      { t: "Fora do fogo: fio de óleo de gergelim, togarashi e cebolinha. Prove e corrija — dificilmente vai precisar de sal." },
+      { t: T(
+        "Mise en place primeiro — o salteado é rápido demais para picar no meio. Esfarele o arroz com as mãos, fatie a calabresa fina, bata os ovos, rale o gengibre. Tudo ao alcance antes de ligar o fogo.",
+        "Mise en place primero — el salteado es demasiado rápido para picar a media cocción. Desgrana el arroz con las manos, corta la calabresa fina, bate los huevos, ralla el jengibre. Todo al alcance antes de encender el fuego.",
+        "Mise en place first — the stir-fry is too fast to chop halfway through. Break up the rice with your hands, slice the sausage thin, beat the eggs, grate the ginger. Everything within reach before the heat goes on.") },
+      { t: T(
+        "Panela quase seca, fogo médio. Frite o bacon até render e ficar dourado e crocante. Retire com escumadeira e deixe toda a gordura na panela — é a base de tudo.",
+        "Sartén casi seca, fuego medio. Fríe el bacon hasta que suelte la grasa y quede dorado y crujiente. Retíralo con espumadera y deja toda la grasa en la sartén — es la base de todo.",
+        "Almost-dry pan, medium heat. Fry the bacon until it renders and turns golden and crisp. Lift it out with a slotted spoon and leave all the fat in the pan — it is the base of everything.") },
+      { t: T(
+        "Na gordura do bacon, doure a calabresa até pegar cor nas bordas. Retire e reserve junto com o bacon.",
+        "En la grasa del bacon, dora la calabresa hasta que tome color en los bordes. Retírala y resérvala junto al bacon.",
+        "In the bacon fat, brown the sausage until the edges colour. Remove and set aside with the bacon.") },
+      { t: T(
+        "Despeje os ovos batidos na mesma gordura e mexa em fogo médio, puxando do fundo. Tire ainda mole e cremoso, antes de secar — ele termina de cozinhar depois.",
+        "Vierte los huevos batidos en la misma grasa y remueve a fuego medio, tirando desde el fondo. Sácalos aún blandos y cremosos, antes de que se sequen — terminan de cocerse después.",
+        "Pour the beaten eggs into the same fat and stir over medium heat, pulling from the bottom. Take them out still soft and creamy, before they dry — they finish cooking later.") },
+      { t: T(
+        "Suba para o fogo alto. Jogue o gengibre e mexa só até perfumar, sem queimar — nessa boca são segundos.",
+        "Sube a fuego alto. Echa el jengibre y remueve solo hasta que perfume, sin quemarlo — en ese quemador son segundos.",
+        "Turn the heat up high. Throw in the ginger and stir just until fragrant, without burning it — on this burner that is seconds.") },
+      { t: T(
+        "Entra o arroz esfarelado. Espalhe numa camada e deixe parado uns segundos para pegar na panela antes de mexer — é isso que dá o tostadinho. Depois salteie até os grãos soltarem e dourarem de leve.",
+        "Entra el arroz desgranado. Extiéndelo en una capa y déjalo quieto unos segundos para que agarre en la sartén antes de remover — eso es lo que da el tostadito. Después saltea hasta que los granos se suelten y doren ligeramente.",
+        "In goes the broken-up rice. Spread it in a layer and leave it still for a few seconds to catch on the pan before stirring — that is what gives the toasted bits. Then toss until the grains loosen and colour lightly.") },
+      { t: T(
+        "Regue o shoyu pela borda da panela, que carameliza melhor que jogado por cima. Splash de sake para soltar o fundo, pitada de aji. Misture rápido.",
+        "Vierte la salsa de soja por el borde de la sartén, que caramelia mejor que echada por encima. Un chorro de sake para soltar el fondo, pizca de glutamato. Mezcla rápido.",
+        "Pour the soy sauce down the side of the pan, where it caramelises better than poured over the top. A splash of sake to lift the base, a pinch of MSG. Toss quickly.") },
+      { t: T(
+        "Devolva bacon, calabresa e ovo. Misture só até aquecer e o ovo se quebrar em pedaços pelo arroz.",
+        "Devuelve el bacon, la calabresa y el huevo. Mezcla solo hasta calentar y que el huevo se rompa en trozos por el arroz.",
+        "Return the bacon, sausage and egg. Toss just until heated and the egg breaks into pieces through the rice.") },
+      { t: T(
+        "Fora do fogo: fio de óleo de gergelim, togarashi e cebolinha. Prove e corrija — dificilmente vai precisar de sal.",
+        "Fuera del fuego: chorrito de aceite de sésamo, togarashi y cebollino. Prueba y corrige — difícilmente va a necesitar sal.",
+        "Off the heat: a drizzle of sesame oil, togarashi and spring onion. Taste and adjust — it will rarely need salt.") },
     ],
     notas: [
-      "Arroz frio de véspera é obrigatório: o grão perdeu umidade e frita solto. Arroz quente recém-feito solta vapor e empapa.",
-      "Bacon dá gordura e crocância defumada; calabresa entra em pouca quantidade só pela páprica e pelo alho. Sem ela, compense com mais gengibre e shoyu.",
-      "Sem miso: no calor da panela ele empelota, queima e vira pasta. Lugar dele é sopa, marinada ou molho de tigela.",
-      "Quatro fontes de sódio juntas — bacon, calabresa, shoyu e aji. Prove antes de pensar em sal.",
+      T("Arroz frio de véspera é obrigatório: o grão perdeu umidade e frita solto. Arroz quente recém-feito solta vapor e empapa.",
+        "El arroz frío de la víspera es obligatorio: el grano perdió humedad y se fríe suelto. El arroz caliente recién hecho suelta vapor y se apelmaza.",
+        "Cold day-old rice is mandatory: the grain has lost moisture and fries loose. Hot fresh rice releases steam and goes soggy."),
+      T("Bacon dá gordura e crocância defumada; calabresa entra em pouca quantidade só pela páprica e pelo alho. Sem ela, compense com mais gengibre e shoyu.",
+        "El bacon da grasa y crujiente ahumado; la calabresa entra en poca cantidad solo por el pimentón y el ajo. Sin ella, compensa con más jengibre y salsa de soja.",
+        "Bacon brings fat and smoky crunch; the calabresa goes in small amounts only for its paprika and garlic. Without it, compensate with more ginger and soy."),
+      T("Sem miso: no calor da panela ele empelota, queima e vira pasta. Lugar dele é sopa, marinada ou molho de tigela.",
+        "Sin miso: con el calor de la sartén se apelmaza, se quema y se vuelve pasta. Su lugar es la sopa, una marinada o una salsa de bol.",
+        "No miso: in the heat of the pan it clumps, burns and turns to paste. Its place is soup, a marinade or a bowl sauce."),
+      T("Quatro fontes de sódio juntas — bacon, calabresa, shoyu e aji. Prove antes de pensar em sal.",
+        "Cuatro fuentes de sodio juntas — bacon, calabresa, soja y glutamato. Prueba antes de pensar en la sal.",
+        "Four sources of sodium at once — bacon, sausage, soy and MSG. Taste before you even think about salt."),
     ],
   },
+
   {
     id: "risone-camarao",
     capitulo: "arroz",
-    titulo: "Risone de camarão ao limão",
-    kicker: "RISOTTATO · SEM QUEIJO · CREMOSO PELO AMIDO",
-    subtitulo: "Camarão já cozido só reaquece no fim. O hondashi supre o fundo marinho que falta.",
+    titulo: T("Risone de camarão ao limão", "Risoni de gambas al limón", "Lime prawn orzo"),
+    kicker: T("RISOTTATO · SEM QUEIJO · CREMOSO PELO AMIDO", "RISOTTATO · SIN QUESO · CREMOSO POR EL ALMIDÓN", "RISOTTATO · NO CHEESE · CREAMY FROM THE STARCH"),
+    subtitulo: T(
+      "Camarão já cozido só reaquece no fim. O hondashi supre o fundo marinho que falta.",
+      "Las gambas ya cocidas solo se recalientan al final. El hondashi aporta el fondo marino que falta.",
+      "Pre-cooked prawns only reheat at the end. The hondashi supplies the sea flavour that is missing."
+    ),
     porcoes: 2, porcoesOpcoes: [2, 4], ativo: 25, total: 30,
-    utensilio: "Frigideira grande, borda de 4–5 cm",
-    faixa: "PARE NO AL DENTE, MESMO QUE SOBRE CALDO",
+    utensilio: T("Frigideira grande, borda de 4–5 cm", "Sartén grande, borde de 4–5 cm", "Large pan, 4–5 cm sides"),
+    faixa: T("PARE NO AL DENTE, MESMO QUE SOBRE CALDO", "PARA EN EL AL DENTE, AUNQUE SOBRE CALDO", "STOP AT AL DENTE, EVEN IF STOCK IS LEFT"),
     ingredientes: [
-      { q: 600, u: "ml", nome: "água quente", obs: "+ chaleira de reserva" },
-      { q: 1, u: "tablete", alt: { q: 10, u: "g" }, nome: "caldo de legumes" },
-      { q: 1, u: "col. chá", alt: { q: 4, u: "g" }, nome: "hondashi", obs: "até 1½ se quiser mais marcado" },
-      { q: 3, u: "col. sopa", alt: { q: 45, u: "ml" }, nome: "azeite", obs: "+ um fio para finalizar" },
-      { q: 0.5, u: "un", alt: { q: 70, u: "g" }, nome: "cebola média", obs: "picada fininha" },
-      { q: 2, u: "dentes", alt: { q: 10, u: "g" }, nome: "alho" },
-      { q: 160, u: "g", nome: "risone", obs: "orzo" },
-      { q: 90, u: "g", nome: "vagem congelada", obs: "em pedaços de 2 cm" },
-      { q: 300, u: "g", nome: "camarão cozido descascado", obs: "descongelado e bem escorrido" },
-      { q: 1, u: "un", alt: { q: 60, u: "g" }, nome: "limão-taíti", obs: "raspas + suco" },
-      { q: 1, u: "col. chá", alt: { q: 3, u: "g" }, nome: "lemon pepper" },
-      { q: null, u: "", nome: "sal", obs: "só se precisar, no fim", escala: false },
+      { q: 600, u: "ml", nome: T("água quente", "agua caliente", "hot water"), obs: T("+ chaleira de reserva", "+ hervidor de reserva", "+ a kettle in reserve") },
+      { q: 1, u: "tablete", alt: { q: 10, u: "g" }, nome: T("caldo de legumes", "caldo de verduras", "vegetable stock") },
+      { q: 1, u: "cc", alt: { q: 4, u: "g" }, nome: T("hondashi", "hondashi (dashi en polvo)", "hondashi (instant dashi)"), obs: T("até 1½ se quiser mais marcado", "hasta 1½ si lo quieres más marcado", "up to 1½ for a stronger note") },
+      { q: 3, u: "cs", alt: { q: 45, u: "ml" }, nome: T("azeite", "aceite de oliva", "olive oil"), obs: T("+ um fio para finalizar", "+ un chorrito para terminar", "+ a drizzle to finish") },
+      { q: 0.5, u: "un", alt: { q: 70, u: "g" }, nome: T("cebola média", "cebolla mediana", "medium onion"), obs: T("picada fininha", "picada muy fina", "very finely chopped") },
+      { q: 2, u: "dente", alt: { q: 10, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 160, u: "g", nome: T("risone", "risoni", "orzo"), obs: T("orzo", "orzo", "risoni") },
+      { q: 90, u: "g", nome: T("vagem congelada", "judías verdes congeladas", "frozen green beans"), obs: T("em pedaços de 2 cm", "en trozos de 2 cm", "in 2 cm pieces") },
+      { q: 300, u: "g", nome: T("camarão cozido descascado", "gambas cocidas peladas", "cooked peeled prawns"), obs: T("descongelado e bem escorrido", "descongeladas y bien escurridas", "thawed and well drained") },
+      { q: 1, u: "un", alt: { q: 60, u: "g" }, nome: T("limão-taíti", "lima (limón verde)", "lime"), obs: T("raspas + suco", "ralladura + zumo", "zest + juice") },
+      { q: 1, u: "cc", alt: { q: 3, u: "g" }, nome: T("lemon pepper", "lemon pepper", "lemon pepper") },
+      { q: null, u: "", nome: T("sal", "sal", "salt"), obs: T("só se precisar, no fim", "solo si hace falta, al final", "only if needed, at the end"), escala: false },
     ],
     grade: [
-      { col: 1, de: 0, ate: 2, titulo: "caldo quente ao lado", detalhe: "dissolver tablete e hondashi" },
-      { col: 2, de: 3, ate: 5, titulo: "refogar cebola e alho", detalhe: "médio-baixo · sem dourar" },
-      { col: 3, de: 3, ate: 6, titulo: "tostar o risone", detalhe: "1–2 min · até perfumar" },
-      { col: 4, de: 0, ate: 6, titulo: "caldo concha a concha", detalhe: "esperar absorver antes da próxima" },
-      { col: 5, de: 0, ate: 7, titulo: "vagem congelada", detalhe: "6–7 min antes do fim" },
-      { col: 6, de: 0, ate: 8, titulo: "camarão, fogo mínimo", detalhe: "1–2 min só para aquecer" },
-      { col: 7, de: 0, ate: 11, titulo: "fora do fogo", detalhe: "raspas, suco, lemon pepper, azeite · provar" },
+      { col: 1, de: 0, ate: 2, titulo: T("caldo quente ao lado", "caldo caliente al lado", "hot stock alongside"), detalhe: T("dissolver tablete e hondashi", "disolver pastilla y hondashi", "dissolve the cube and hondashi") },
+      { col: 2, de: 3, ate: 5, titulo: T("refogar cebola e alho", "sofreír cebolla y ajo", "sweat onion and garlic"), detalhe: T("médio-baixo · sem dourar", "medio-bajo · sin dorar", "medium-low · no colour") },
+      { col: 3, de: 3, ate: 6, titulo: T("tostar o risone", "tostar el risoni", "toast the orzo"), detalhe: T("1–2 min · até perfumar", "1–2 min · hasta que perfume", "1–2 min · until fragrant") },
+      { col: 4, de: 0, ate: 6, titulo: T("caldo concha a concha", "caldo cucharón a cucharón", "stock a ladle at a time"), detalhe: T("esperar absorver antes da próxima", "esperar que absorba antes del siguiente", "wait for it to absorb before the next") },
+      { col: 5, de: 0, ate: 7, titulo: T("vagem congelada", "judías congeladas", "frozen beans"), detalhe: T("6–7 min antes do fim", "6–7 min antes del final", "6–7 min before the end") },
+      { col: 6, de: 0, ate: 8, titulo: T("camarão, fogo mínimo", "gambas, fuego mínimo", "prawns, minimum heat"), detalhe: T("1–2 min só para aquecer", "1–2 min solo para calentar", "1–2 min just to warm through") },
+      { col: 7, de: 0, ate: 11, titulo: T("fora do fogo", "fuera del fuego", "off the heat"), detalhe: T("raspas, suco, lemon pepper, azeite · provar", "ralladura, zumo, lemon pepper, aceite · probar", "zest, juice, lemon pepper, oil · taste") },
     ],
     modo: [
-      { t: "Aqueça os 600 ml de água com o tablete de legumes e o hondashi até dissolver. Mantenha quente em fogo baixo ao lado, com uma chaleira de água quente de reserva." },
-      { t: "Escorra o camarão muito bem e seque com papel-toalha. Ele já vem cozido — entra só no fim. Reserve." },
-      { t: "Azeite em fogo médio-baixo, refogue a cebola até translúcida. Junte o alho e refogue 1 minuto, sem dourar — nessa boca o alho queima em segundos." },
-      { t: "Junte o risone seco e mexa 1 a 2 minutos em fogo médio, até perfumar e dourar de leve. Dá sabor e segura o ponto.", timer: 90 },
-      { t: "Adicione o caldo quente concha a concha, mexendo e esperando absorver antes da próxima. Fogo médio, borbulhar constante e alegre." },
-      { t: "Uns 6 a 7 minutos antes do fim, junte a vagem ainda congelada, direto na panela.", timer: 400 },
-      { t: "Comece a provar aos 7 ou 8 minutos. Risone é rápido — pare no al dente, mesmo que sobre caldo. O ponto manda, não o relógio." },
-      { t: "Fogo no mínimo ou desligado. Junte o camarão só para aquecer, 1 a 2 minutos. Nunca mais que isso.", timer: 90 },
-      { t: "Fora do fogo: raspas e metade do suco do limão, lemon pepper, um fio de azeite. Mexa bem para ficar cremoso e solto (all'onda); se precisar, mais uma concha de caldo. Prove antes de pensar em sal." },
-      { t: "Sirva na hora — risone continua absorvendo e engrossa parado." },
+      { t: T(
+        "Aqueça os 600 ml de água com o tablete de legumes e o hondashi até dissolver. Mantenha quente em fogo baixo ao lado, com uma chaleira de água quente de reserva.",
+        "Calienta los 600 ml de agua con la pastilla de caldo y el hondashi hasta disolver. Mantenlo caliente a fuego bajo al lado, con un hervidor de agua caliente de reserva.",
+        "Heat the 600 ml of water with the stock cube and hondashi until dissolved. Keep it hot on low heat beside you, with a kettle of hot water in reserve.") },
+      { t: T(
+        "Escorra o camarão muito bem e seque com papel-toalha. Ele já vem cozido — entra só no fim. Reserve.",
+        "Escurre muy bien las gambas y sécalas con papel de cocina. Ya vienen cocidas — entran solo al final. Resérvalas.",
+        "Drain the prawns thoroughly and pat them dry. They come pre-cooked — they go in only at the end. Set aside.") },
+      { t: T(
+        "Azeite em fogo médio-baixo, refogue a cebola até translúcida. Junte o alho e refogue 1 minuto, sem dourar — nessa boca o alho queima em segundos.",
+        "Aceite a fuego medio-bajo, sofríe la cebolla hasta que esté translúcida. Añade el ajo y sofríe 1 minuto, sin dorar — en ese quemador el ajo se quema en segundos.",
+        "Olive oil over medium-low heat, sweat the onion until translucent. Add the garlic and cook 1 minute without colouring — on this burner garlic burns in seconds.") },
+      { t: T(
+        "Junte o risone seco e mexa 1 a 2 minutos em fogo médio, até perfumar e dourar de leve. Dá sabor e segura o ponto.",
+        "Añade el risoni seco y remueve 1 a 2 minutos a fuego medio, hasta que perfume y dore ligeramente. Da sabor y sujeta el punto.",
+        "Add the dry orzo and stir 1 to 2 minutes over medium heat, until fragrant and lightly coloured. It builds flavour and helps hold the bite."), timer: 90 },
+      { t: T(
+        "Adicione o caldo quente concha a concha, mexendo e esperando absorver antes da próxima. Fogo médio, borbulhar constante e alegre.",
+        "Añade el caldo caliente cucharón a cucharón, removiendo y esperando que absorba antes del siguiente. Fuego medio, burbujeo constante y alegre.",
+        "Add the hot stock a ladle at a time, stirring and waiting for it to absorb before the next. Medium heat, a steady cheerful bubble.") },
+      { t: T(
+        "Uns 6 a 7 minutos antes do fim, junte a vagem ainda congelada, direto na panela.",
+        "Unos 6 a 7 minutos antes del final, añade las judías aún congeladas, directo a la sartén.",
+        "About 6 to 7 minutes before the end, add the beans straight from the freezer."), timer: 400 },
+      { t: T(
+        "Comece a provar aos 7 ou 8 minutos. Risone é rápido — pare no al dente, mesmo que sobre caldo. O ponto manda, não o relógio.",
+        "Empieza a probar a los 7 u 8 minutos. El risoni es rápido — para en el al dente, aunque sobre caldo. Manda el punto, no el reloj.",
+        "Start tasting at 7 or 8 minutes. Orzo is fast — stop at al dente, even if stock is left. Doneness rules, not the clock.") },
+      { t: T(
+        "Fogo no mínimo ou desligado. Junte o camarão só para aquecer, 1 a 2 minutos. Nunca mais que isso.",
+        "Fuego al mínimo o apagado. Añade las gambas solo para calentar, 1 a 2 minutos. Nunca más que eso.",
+        "Minimum heat or off. Add the prawns just to warm through, 1 to 2 minutes. Never longer."), timer: 90 },
+      { t: T(
+        "Fora do fogo: raspas e metade do suco do limão, lemon pepper, um fio de azeite. Mexa bem para ficar cremoso e solto (all'onda); se precisar, mais uma concha de caldo. Prove antes de pensar em sal.",
+        "Fuera del fuego: ralladura y la mitad del zumo de la lima, lemon pepper, un chorrito de aceite. Remueve bien para que quede cremoso y suelto (all'onda); si hace falta, otro cucharón de caldo. Prueba antes de pensar en la sal.",
+        "Off the heat: zest and half the lime juice, lemon pepper, a drizzle of oil. Stir well so it stays creamy and loose (all'onda); add another ladle of stock if needed. Taste before you even think about salt.") },
+      { t: T(
+        "Sirva na hora — risone continua absorvendo e engrossa parado.",
+        "Sirve al momento — el risoni sigue absorbiendo y espesa si se queda quieto.",
+        "Serve immediately — orzo keeps absorbing and thickens as it sits.") },
     ],
     notas: [
-      "600 ml, não 700: o que entra de fato são uns 500 a 550 ml, o resto é folga. O erro é despejar tudo de uma vez e afogar a massa.",
-      "Frigideira larga e baixa cozinha numa camada fina e solta amido melhor. Panela funda empilha a massa e empapa embaixo.",
-      "Caldo de carne fica de fora: sabor de boi briga com o camarão.",
-      "Uma colherzinha de manteiga gelada batida no fim deixa mais sedoso, se quiser.",
+      T("600 ml, não 700: o que entra de fato são uns 500 a 550 ml, o resto é folga. O erro é despejar tudo de uma vez e afogar a massa.",
+        "600 ml, no 700: lo que entra de verdad son unos 500 a 550 ml, el resto es margen. El error es echarlo todo de golpe y ahogar la pasta.",
+        "600 ml, not 700: what actually goes in is around 500 to 550 ml, the rest is slack. The mistake is dumping it all at once and drowning the pasta."),
+      T("Frigideira larga e baixa cozinha numa camada fina e solta amido melhor. Panela funda empilha a massa e empapa embaixo.",
+        "Una sartén ancha y baja cocina en una capa fina y suelta mejor el almidón. Una olla honda amontona la pasta y la apelmaza abajo.",
+        "A wide, shallow pan cooks in a thin layer and releases starch better. A deep pot piles the pasta up and it goes soggy underneath."),
+      T("Caldo de carne fica de fora: sabor de boi briga com o camarão.",
+        "El caldo de carne queda fuera: el sabor a vacuno pelea con las gambas.",
+        "Beef stock stays out of this: beef flavour fights the prawns."),
+      T("Uma colherzinha de manteiga gelada batida no fim deixa mais sedoso, se quiser.",
+        "Una cucharadita de mantequilla fría batida al final lo deja más sedoso, si quieres.",
+        "A small knob of cold butter whisked in at the end makes it silkier, if you like."),
     ],
   },
 
@@ -783,94 +1555,166 @@ const RECEITAS = [
   {
     id: "escabeche-sardinha",
     capitulo: "conservas",
-    titulo: "Escabeche de sardinha",
-    kicker: "PETISCO · MELHOR NO DIA SEGUINTE · NUNCA REAQUECE",
-    subtitulo: "Frita rápido e curte num banho morno de vinagre, azeite e aromáticos.",
+    titulo: T("Escabeche de sardinha", "Escabeche de sardinas", "Sardine escabeche"),
+    kicker: T("PETISCO · MELHOR NO DIA SEGUINTE · NUNCA REAQUECE", "TAPA · MEJOR AL DÍA SIGUIENTE · NUNCA SE RECALIENTA", "SNACK · BETTER THE NEXT DAY · NEVER REHEATED"),
+    subtitulo: T(
+      "Frita rápido e curte num banho morno de vinagre, azeite e aromáticos.",
+      "Se fríe rápido y se cura en un baño tibio de vinagre, aceite y aromáticos.",
+      "Fried fast, then cured in a warm bath of vinegar, oil and aromatics."
+    ),
     porcoes: 4, porcoesOpcoes: [2, 4, 8], ativo: 40, total: 280,
-    utensilio: "Refratário de vidro ou cerâmica",
-    faixa: "RECIPIENTE NÃO-REATIVO · TUDO SUBMERSO",
+    utensilio: T("Refratário de vidro ou cerâmica", "Fuente de vidrio o cerámica", "Glass or ceramic dish"),
+    faixa: T("RECIPIENTE NÃO-REATIVO · TUDO SUBMERSO", "RECIPIENTE NO REACTIVO · TODO SUMERGIDO", "NON-REACTIVE DISH · EVERYTHING SUBMERGED"),
     ingredientes: [
-      { q: 600, u: "g", nome: "sardinha fresca", obs: "espalmada" },
-      { q: 1, u: "col. chá", alt: { q: 6, u: "g" }, nome: "sal e pimenta", obs: "dos dois lados" },
-      { q: 2, u: "col. sopa", alt: { q: 20, u: "g" }, nome: "farinha de trigo", obs: "opcional, para empanar leve" },
-      { q: 120, u: "ml", nome: "azeite de oliva" },
-      { q: 2, u: "un", alt: { q: 280, u: "g" }, nome: "cebolas médias", obs: "em meia-lua fina" },
-      { q: 4, u: "dentes", alt: { q: 20, u: "g" }, nome: "alho", obs: "fatiados" },
-      { q: 1, u: "un", alt: { q: 80, u: "g" }, nome: "cenoura pequena", obs: "em rodelas finas, opcional" },
-      { q: 2, u: "folhas", alt: { q: 1, u: "g" }, nome: "louro" },
-      { q: 1, u: "col. chá", alt: { q: 3, u: "g" }, nome: "pimenta-do-reino em grãos" },
-      { q: 120, u: "ml", nome: "vinagre de vinho branco", obs: "ou de arroz, mais suave" },
-      { q: 60, u: "ml", nome: "vinho branco seco", obs: "opcional" },
-      { q: 60, u: "ml", nome: "água" },
-      { q: 1, u: "col. chá", alt: { q: 4, u: "g" }, nome: "açúcar", obs: "equilibra a acidez" },
-      { q: null, u: "", nome: "salsinha", obs: "picada, para servir" },
+      { q: 600, u: "g", nome: T("sardinha fresca", "sardinas frescas", "fresh sardines"), obs: T("espalmada", "abiertas en mariposa", "butterflied") },
+      { q: 1, u: "cc", alt: { q: 6, u: "g" }, nome: T("sal e pimenta", "sal y pimienta", "salt and pepper"), obs: T("dos dois lados", "por ambos lados", "on both sides") },
+      { q: 2, u: "cs", alt: { q: 20, u: "g" }, nome: T("farinha de trigo", "harina de trigo", "plain flour"), obs: T("opcional, para empanar leve", "opcional, para enharinar ligero", "optional, a light dusting") },
+      { q: 120, u: "ml", nome: T("azeite de oliva", "aceite de oliva", "olive oil") },
+      { q: 2, u: "un", alt: { q: 280, u: "g" }, nome: T("cebolas médias", "cebollas medianas", "medium onions"), obs: T("em meia-lua fina", "en media luna fina", "in thin half-moons") },
+      { q: 4, u: "dente", alt: { q: 20, u: "g" }, nome: T("alho", "ajo", "garlic"), obs: T("fatiados", "en láminas", "sliced") },
+      { q: 1, u: "un", alt: { q: 80, u: "g" }, nome: T("cenoura pequena", "zanahoria pequeña", "small carrot"), obs: T("em rodelas finas, opcional", "en rodajas finas, opcional", "thinly sliced, optional") },
+      { q: 2, u: "folha", alt: { q: 1, u: "g" }, nome: T("louro", "laurel", "bay") },
+      { q: 1, u: "cc", alt: { q: 3, u: "g" }, nome: T("pimenta-do-reino em grãos", "pimienta negra en grano", "black peppercorns") },
+      { q: 120, u: "ml", nome: T("vinagre de vinho branco", "vinagre de vino blanco", "white wine vinegar"), obs: T("ou de arroz, mais suave", "o de arroz, más suave", "or rice vinegar, milder") },
+      { q: 60, u: "ml", nome: T("vinho branco seco", "vino blanco seco", "dry white wine"), obs: T("opcional", "opcional", "optional") },
+      { q: 60, u: "ml", nome: T("água", "agua", "water") },
+      { q: 1, u: "cc", alt: { q: 4, u: "g" }, nome: T("açúcar", "azúcar", "sugar"), obs: T("equilibra a acidez", "equilibra la acidez", "balances the acidity") },
+      { q: null, u: "", nome: T("salsinha", "perejil", "parsley"), obs: T("picada, para servir", "picado, para servir", "chopped, to serve") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 1, titulo: "secar e temperar", detalhe: "papel-toalha · dos dois lados" },
-      { col: 2, de: 0, ate: 3, titulo: "fritar em levas", detalhe: "1–2 min por lado · só dourar" },
-      { col: 3, de: 3, ate: 8, titulo: "refogar os aromáticos", detalhe: "médio-baixo · cebola translúcida" },
-      { col: 4, de: 3, ate: 12, titulo: "vinagre, vinho, água e açúcar", detalhe: "ferver brando 2–3 min · provar" },
-      { col: 5, de: 0, ate: 12, titulo: "cobrir as sardinhas", detalhe: "morno · o mais submerso possível" },
-      { col: 6, de: 0, ate: 13, titulo: "amornar e gelar", detalhe: "mín. 4 h · vira a partir de ~12 h" },
+      { col: 1, de: 0, ate: 1, titulo: T("secar e temperar", "secar y sazonar", "dry and season"), detalhe: T("papel-toalha · dos dois lados", "papel de cocina · por ambos lados", "paper towel · both sides") },
+      { col: 2, de: 0, ate: 3, titulo: T("fritar em levas", "freír en tandas", "fry in batches"), detalhe: T("1–2 min por lado · só dourar", "1–2 min por lado · solo dorar", "1–2 min per side · just to colour") },
+      { col: 3, de: 3, ate: 8, titulo: T("refogar os aromáticos", "sofreír los aromáticos", "sweat the aromatics"), detalhe: T("médio-baixo · cebola translúcida", "medio-bajo · cebolla translúcida", "medium-low · onion translucent") },
+      { col: 4, de: 3, ate: 12, titulo: T("vinagre, vinho, água e açúcar", "vinagre, vino, agua y azúcar", "vinegar, wine, water and sugar"), detalhe: T("ferver brando 2–3 min · provar", "hervir suave 2–3 min · probar", "gentle simmer 2–3 min · taste") },
+      { col: 5, de: 0, ate: 12, titulo: T("cobrir as sardinhas", "cubrir las sardinas", "cover the sardines"), detalhe: T("morno · o mais submerso possível", "tibio · lo más sumergido posible", "warm · as submerged as possible") },
+      { col: 6, de: 0, ate: 13, titulo: T("amornar e gelar", "atemperar y enfriar", "cool and chill"), detalhe: T("mín. 4 h · vira a partir de ~12 h", "mín. 4 h · mejora a partir de ~12 h", "min. 4 h · comes into its own after ~12 h") },
     ],
     modo: [
-      { t: "Seque bem as sardinhas com papel-toalha e tempere com sal e pimenta dos dois lados." },
-      { t: "Se quiser, passe leve na farinha e sacuda o excesso. Frite no azeite bem quente, em levas sem lotar a panela, 1 a 2 minutos por lado, só até dourar de leve. Retire para um refratário de vidro ou cerâmica.", timer: 180 },
-      { t: "No mesmo azeite, em fogo médio-baixo, refogue a cebola, a cenoura, o alho, o louro e a pimenta em grão até a cebola ficar macia e translúcida — sem dourar muito." },
-      { t: "Junte o vinagre, o vinho, a água e o açúcar. Ferva brando 2 a 3 minutos, só para tirar o ardido cru do vinagre. Prove e equilibre acidez e sal.", timer: 150 },
-      { t: "Despeje o escabeche morno sobre as sardinhas, deixando-as o mais cobertas possível pelo líquido e pela cebola." },
-      { t: "Deixe amornar 20 a 30 minutos na bancada — não horas —, tampe e leve à geladeira. Descansa no mínimo 4 horas; vira a partir de umas 12.", timer: 1500 },
+      { t: T(
+        "Seque bem as sardinhas com papel-toalha e tempere com sal e pimenta dos dois lados.",
+        "Seca bien las sardinas con papel de cocina y sazona con sal y pimienta por ambos lados.",
+        "Dry the sardines well with paper towel and season with salt and pepper on both sides.") },
+      { t: T(
+        "Se quiser, passe leve na farinha e sacuda o excesso. Frite no azeite bem quente, em levas sem lotar a panela, 1 a 2 minutos por lado, só até dourar de leve. Retire para um refratário de vidro ou cerâmica.",
+        "Si quieres, pásalas ligeramente por harina y sacude el exceso. Fríelas en aceite bien caliente, en tandas sin llenar la sartén, 1 a 2 minutos por lado, solo hasta dorar ligeramente. Retíralas a una fuente de vidrio o cerámica.",
+        "If you like, dust them lightly with flour and shake off the excess. Fry in very hot oil, in batches without crowding, 1 to 2 minutes per side, just until lightly golden. Transfer to a glass or ceramic dish."), timer: 180 },
+      { t: T(
+        "No mesmo azeite, em fogo médio-baixo, refogue a cebola, a cenoura, o alho, o louro e a pimenta em grão até a cebola ficar macia e translúcida — sem dourar muito.",
+        "En el mismo aceite, a fuego medio-bajo, sofríe la cebolla, la zanahoria, el ajo, el laurel y la pimienta en grano hasta que la cebolla esté blanda y translúcida — sin dorar demasiado.",
+        "In the same oil, over medium-low heat, sweat the onion, carrot, garlic, bay and peppercorns until the onion is soft and translucent — without much colour.") },
+      { t: T(
+        "Junte o vinagre, o vinho, a água e o açúcar. Ferva brando 2 a 3 minutos, só para tirar o ardido cru do vinagre. Prove e equilibre acidez e sal.",
+        "Añade el vinagre, el vino, el agua y el azúcar. Hierve suave 2 a 3 minutos, solo para quitar el ardor crudo del vinagre. Prueba y equilibra acidez y sal.",
+        "Add the vinegar, wine, water and sugar. Simmer gently for 2 to 3 minutes, just to take the raw bite off the vinegar. Taste and balance acidity and salt."), timer: 150 },
+      { t: T(
+        "Despeje o escabeche morno sobre as sardinhas, deixando-as o mais cobertas possível pelo líquido e pela cebola.",
+        "Vierte el escabeche tibio sobre las sardinas, dejándolas lo más cubiertas posible por el líquido y la cebolla.",
+        "Pour the warm escabeche over the sardines, leaving them as covered as possible by the liquid and the onion.") },
+      { t: T(
+        "Deixe amornar 20 a 30 minutos na bancada — não horas —, tampe e leve à geladeira. Descansa no mínimo 4 horas; vira a partir de umas 12.",
+        "Deja atemperar 20 a 30 minutos en la encimera — no horas —, tapa y lleva a la nevera. Reposa mínimo 4 horas; se transforma a partir de unas 12.",
+        "Let it cool 20 to 30 minutes on the counter — not hours — then cover and refrigerate. Rest at least 4 hours; it comes into its own after about 12."), timer: 1500 },
     ],
     notas: [
-      "Come frio ou em temperatura ambiente, sem reaquecer, com pão. Aguenta 4 a 5 dias na geladeira e melhora no dia seguinte.",
-      "Para presente: fritar no fim da tarde e entregar na manhã seguinte dá 14 a 16 h de cura, a melhor janela.",
-      "Azeite, não banha: a banha solidifica e embranquece na geladeira.",
-      "Nunca alumínio ou ferro — o vinagre reage com metal e deixa gosto metálico.",
-      "As espinhas finas amolecem no ácido em cerca de um dia e ficam comestíveis.",
-      "Com vinagre de arroz, mais suave e adocicado, pode tirar o açúcar.",
+      T("Come frio ou em temperatura ambiente, sem reaquecer, com pão. Aguenta 4 a 5 dias na geladeira e melhora no dia seguinte.",
+        "Se come frío o a temperatura ambiente, sin recalentar, con pan. Aguanta 4 a 5 días en la nevera y mejora al día siguiente.",
+        "Eaten cold or at room temperature, never reheated, with bread. Keeps 4 to 5 days in the fridge and improves the next day."),
+      T("Para presente: fritar no fim da tarde e entregar na manhã seguinte dá 14 a 16 h de cura, a melhor janela.",
+        "Para regalar: freír al final de la tarde y entregar a la mañana siguiente da 14 a 16 h de curado, la mejor ventana.",
+        "As a gift: frying late afternoon and delivering the next morning gives 14 to 16 hours of curing, the best window."),
+      T("Azeite, não banha: a banha solidifica e embranquece na geladeira.",
+        "Aceite de oliva, no manteca: la manteca solidifica y blanquea en la nevera.",
+        "Olive oil, not lard: lard sets solid and turns white in the fridge."),
+      T("Nunca alumínio ou ferro — o vinagre reage com metal e deixa gosto metálico.",
+        "Nunca aluminio ni hierro — el vinagre reacciona con el metal y deja sabor metálico.",
+        "Never aluminium or iron — vinegar reacts with metal and leaves a metallic taste."),
+      T("As espinhas finas amolecem no ácido em cerca de um dia e ficam comestíveis.",
+        "Las espinas finas se ablandan en el ácido en cerca de un día y quedan comestibles.",
+        "The fine bones soften in the acid in about a day and become edible."),
+      T("Com vinagre de arroz, mais suave e adocicado, pode tirar o açúcar.",
+        "Con vinagre de arroz, más suave y dulzón, puedes quitar el azúcar.",
+        "With rice vinegar, milder and sweeter, you can leave out the sugar."),
     ],
   },
+
   {
     id: "molho-pimenta",
     capitulo: "conservas",
-    titulo: "Molho de pimenta lacto-fermentado",
-    kicker: "DEDO-DE-MOÇA + MALAGUETA · CALIBRADO NO MÉDIO",
-    subtitulo: "Estilo Tabasco brasileiro: base frutada, malagueta como único calor. Rende 450–550 ml.",
-    porcoes: 500, porcoesOpcoes: [500, 1000], ativo: 40, total: 10080,
-    utensilio: "Pote ou garrafa de vidro limpo",
-    faixa: "SAL A 3% DO PESO DE PIMENTA + ÁGUA · TUDO SUBMERSO",
+    titulo: T("Molho de pimenta lacto-fermentado", "Salsa picante lacto-fermentada", "Lacto-fermented hot sauce"),
+    kicker: T("DEDO-DE-MOÇA + MALAGUETA · CALIBRADO NO MÉDIO", "DEDO-DE-MOÇA + MALAGUETA · CALIBRADO EN MEDIO", "DEDO-DE-MOÇA + MALAGUETA · CALIBRATED TO MEDIUM"),
+    subtitulo: T(
+      "Estilo Tabasco brasileiro: base frutada, malagueta como único calor. Rende 450–550 ml.",
+      "Estilo Tabasco brasileño: base afrutada, malagueta como único picor. Rinde 450–550 ml.",
+      "Brazilian Tabasco style: fruity base, malagueta as the only heat. Makes 450–550 ml."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 40, total: 10080,
+    rende: T("450–550 ml", "450–550 ml", "450–550 ml"),
+    utensilio: T("Pote ou garrafa de vidro limpo", "Frasco o botella de vidrio limpio", "Clean glass jar or bottle"),
+    faixa: T("SAL A 3% DO PESO DE PIMENTA + ÁGUA · TUDO SUBMERSO", "SAL AL 3% DEL PESO DE CHILE + AGUA · TODO SUMERGIDO", "SALT AT 3% OF CHILLI + WATER WEIGHT · EVERYTHING SUBMERGED"),
     ingredientes: [
-      { q: 346, u: "g", nome: "pimenta dedo-de-moça", obs: "fresca, já limpa" },
-      { q: 40, u: "g", nome: "pimenta malagueta", obs: "o botão de volume — calibre provando" },
-      { q: 5, u: "dentes", alt: { q: 25, u: "g" }, nome: "alho" },
-      { q: 380, u: "ml", nome: "água filtrada", obs: "o suficiente para submergir" },
-      { q: 23, u: "g", nome: "sal", obs: "3% do peso de pimenta + água" },
-      { q: 45, u: "ml", nome: "vinagre de arroz ou de maçã", obs: "só no fim, a gosto" },
+      { q: 346, u: "g", nome: T("pimenta dedo-de-moça", "chile dedo-de-moça (tipo cayena fresca)", "dedo-de-moça chilli (fresh cayenne-like)"), obs: T("fresca, já limpa", "fresco, ya limpio", "fresh, trimmed") },
+      { q: 40, u: "g", nome: T("pimenta malagueta", "chile malagueta (piri-piri)", "malagueta (piri-piri) chilli"), obs: T("o botão de volume — calibre provando", "el mando del volumen — calíbralo probando", "the volume knob — calibrate by tasting") },
+      { q: 5, u: "dente", alt: { q: 25, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 380, u: "ml", nome: T("água filtrada", "agua filtrada", "filtered water"), obs: T("o suficiente para submergir", "la suficiente para sumergir", "enough to submerge") },
+      { q: 23, u: "g", nome: T("sal", "sal", "salt"), obs: T("3% do peso de pimenta + água", "3% del peso de chile + agua", "3% of chilli + water weight") },
+      { q: 45, u: "ml", nome: T("vinagre de arroz ou de maçã", "vinagre de arroz o de manzana", "rice or cider vinegar"), obs: T("só no fim, a gosto", "solo al final, al gusto", "only at the end, to taste") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 2, titulo: "picar grosso, na faca", detalhe: "sem cabinhos · com sementes · use luva" },
-      { col: 2, de: 0, ate: 2, titulo: "provar o blend cru", detalhe: "calibrar o calor com mais malagueta" },
-      { col: 3, de: 0, ate: 3, titulo: "cobrir com água", detalhe: "no pote limpo" },
-      { col: 4, de: 0, ate: 4, titulo: "pesar e salgar a 3%", detalhe: "do peso de pimenta + água" },
-      { col: 5, de: 0, ate: 4, titulo: "submergir, tampa frouxa", detalhe: "ambiente, longe do sol, num pratinho" },
-      { col: 6, de: 0, ate: 4, titulo: "fermentar", detalhe: "1 semana a alguns meses · provar do 5º dia" },
-      { col: 7, de: 0, ate: 5, titulo: "bater e engarrafar", detalhe: "acertar com vinagre · geladeira" },
+      { col: 1, de: 0, ate: 2, titulo: T("picar grosso, na faca", "picar grueso, a cuchillo", "chop coarsely, by knife"), detalhe: T("sem cabinhos · com sementes · use luva", "sin rabitos · con semillas · usa guante", "no stems · seeds in · wear a glove") },
+      { col: 2, de: 0, ate: 2, titulo: T("provar o blend cru", "probar la mezcla cruda", "taste the raw blend"), detalhe: T("calibrar o calor com mais malagueta", "calibrar el picor con más malagueta", "adjust heat with more malagueta") },
+      { col: 3, de: 0, ate: 3, titulo: T("cobrir com água", "cubrir con agua", "cover with water"), detalhe: T("no pote limpo", "en el frasco limpio", "in the clean jar") },
+      { col: 4, de: 0, ate: 4, titulo: T("pesar e salgar a 3%", "pesar y salar al 3%", "weigh and salt at 3%"), detalhe: T("do peso de pimenta + água", "del peso de chile + agua", "of the chilli + water weight") },
+      { col: 5, de: 0, ate: 4, titulo: T("submergir, tampa frouxa", "sumergir, tapa floja", "submerge, loose lid"), detalhe: T("ambiente, longe do sol, num pratinho", "ambiente, lejos del sol, sobre un platito", "room temperature, out of the sun, on a saucer") },
+      { col: 6, de: 0, ate: 4, titulo: T("fermentar", "fermentar", "ferment"), detalhe: T("1 semana a alguns meses · provar do 5º dia", "1 semana a unos meses · probar desde el 5º día", "1 week to a few months · taste from day 5") },
+      { col: 7, de: 0, ate: 5, titulo: T("bater e engarrafar", "triturar y embotellar", "blend and bottle"), detalhe: T("acertar com vinagre · geladeira", "ajustar con vinagre · nevera", "adjust with vinegar · refrigerate") },
     ],
     modo: [
-      { t: "Tire os cabinhos e pique grosso na faca, em rodelas. Nada de processador agora — purê vira outro método, sem água. Mantenha as sementes para o médio. Use luva com a malagueta, lave bem as mãos e não esfregue os olhos." },
-      { t: "Monte num pote ou garrafa bem limpo: dedo-de-moça, alho e a porção inicial de malagueta." },
-      { t: "Prove o blend cru e ajuste o calor com mais malagueta se quiser. Dá para subir, não para descer — e fermentar não tira ardência, só arredonda." },
-      { t: "Cubra com água até submergir. Pese o conjunto — pimenta mais água — e adicione 3% em sal. Dissolva bem." },
-      { t: "Mantenha tudo submerso: um saquinho limpo com salmoura a 3% dentro (não água pura) enfiado no gargalo faz peso e isola do ar. Nenhuma pimenta acima da linha do líquido — é ali que mofa." },
-      { t: "Tampa frouxa: a fermentação solta CO₂ e garrafa cheia transborda nos primeiros dias. Temperatura ambiente, longe do sol, num pratinho para aparar. Vai turvar e borbulhar — é o certo." },
-      { t: "Fermente de uma semana a alguns meses. Comece a provar do quinto ao sétimo dia; o ponto é o gosto." },
-      { t: "Para finalizar: escorra reservando a salmoura, bata as pimentas e o alho com um pouco dela, acerte com vinagre, engarrafe em vidro limpo e guarde na geladeira." },
+      { t: T(
+        "Tire os cabinhos e pique grosso na faca, em rodelas. Nada de processador agora — purê vira outro método, sem água. Mantenha as sementes para o médio. Use luva com a malagueta, lave bem as mãos e não esfregue os olhos.",
+        "Quita los rabitos y pica grueso a cuchillo, en rodajas. Nada de procesadora ahora — el puré es otro método, sin agua. Deja las semillas para el picor medio. Usa guante con la malagueta, lávate bien las manos y no te frotes los ojos.",
+        "Remove the stems and chop coarsely by knife, into rounds. No blender at this stage — a purée is a different method, without water. Keep the seeds for medium heat. Wear a glove with the malagueta, wash your hands well and do not rub your eyes.") },
+      { t: T(
+        "Monte num pote ou garrafa bem limpo: dedo-de-moça, alho e a porção inicial de malagueta.",
+        "Monta en un frasco o botella bien limpio: dedo-de-moça, ajo y la porción inicial de malagueta.",
+        "Layer into a scrupulously clean jar or bottle: dedo-de-moça, garlic and the starting amount of malagueta.") },
+      { t: T(
+        "Prove o blend cru e ajuste o calor com mais malagueta se quiser. Dá para subir, não para descer — e fermentar não tira ardência, só arredonda.",
+        "Prueba la mezcla cruda y ajusta el picor con más malagueta si quieres. Se puede subir, no bajar — y fermentar no quita picante, solo lo redondea.",
+        "Taste the raw blend and adjust the heat with more malagueta if you want. You can go up, not down — and fermenting does not remove heat, it only rounds it.") },
+      { t: T(
+        "Cubra com água até submergir. Pese o conjunto — pimenta mais água — e adicione 3% em sal. Dissolva bem.",
+        "Cubre con agua hasta sumergir. Pesa el conjunto — chile más agua — y añade 3% en sal. Disuelve bien.",
+        "Cover with water until submerged. Weigh the whole thing — chilli plus water — and add 3% salt. Dissolve it well.") },
+      { t: T(
+        "Mantenha tudo submerso: um saquinho limpo com salmoura a 3% dentro (não água pura) enfiado no gargalo faz peso e isola do ar. Nenhuma pimenta acima da linha do líquido — é ali que mofa.",
+        "Mantén todo sumergido: una bolsita limpia con salmuera al 3% dentro (no agua pura) metida en el cuello hace peso y aísla del aire. Ningún chile por encima de la línea del líquido — ahí es donde aparece el moho.",
+        "Keep everything submerged: a clean bag filled with 3% brine (not plain water) pushed into the neck acts as a weight and seals off the air. No chilli above the liquid line — that is where mould starts.") },
+      { t: T(
+        "Tampa frouxa: a fermentação solta CO₂ e garrafa cheia transborda nos primeiros dias. Temperatura ambiente, longe do sol, num pratinho para aparar. Vai turvar e borbulhar — é o certo.",
+        "Tapa floja: la fermentación suelta CO₂ y una botella llena se desborda los primeros días. Temperatura ambiente, lejos del sol, sobre un platito para recoger. Se pondrá turbio y burbujeará — es lo correcto.",
+        "Loose lid: fermentation releases CO₂ and a full bottle overflows in the first days. Room temperature, out of the sun, on a saucer to catch spills. It will cloud and bubble — that is right.") },
+      { t: T(
+        "Fermente de uma semana a alguns meses. Comece a provar do quinto ao sétimo dia; o ponto é o gosto.",
+        "Fermenta de una semana a unos meses. Empieza a probar del quinto al séptimo día; el punto es el gusto.",
+        "Ferment from one week to a few months. Start tasting from day five to seven; the endpoint is taste.") },
+      { t: T(
+        "Para finalizar: escorra reservando a salmoura, bata as pimentas e o alho com um pouco dela, acerte com vinagre, engarrafe em vidro limpo e guarde na geladeira.",
+        "Para terminar: escurre reservando la salmuera, tritura los chiles y el ajo con un poco de ella, ajusta con vinagre, embotella en vidrio limpio y guarda en la nevera.",
+        "To finish: drain, reserving the brine, blend the chillies and garlic with a little of it, adjust with vinegar, bottle in clean glass and keep refrigerated.") },
     ],
     notas: [
-      "Para escalar: malagueta a ~10% do peso da dedo-de-moça dá o médio; sal sempre 3% do peso de pimenta + água.",
-      "Kahm (película branca lisa) é levedura inofensiva, retire com a colher. Mofo — qualquer coisa felpuda, de qualquer cor — descarta o lote inteiro.",
-      "Pimenta de cheiro não substitui biquinho: é da família do habanero e pode arder absurdamente. Para perfume sem fogo, use biquinho.",
-      "Garrafa de gargalo estreito é o formato mais chato para manter submerso.",
+      T("Para escalar: malagueta a ~10% do peso da dedo-de-moça dá o médio; sal sempre 3% do peso de pimenta + água.",
+        "Para escalar: malagueta al ~10% del peso de la dedo-de-moça da el punto medio; sal siempre 3% del peso de chile + agua.",
+        "To scale: malagueta at ~10% of the dedo-de-moça weight gives medium heat; salt always 3% of chilli + water weight."),
+      T("Kahm (película branca lisa) é levedura inofensiva, retire com a colher. Mofo — qualquer coisa felpuda, de qualquer cor — descarta o lote inteiro.",
+        "El kahm (película blanca lisa) es levadura inofensiva, retíralo con la cuchara. El moho — cualquier cosa afelpada, de cualquier color — obliga a desechar el lote entero.",
+        "Kahm (a smooth white film) is a harmless yeast, spoon it off. Mould — anything fuzzy, any colour — means discarding the whole batch."),
+      T("Pimenta de cheiro não substitui biquinho: é da família do habanero e pode arder absurdamente. Para perfume sem fogo, use biquinho.",
+        "El chile de olor no sustituye al biquinho: es de la familia del habanero y puede picar absurdamente. Para perfume sin fuego, usa biquinho.",
+        "Pimenta de cheiro is not a substitute for biquinho: it is in the habanero family and can be brutally hot. For aroma without fire, use biquinho."),
+      T("Garrafa de gargalo estreito é o formato mais chato para manter submerso.",
+        "La botella de cuello estrecho es el formato más incómodo para mantener todo sumergido.",
+        "A narrow-necked bottle is the most awkward shape for keeping everything submerged."),
     ],
   },
 
@@ -878,37 +1722,607 @@ const RECEITAS = [
   {
     id: "quentao-mel",
     capitulo: "beber",
-    titulo: "Quentão com mel",
-    kicker: "SEM AÇÚCAR · O MEL ENTRA DISSOLVIDO NO FIM",
-    subtitulo: "Mel não caramela: queima rápido e vira acre. O custo da troca é só a cor.",
+    titulo: T("Quentão com mel", "Quentão con miel", "Quentão with honey"),
+    kicker: T("SEM AÇÚCAR · O MEL ENTRA DISSOLVIDO NO FIM", "SIN AZÚCAR · LA MIEL ENTRA DISUELTA AL FINAL", "NO SUGAR · THE HONEY DISSOLVES IN AT THE END"),
+    subtitulo: T(
+      "Mel não caramela: queima rápido e vira acre. O custo da troca é só a cor.",
+      "La miel no carameliza: se quema rápido y se vuelve acre. El costo del cambio es solo el color.",
+      "Honey does not caramelise: it burns fast and turns acrid. The cost of the swap is only colour."
+    ),
     porcoes: 6, porcoesOpcoes: [6, 12], ativo: 10, total: 30,
-    utensilio: "Panela",
-    faixa: "NADA DE CARAMELIZAR O MEL",
+    utensilio: T("Panela", "Olla", "Saucepan"),
+    faixa: T("NADA DE CARAMELIZAR O MEL", "NADA DE CARAMELIZAR LA MIEL", "DO NOT CARAMELISE THE HONEY"),
     ingredientes: [
-      { q: 750, u: "ml", nome: "água" },
-      { q: 80, u: "g", nome: "gengibre fresco", obs: "em fatias" },
-      { q: 3, u: "paus", alt: { q: 9, u: "g" }, nome: "canela" },
-      { q: 8, u: "un", alt: { q: 2, u: "g" }, nome: "cravos-da-índia" },
-      { q: 1, u: "un", alt: { q: 20, u: "g" }, nome: "casca de laranja" },
-      { q: 500, u: "ml", nome: "cachaça" },
-      { q: 120, u: "g", nome: "mel", obs: "ponto de partida — acerta provando" },
+      { q: 750, u: "ml", nome: T("água", "agua", "water") },
+      { q: 80, u: "g", nome: T("gengibre fresco", "jengibre fresco", "fresh ginger"), obs: T("em fatias", "en rodajas", "sliced") },
+      { q: 3, u: "pau", alt: { q: 9, u: "g" }, nome: T("canela", "canela", "cinnamon") },
+      { q: 8, u: "un", alt: { q: 2, u: "g" }, nome: T("cravos-da-índia", "clavos de olor", "cloves") },
+      { q: 1, u: "un", alt: { q: 20, u: "g" }, nome: T("casca de laranja", "piel de naranja", "orange peel") },
+      { q: 500, u: "ml", nome: T("cachaça", "cachaça", "cachaça") },
+      { q: 120, u: "g", nome: T("mel", "miel", "honey"), obs: T("ponto de partida — acerta provando", "punto de partida — ajusta probando", "starting point — adjust by tasting") },
     ],
     grade: [
-      { col: 1, de: 0, ate: 4, titulo: "infusão dos aromáticos", detalhe: "ferver e apurar 15 min em fogo baixo" },
-      { col: 2, de: 0, ate: 5, titulo: "cachaça, fogo baixo", detalhe: "5 min mantém o teor · 15+ suaviza" },
-      { col: 3, de: 0, ate: 6, titulo: "desligar e dissolver o mel", detalhe: "não ferver depois disso" },
-      { col: 4, de: 0, ate: 6, titulo: "coar e servir", detalhe: "bem quente, nas canecas" },
+      { col: 1, de: 0, ate: 4, titulo: T("infusão dos aromáticos", "infusión de los aromáticos", "infuse the aromatics"), detalhe: T("ferver e apurar 15 min em fogo baixo", "hervir y reducir 15 min a fuego bajo", "boil, then 15 min on low") },
+      { col: 2, de: 0, ate: 5, titulo: T("cachaça, fogo baixo", "cachaça, fuego bajo", "cachaça, low heat"), detalhe: T("5 min mantém o teor · 15+ suaviza", "5 min mantiene el grado · 15+ suaviza", "5 min keeps the strength · 15+ softens it") },
+      { col: 3, de: 0, ate: 6, titulo: T("desligar e dissolver o mel", "apagar y disolver la miel", "turn off and dissolve the honey"), detalhe: T("não ferver depois disso", "no hervir después de esto", "no boiling after this") },
+      { col: 4, de: 0, ate: 6, titulo: T("coar e servir", "colar y servir", "strain and serve"), detalhe: T("bem quente, nas canecas", "bien caliente, en tazas", "very hot, in mugs") },
     ],
     modo: [
-      { t: "Panela com a água, o gengibre, a canela, o cravo e a casca de laranja. Ferva, abaixe e apure uns 15 minutos em fogo baixo, para extrair o sabor das especiarias e do gengibre.", timer: 900 },
-      { t: "Acrescente a cachaça e mantenha em fogo baixo, sem ferver forte, para casar os sabores. Cinco minutos mantêm o teor alcoólico; quinze ou mais deixam bem mais suave.", timer: 300 },
-      { t: "Desligue — ou deixe no mínimo — e dissolva o mel mexendo. Não ferva depois disso, para não perder o aroma. Prove e acerte o doce: mel é mais marcante que açúcar." },
-      { t: "Coe e sirva bem quente, nas canecas." },
+      { t: T(
+        "Panela com a água, o gengibre, a canela, o cravo e a casca de laranja. Ferva, abaixe e apure uns 15 minutos em fogo baixo, para extrair o sabor das especiarias e do gengibre.",
+        "Olla con el agua, el jengibre, la canela, el clavo y la piel de naranja. Hierve, baja y reduce unos 15 minutos a fuego bajo, para extraer el sabor de las especias y del jengibre.",
+        "Pan with the water, ginger, cinnamon, cloves and orange peel. Bring to a boil, lower and simmer about 15 minutes, to draw out the flavour of the spices and ginger."), timer: 900 },
+      { t: T(
+        "Acrescente a cachaça e mantenha em fogo baixo, sem ferver forte, para casar os sabores. Cinco minutos mantêm o teor alcoólico; quinze ou mais deixam bem mais suave.",
+        "Añade la cachaça y mantén a fuego bajo, sin hervir fuerte, para casar los sabores. Cinco minutos mantienen el grado alcohólico; quince o más lo dejan mucho más suave.",
+        "Add the cachaça and keep it on low heat, without a hard boil, to marry the flavours. Five minutes keeps the alcohol; fifteen or more makes it much gentler."), timer: 300 },
+      { t: T(
+        "Desligue — ou deixe no mínimo — e dissolva o mel mexendo. Não ferva depois disso, para não perder o aroma. Prove e acerte o doce: mel é mais marcante que açúcar.",
+        "Apaga — o déjalo al mínimo — y disuelve la miel removiendo. No hiervas después de esto, para no perder el aroma. Prueba y ajusta el dulzor: la miel es más marcada que el azúcar.",
+        "Turn it off — or leave it on the lowest setting — and stir in the honey until dissolved. Do not boil after this, or you lose the aroma. Taste and adjust the sweetness: honey is more assertive than sugar.") },
+      { t: T(
+        "Coe e sirva bem quente, nas canecas.",
+        "Cuela y sirve bien caliente, en tazas.",
+        "Strain and serve very hot, in mugs.") },
     ],
     notas: [
-      "Mel é mais doce que açúcar: comece com 120 g e vá acertando no fim, nunca o contrário.",
-      "Quer puxar o fundo tostado que o caramelo daria? Reforce o cravo e a canela.",
-      "Maçã em pedaços junto com a laranja deixa mais frutado.",
+      T("Mel é mais doce que açúcar: comece com 120 g e vá acertando no fim, nunca o contrário.",
+        "La miel es más dulce que el azúcar: empieza con 120 g y ajusta al final, nunca al revés.",
+        "Honey is sweeter than sugar: start with 120 g and adjust at the end, never the other way round."),
+      T("Quer puxar o fundo tostado que o caramelo daria? Reforce o cravo e a canela.",
+        "¿Quieres recuperar el fondo tostado que daría el caramelo? Refuerza el clavo y la canela.",
+        "Want the toasted background that caramel would give? Push the cloves and cinnamon."),
+      T("Maçã em pedaços junto com a laranja deixa mais frutado.",
+        "Manzana en trozos junto con la naranja lo deja más afrutado.",
+        "Chopped apple alongside the orange makes it fruitier."),
+    ],
+  }
+);
+/* ===================== SEM FOGO ===================== */
+RECEITAS.push(
+  {
+    id: "farofa-fria",
+    capitulo: "semfogo",
+    titulo: T("Farofa fria", "Farofa fría", "Cold farofa"),
+    kicker: T("SEM FOGO · RECEITA DE FAMÍLIA · MONTE PERTO DA HORA", "SIN FUEGO · RECETA DE FAMILIA · ARMAR CERCA DE LA HORA", "NO HEAT · FAMILY RECIPE · ASSEMBLE CLOSE TO SERVING"),
+    subtitulo: T(
+      "As farinhas cruas são hidratadas pelo azeite, pelo limão e pela água do tomate. Nada vai ao fogo.",
+      "Las harinas crudas se hidratan con el aceite, el limón y el agua del tomate. Nada va al fuego.",
+      "The raw flours are hydrated by the oil, the lime and the water from the tomato. Nothing is cooked."
+    ),
+    porcoes: 6, porcoesOpcoes: [6, 12], ativo: 25, total: 55,
+    utensilio: T("Tigela grande", "Bol grande", "Large bowl"),
+    faixa: T("TOMATE SEM SEMENTE — É A ÁGUA QUE EMPAPA", "TOMATE SIN SEMILLA — EL AGUA ES LO QUE APELMAZA", "SEED THE TOMATOES — WATER IS WHAT MAKES IT SOGGY"),
+    ingredientes: [
+      { q: 2, u: "un", alt: { q: 110, u: "g" }, nome: T("ovos cozidos", "huevos duros", "hard-boiled eggs"), obs: T("em cubinhos", "en cubitos", "diced small") },
+      { q: 1, u: "xic", alt: { q: 130, u: "g" }, nome: T("farinha de milho branca", "harina de maíz blanca", "white cornmeal"), obs: T("dá granulação e crocância", "aporta granulado y crujiente", "brings grain and crunch") },
+      { q: 1, u: "xic", alt: { q: 150, u: "g" }, nome: T("farinha de mandioca", "harina de mandioca", "cassava flour"), obs: T("absorve o líquido e dá liga", "absorbe el líquido y da ligazón", "absorbs the liquid and binds") },
+      { q: 4, u: "un", alt: { q: 480, u: "g" }, nome: T("tomates", "tomates", "tomatoes"), obs: T("sem semente, em cubos de 5 mm", "sin semilla, en cubos de 5 mm", "seeded, in 5 mm dice") },
+      { q: 1, u: "xic", alt: { q: 140, u: "g" }, nome: T("azeitonas", "aceitunas", "olives"), obs: T("picadas", "picadas", "chopped") },
+      { q: 1, u: "un", alt: { q: 80, u: "g" }, nome: T("cenoura", "zanahoria", "carrot"), obs: T("ralada, opcional", "rallada, opcional", "grated, optional") },
+      { q: 2, u: "cs", alt: { q: 8, u: "g" }, nome: T("cheiro verde", "perejil y cebollino", "parsley and spring onion"), obs: T("picado", "picado", "chopped") },
+      { q: 1, u: "un", alt: { q: 30, u: "ml" }, nome: T("limão", "limón", "lime"), obs: T("só o suco", "solo el zumo", "juice only") },
+      { q: 1, u: "cc", alt: { q: 1, u: "g" }, nome: T("orégano", "orégano", "oregano") },
+      { q: null, u: "", nome: T("azeite", "aceite de oliva", "olive oil"), obs: T("em fio, até a farofa ficar úmida e solta", "en hilo, hasta que la farofa quede húmeda y suelta", "in a stream, until the farofa is moist and loose"), escala: false },
+      { q: null, u: "", nome: T("sal", "sal", "salt"), obs: T("provando, no fim", "probando, al final", "by tasting, at the end"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("cozinhar e picar os ovos", "cocer y picar los huevos", "boil and dice the eggs"), detalhe: T("10 min · choque na água gelada", "10 min · choque en agua helada", "10 min · ice-water shock") },
+      { col: 2, de: 3, ate: 3, titulo: T("tomate sem semente", "tomate sin semilla", "seed the tomatoes"), detalhe: T("tire a geleia com a colher · cubos de 5 mm", "quitá la pulpa con la cuchara · cubos de 5 mm", "scoop out the jelly · 5 mm dice") },
+      { col: 3, de: 1, ate: 2, titulo: T("misturar as farinhas secas", "mezclar las harinas secas", "mix the dry flours"), detalhe: T("proporção 1:1", "proporción 1:1", "1:1 ratio") },
+      { col: 4, de: 0, ate: 6, titulo: T("juntar os picados às farinhas", "sumar los picados a las harinas", "fold the chopped things into the flours"), detalhe: T("com as mãos ou garfo, sem amassar", "con las manos o tenedor, sin aplastar", "by hand or fork, without mashing") },
+      { col: 5, de: 0, ate: 9, titulo: T("azeite em fio, limão e orégano", "aceite en hilo, limón y orégano", "oil in a stream, lime and oregano"), detalhe: T("até ficar úmida e solta", "hasta que quede húmeda y suelta", "until moist and loose") },
+      { col: 6, de: 0, ate: 10, titulo: T("sal provando, e geladeira", "sal probando, y nevera", "salt by tasting, then chill"), detalhe: T("15–30 min para assentar", "15–30 min para asentar", "15–30 min to settle") },
+    ],
+    modo: [
+      { t: T(
+        "Cozinhe os ovos 10 minutos a partir da fervura, choque na água gelada, descasque e pique em cubinhos.",
+        "Cocé los huevos 10 minutos desde el hervor, chocalos en agua helada, pelalos y picalos en cubitos.",
+        "Boil the eggs for 10 minutes from the boil, shock them in ice water, peel and dice."), timer: 600 },
+      { t: T(
+        "Corte os tomates ao meio, tire toda a semente e a geleia com a colher, e pique em cubos de uns 5 mm. É a etapa que decide se a farofa fica solta ou empapada.",
+        "Cortá los tomates por la mitad, quitá toda la semilla y la pulpa con la cuchara, y picalos en cubos de unos 5 mm. Es la etapa que decide si la farofa queda suelta o apelmazada.",
+        "Halve the tomatoes, scoop out every seed and all the jelly with a spoon, and dice into about 5 mm. This is the step that decides whether the farofa stays loose or turns soggy.") },
+      { t: T(
+        "Pique a azeitona e o cheiro verde, e rale a cenoura se for usar.",
+        "Picá la aceituna y las hierbas, y rallá la zanahoria si vas a usarla.",
+        "Chop the olives and herbs, and grate the carrot if you are using it.") },
+      { t: T(
+        "Numa tigela grande, misture as duas farinhas ainda secas.",
+        "En un bol grande, mezclá las dos harinas todavía secas.",
+        "In a large bowl, mix the two flours while still dry.") },
+      { t: T(
+        "Acrescente tomate, azeitona, ovo, cenoura e cheiro verde. Misture com as mãos ou com garfo, sem amassar.",
+        "Sumá tomate, aceituna, huevo, zanahoria y hierbas. Mezclá con las manos o con tenedor, sin aplastar.",
+        "Add the tomato, olives, egg, carrot and herbs. Mix with your hands or a fork, without mashing.") },
+      { t: T(
+        "Azeite em fio, suco de limão e orégano, misturando e conferindo a textura. O ponto é úmido e solto: se apertar na mão junta, e depois esfarela. Farinha ainda seca no fundo pede mais azeite; brilhando e pesada, passou.",
+        "Aceite en hilo, zumo de limón y orégano, mezclando y comprobando la textura. El punto es húmedo y suelto: si lo apretás en la mano se junta, y después se desmenuza. Si queda harina seca en el fondo, falta aceite; si brilla y pesa, te pasaste.",
+        "Oil in a thin stream, lime juice and oregano, mixing and checking the texture as you go. The point is moist and loose: squeeze a handful and it holds, then crumbles. Dry flour still in the bottom means more oil; glossy and heavy means you went too far.") },
+      { t: T(
+        "Sal por último, provando. A azeitona já trouxe sódio.",
+        "Sal al final, probando. La aceituna ya trajo sodio.",
+        "Salt last, by tasting. The olives already brought sodium.") },
+      { t: T(
+        "Geladeira por 15 a 30 minutos para assentar. Sirva no mesmo dia.",
+        "Nevera 15 a 30 minutos para asentar. Servir el mismo día.",
+        "Chill for 15 to 30 minutes to settle. Serve the same day."), timer: 1200 },
+    ],
+    notas: [
+      T("Monte perto da hora: até umas 2 h antes está seguro. De um dia para o outro a farinha termina de absorver tudo e a farofa fica pastosa — não é receita de sobra.",
+        "Armala cerca de la hora: hasta unas 2 h antes está bien. De un día para el otro la harina termina de absorber todo y la farofa queda pastosa — no es receta de sobras.",
+        "Assemble close to serving: up to about 2 hours ahead is safe. Overnight the flour finishes absorbing everything and the farofa turns pasty — this is not a make-ahead recipe."),
+      T("Duas farinhas na proporção 1:1 é o padrão da anotação. Mais milho deixa mais granulada; mais mandioca, mais compacta e mais úmida no ponto.",
+        "Dos harinas en proporción 1:1 es lo que dice la anotación. Más maíz la deja más granulada; más mandioca, más compacta y más húmeda en el punto.",
+        "Two flours at 1:1 is what the handwritten note says. More cornmeal makes it grainier; more cassava, denser and wetter at the right point."),
+      T("O limão perto do fim mantém o cheiro verde vivo; se entrar cedo demais, a salsinha murcha e escurece.",
+        "El limón cerca del final mantiene las hierbas vivas; si entra demasiado pronto, el perejil se marchita y oscurece.",
+        "Lime near the end keeps the herbs bright; too early and the parsley wilts and darkens."),
+      T("Sem fogo, mas cru de verdade: ovo bem cozido, tomate lavado, e a farofa na geladeira até servir — principalmente em dia quente.",
+        "Sin fuego, pero crudo de verdad: huevo bien cocido, tomate lavado, y la farofa en la nevera hasta servir — sobre todo en día caluroso.",
+        "No heat, but genuinely raw: well-cooked egg, washed tomatoes, and keep it refrigerated until serving — especially on a hot day."),
+      T("Variações da mesma base: milho verde escorrido, pimentão vermelho em cubinhos, ou uma pitada de pimenta calabresa em flocos.",
+        "Variaciones de la misma base: maíz dulce escurrido, pimiento rojo en cubitos, o una pizca de chile en escamas.",
+        "Variations on the same base: drained sweetcorn, red pepper in small dice, or a pinch of chilli flakes."),
     ],
   },
-];
+
+  {
+    id: "molho-alemao",
+    capitulo: "semfogo",
+    titulo: T("Molho alemão", "Molho alemão", "Molho alemão"),
+    kicker: T("SEM FOGO · LIQUIDIFICADOR · MELHOR NO DIA SEGUINTE", "SIN FUEGO · LICUADORA · MEJOR AL DÍA SIGUIENTE", "NO HEAT · BLENDER · BETTER THE NEXT DAY"),
+    subtitulo: T(
+      "Molho cru de churrasco: pimentão, tomate, cebola e alho batidos com óleo, vinagre e massa de tomate.",
+      "Salsa cruda de asado: pimiento, tomate, cebolla y ajo licuados con aceite, vinagre y concentrado de tomate.",
+      "A raw barbecue sauce: pepper, tomato, onion and garlic blended with oil, vinegar and tomato paste."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 20, total: 140,
+    rende: T("~700 ml", "~700 ml", "~700 ml"),
+    utensilio: T("Liquidificador e vidro limpo", "Licuadora y frasco de vidrio limpio", "Blender and a clean glass jar"),
+    faixa: T("ÓLEO EM FIO FINO COM O MOTOR LIGADO — SENÃO SEPARA", "ACEITE EN HILO FINO CON EL MOTOR EN MARCHA — SI NO, SE CORTA", "OIL IN A THIN STREAM WITH THE MOTOR RUNNING — OR IT SPLITS"),
+    ingredientes: [
+      { q: 1, u: "un", alt: { q: 160, u: "g" }, nome: T("pimentão vermelho", "pimiento rojo", "red bell pepper"), obs: T("ou 4 — ver nota", "o 4 — ver la nota", "or 4 — see the note") },
+      { q: 4, u: "un", alt: { q: 480, u: "g" }, nome: T("tomates", "tomates", "tomatoes") },
+      { q: 1, u: "un", alt: { q: 150, u: "g" }, nome: T("cebola", "cebolla", "onion") },
+      { q: 4, u: "dente", alt: { q: 20, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 200, u: "ml", nome: T("vinagre", "vinagre", "vinegar"), obs: T("1 copo", "1 vaso", "1 glass") },
+      { q: 200, u: "ml", nome: T("óleo neutro", "aceite neutro", "neutral oil"), obs: T("1 copo · não azeite", "1 vaso · no aceite de oliva", "1 glass · not olive oil") },
+      { q: 1, u: "un", alt: { q: 140, u: "g" }, nome: T("lata pequena de massa de tomate", "lata pequeña de concentrado de tomate", "small tin of tomato paste") },
+      { q: null, u: "", nome: T("sal", "sal", "salt"), obs: T("provando, no fim", "probando, al final", "by tasting, at the end"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 3, titulo: T("limpar e cortar grosso", "limpiar y cortar grueso", "clean and roughly chop"), detalhe: T("pimentão sem nervura · tomate sem semente", "pimiento sin nervaduras · tomate sin semilla", "pepper deribbed · tomato seeded") },
+      { col: 2, de: 0, ate: 4, titulo: T("bater com o vinagre", "licuar con el vinagre", "blend with the vinegar"), detalhe: T("até virar purê liso", "hasta que sea un puré liso", "to a smooth purée") },
+      { col: 3, de: 0, ate: 5, titulo: T("óleo em fio, motor ligado", "aceite en hilo, motor en marcha", "oil in a stream, motor running"), detalhe: T("o molho clareia e encorpa", "la salsa aclara y toma cuerpo", "the sauce lightens and thickens") },
+      { col: 4, de: 0, ate: 6, titulo: T("massa de tomate", "concentrado de tomate", "tomato paste"), detalhe: T("cor e corpo · escorre da colher", "color y cuerpo · escurre de la cuchara", "colour and body · it should run off the spoon") },
+      { col: 5, de: 0, ate: 7, titulo: T("sal e acidez, provando", "sal y acidez, probando", "salt and acidity, by tasting"), detalhe: T("vidro limpo · geladeira 2 h no mínimo", "frasco limpio · nevera 2 h mínimo", "clean jar · at least 2 h in the fridge") },
+    ],
+    modo: [
+      { t: T(
+        "Pimentão sem sementes e sem as nervuras brancas. Tomate sem semente, se quiser um molho menos aguado e menos amargo. Cebola e alho descascados, em pedaços grandes — o liquidificador resolve.",
+        "Pimiento sin semillas y sin las nervaduras blancas. Tomate sin semilla, si querés una salsa menos aguada y menos amarga. Cebolla y ajo pelados, en trozos grandes — la licuadora resuelve.",
+        "Pepper with no seeds and no white ribs. Tomato seeded, if you want a less watery, less bitter sauce. Onion and garlic peeled, in large pieces — the blender will handle it.") },
+      { t: T(
+        "Bata pimentão, tomate, cebola e alho no liquidificador com o vinagre — o líquido ácido ajuda a máquina a puxar tudo para baixo. Bata até virar purê liso.",
+        "Licuá pimiento, tomate, cebolla y ajo con el vinagre — el líquido ácido ayuda a que la máquina arrastre todo hacia abajo. Licuá hasta que sea un puré liso.",
+        "Blend the pepper, tomato, onion and garlic with the vinegar — the acid liquid helps the machine pull everything down. Blend to a smooth purée.") },
+      { t: T(
+        "Com o motor ligado, acrescente o óleo em fio fino. Jogar tudo de uma vez separa. O molho clareia e encorpa um pouco quando pega.",
+        "Con el motor en marcha, agregá el aceite en hilo fino. Echarlo todo de golpe lo corta. La salsa aclara y toma algo de cuerpo cuando emulsiona.",
+        "With the motor running, add the oil in a thin stream. Dumping it in at once will split it. The sauce lightens and thickens slightly as it takes.") },
+      { t: T(
+        "Junte a massa de tomate, batendo para incorporar. Se preferir calibrar, entra às colheradas até chegar na cor e no corpo que você quer — deve escorrer da colher, não ficar de pé.",
+        "Sumá el concentrado de tomate, licuando para incorporar. Si preferís calibrar, va por cucharadas hasta llegar al color y al cuerpo que querés — debe escurrir de la cuchara, no quedarse parado.",
+        "Add the tomato paste, blending to incorporate. If you prefer to calibrate, add it by the spoonful until you reach the colour and body you want — it should run off the spoon, not stand up on it.") },
+      { t: T(
+        "Sal, provando. A massa de tomate já traz sódio.",
+        "Sal, probando. El concentrado de tomate ya trae sodio.",
+        "Salt, by tasting. The tomato paste already brings sodium.") },
+      { t: T(
+        "Ajuste a acidez: se estiver agressivo, uma pitada de açúcar ou um pouco mais de massa de tomate arredonda; se estiver chapado, mais um fio de vinagre.",
+        "Ajustá la acidez: si está agresivo, una pizca de azúcar o un poco más de concentrado lo redondea; si está plano, otro chorrito de vinagre.",
+        "Adjust the acidity: if it is aggressive, a pinch of sugar or a little more paste rounds it off; if it is flat, another splash of vinegar.") },
+      { t: T(
+        "Vidro limpo, geladeira, no mínimo 2 horas antes de servir. Melhora bastante no dia seguinte, quando o alho cru perde a aspereza.",
+        "Frasco limpio, nevera, mínimo 2 horas antes de servir. Mejora bastante al día siguiente, cuando el ajo crudo pierde la aspereza.",
+        "Clean glass jar, refrigerated, at least 2 hours before serving. It improves a lot by the next day, when the raw garlic loses its edge."), timer: 7200 },
+    ],
+    notas: [
+      T("A anotação traz \"1 pimentão vermelho ou 4\". Com 1, o molho fica mais avinagrado e fino; com 4, encorpado, doce e muito mais vermelho, com menos vinagre aparente — e provavelmente precisa de menos massa de tomate.",
+        "La anotación dice \"1 pimiento rojo o 4\". Con 1, la salsa queda más avinagrada y fina; con 4, con más cuerpo, dulce y mucho más roja, con menos vinagre aparente — y probablemente necesite menos concentrado.",
+        "The note says \"1 red pepper or 4\". With 1, the sauce is sharper and thinner; with 4, it is fuller, sweeter and much redder, with less vinegar showing — and it probably needs less paste."),
+      T("Alho cru é o ingrediente que mais muda com o tempo: no dia é picante e agressivo, no dia seguinte fica redondo. Vale sempre fazer na véspera.",
+        "El ajo crudo es el ingrediente que más cambia con el tiempo: el mismo día pica y es agresivo, al día siguiente queda redondo. Siempre conviene hacerlo la víspera.",
+        "Raw garlic is the ingredient that changes most with time: on the day it is sharp and aggressive, by the next day it is round. Always worth making it the day before."),
+      T("Conservação: vidro tampado na geladeira, 2 a 3 semanas. A separação é normal — chacoalhe antes de servir. Sirva sempre com colher limpa, sem devolver o que sobrou no prato.",
+        "Conservación: frasco tapado en la nevera, 2 a 3 semanas. La separación es normal — agitá antes de servir. Serví siempre con cuchara limpia, sin devolver lo que sobró en el plato.",
+        "Keeping: covered glass jar in the fridge, 2 to 3 weeks. Separation is normal — shake before serving. Always serve with a clean spoon, and never return what was left on a plate."),
+      T("Recipiente não-reativo: vidro ou cerâmica, nunca alumínio — o vinagre reage e dá gosto metálico. Mesma regra do escabeche.",
+        "Recipiente no reactivo: vidrio o cerámica, nunca aluminio — el vinagre reacciona y da sabor metálico. Misma regla que el escabeche.",
+        "Non-reactive container: glass or ceramic, never aluminium — vinegar reacts and leaves a metallic taste. Same rule as the escabeche."),
+      T("Óleo neutro, não azeite. O azeite fica pesado e amarga no liquidificador em alta rotação; aqui o papel da gordura é só carregar o sabor dos legumes.",
+        "Aceite neutro, no de oliva. El de oliva queda pesado y amarga en la licuadora a alta velocidad; acá el papel de la grasa es solo transportar el sabor de las verduras.",
+        "Neutral oil, not olive oil. Olive oil turns heavy and bitter in a high-speed blender; here the fat's only job is to carry the flavour of the vegetables."),
+      T("Versão picada: os mesmos ingredientes em cubinhos de 5 mm, sem bater, viram um vinagrete de pimentão. É outro molho — o liquidificador é o que faz o \"alemão\".",
+        "Versión picada: los mismos ingredientes en cubitos de 5 mm, sin licuar, son otra cosa: una vinagreta de pimiento. Es otra salsa — la licuadora es lo que hace al \"alemão\".",
+        "Chopped version: the same ingredients in 5 mm dice, unblended, make a pepper vinaigrette. That is a different sauce — the blender is what makes it the \"alemão\"."),
+    ],
+  }
+);
+/* ===================== PAPINHAS ===================== */
+
+TECNICAS.push({
+  id: "papinha-familias",
+  titulo: T(
+    "Papinha é família de alimento, não receita",
+    "La papilla es familia de alimentos, no receta",
+    "Baby food is food families, not recipes"
+  ),
+  kicker: T(
+    "TÉCNICA · PANELA DE PRESSÃO · SEM SAL ANTES DE 1 ANO",
+    "TÉCNICA · OLLA A PRESIÓN · SIN SAL ANTES DEL AÑO",
+    "TECHNIQUE · PRESSURE COOKER · NO SALT BEFORE AGE ONE"
+  ),
+  resumo: T(
+    "Papinha boa não é papinha lisa. Uma família de alimento por vez, textura crescente, e tempero de verdade desde o começo.",
+    "Una buena papilla no es una papilla lisa. Una familia de alimentos por vez, textura creciente, y condimento de verdad desde el principio.",
+    "Good baby food is not smooth baby food. One food family at a time, rising texture, and real seasoning from the start."
+  ),
+  corpo: [
+    {
+      h: T("Papinha boa não é papinha lisa", "Una buena papilla no es lisa", "Good baby food is not smooth"),
+      p: T(
+        "O objetivo é sabor de comida de verdade e textura crescente: o bebê precisa aprender a mastigar, e purê aveludado demais atrasa isso. Daí a panela de pressão — que cozinha rápido e por igual, com pouca água, sem virar sopa — e o processamento controlado no fim, do amassado com garfo até o picadinho.",
+        "El objetivo es sabor de comida de verdad y textura creciente: el bebé necesita aprender a masticar, y un puré demasiado aterciopelado retrasa eso. De ahí la olla a presión — cocina rápido y parejo, con poca agua, sin volverse sopa — y el procesado controlado al final, del machacado con tenedor hasta el picado.",
+        "The goal is real cooked flavour and rising texture: a baby needs to learn to chew, and a velvety purée delays that. Hence the pressure cooker — fast, even, little water, never turning to soup — and controlled mashing at the end, from fork-mashed to finely chopped."
+      ),
+    },
+    {
+      h: T("Sete famílias, e o que ocupa cada vaga gira", "Siete familias, y quien ocupa cada lugar rota", "Seven families, and who fills each slot rotates"),
+      p: T(
+        "O que sustenta a série inteira não é uma lista de ingredientes, é uma lista de famílias: tubérculo ou amiláceo para energia e corpo (batata, mandioquinha, abóbora, inhame); legume colorido para vitamina, cor e doçura (cenoura, beterraba, ervilha, abobrinha); folha verde para ferro e sabor (espinafre, couve, brócolis, agrião); proteína para ferro e construção (carne, frango, peixe, fígado, feijão, grão de bico, lentilha); aromático para sabor de comida de verdade (cebola, alho, alho-poró, salsão); gordura; e tempero. Cada lote monta uma de cada, e quem ocupa cada vaga gira conforme a feira, a estação e o que tem no congelador. Nenhuma família é obrigatória em todo lote, mas nenhum lote deve ter só duas.",
+        "Lo que sostiene la serie entera no es una lista de ingredientes, sino una lista de familias: tubérculo o almidón para energía y cuerpo (papa, arracacha, calabaza, ñame); verdura de color para vitaminas, color y dulzor (zanahoria, remolacha, arveja, calabacín); hoja verde para hierro y sabor (espinaca, berza, brócoli, berro); proteína para hierro y construcción (carne, pollo, pescado, hígado, porotos, garbanzos, lentejas); aromático para sabor de comida de verdad (cebolla, ajo, puerro, apio); grasa; y condimento. Cada tanda arma una de cada, y quien ocupa cada lugar rota según el mercado, la estación y lo que haya en el congelador. Ninguna familia es obligatoria en cada tanda, pero ninguna tanda debería tener solo dos.",
+        "What holds the whole series together is not an ingredient list, it is a list of families: a starchy root for energy and body (potato, arracacha, squash, yam); a coloured vegetable for vitamins, colour and sweetness (carrot, beetroot, peas, courgette); a leafy green for iron and flavour (spinach, collards, broccoli, watercress); a protein for iron and building (beef, chicken, fish, liver, beans, chickpeas, lentils); an aromatic for the taste of real cooking (onion, garlic, leek, celery); fat; and seasoning. Each batch picks one from each, and who fills each slot rotates with the market, the season and what is in the freezer. No family is compulsory in every batch, but no batch should have only two."
+      ),
+    },
+    {
+      h: T("O método base, em sete passos", "El método base, en siete pasos", "The base method, in seven steps"),
+      p: T(
+        "Leguminosa primeiro, se houver: de molho 8 a 12 horas com a água trocada, cozida sozinha na pressão por 20 a 25 minutos, até desmanchar entre os dedos, e reservada com um pouco do caldo. Depois o refogado: óleo neutro, cebola e alho-poró até murchar, alho só até perfumar. Então a proteína, selada e desmanchada até perder o rosado. Os legumes duros em cubos de uns 2 cm, com água até quase cobrir — não afogar, papinha aguada vira sopa — e 4 a 6 minutos de pressão contados do chiado. A folha entra por último, com a panela já aberta, no calor residual. O tempero fora do fogo ou nos últimos minutos. E a textura no fim, ajustada com a água do próprio cozimento, nunca com água fria.",
+        "Legumbre primero, si la hay: en remojo 8 a 12 horas con el agua cambiada, cocida sola a presión 20 a 25 minutos, hasta deshacerse entre los dedos, y reservada con algo de su caldo. Después el sofrito: aceite neutro, cebolla y puerro hasta ablandar, ajo solo hasta perfumar. Luego la proteína, sellada y deshecha hasta perder el rosado. Las verduras duras en cubos de unos 2 cm, con agua hasta casi cubrir — no ahogar, la papilla aguada se vuelve sopa — y 4 a 6 minutos de presión contados desde el silbido. La hoja entra al final, con la olla ya abierta, al calor residual. El condimento fuera del fuego o en los últimos minutos. Y la textura al final, ajustada con el agua de la propia cocción, nunca con agua fría.",
+        "Pulses first, if any: soaked 8 to 12 hours with the water changed, pressure-cooked alone for 20 to 25 minutes until they crush between your fingers, then set aside with a little of their liquid. Then the sofrito: neutral oil, onion and leek until soft, garlic just until fragrant. Then the protein, seared and broken up until no pink remains. The hard vegetables in roughly 2 cm cubes, with water not quite covering — do not drown them, watery baby food becomes soup — and 4 to 6 minutes of pressure counted from the hiss. The greens go in last, with the lid already off, in the residual heat. Seasoning off the heat or in the final minutes. And texture at the very end, loosened with the cooking liquid, never with cold water."
+      ),
+    },
+    {
+      h: T("Sem sal, sem açúcar, sem mel", "Sin sal, sin azúcar, sin miel", "No salt, no sugar, no honey"),
+      p: T(
+        "É a única receita do caderno em que a disciplina do sal é absoluta: zero sal antes de 1 ano. O rim do bebê não dá conta do sódio, e o paladar se calibra cedo — comida sem sal na infância é comida com menos sal a vida toda. Mel também fica de fora, pelo risco de botulismo antes de 1 ano. O que entra no lugar é cebola, alho, alho-poró, cominho, canela, louro, salsinha e raspa de limão: tempero não é sal. Papinha sem sal e sem tempero é que é insossa; sem sal e bem temperada é gostosa.",
+        "Es la única receta del cuaderno donde la disciplina de la sal es absoluta: cero sal antes del año. El riñón del bebé no maneja el sodio, y el paladar se calibra temprano — comida sin sal en la infancia es comida con menos sal toda la vida. La miel también queda fuera, por el riesgo de botulismo antes del año. En su lugar entran cebolla, ajo, puerro, comino, canela, laurel, perejil y ralladura de limón: condimentar no es salar. La papilla sosa es la que no lleva condimento; sin sal y bien condimentada es rica.",
+        "This is the one recipe in the notebook where salt discipline is absolute: no salt at all before age one. A baby's kidneys cannot handle the sodium, and taste calibrates early — food without salt in childhood means food with less salt for life. Honey is out too, because of the risk of infant botulism before age one. What goes in instead is onion, garlic, leek, cumin, cinnamon, bay, parsley and lime zest: seasoning is not salting. It is unseasoned baby food that tastes of nothing; unsalted and well seasoned, it is good."
+      ),
+    },
+    {
+      h: T("Papinha precisa de gordura", "La papilla necesita grasa", "Baby food needs fat"),
+      p: T(
+        "Bebê tem estômago pequeno e necessidade calórica alta, e é a gordura que carrega as vitaminas A, D, E e K dos legumes para dentro. Papinha magra é volumosa e pouco nutritiva. Aqui é óleo neutro de girassol, e não azeite, por dois motivos: não compete com o sabor da comida — nessa fase o bebê está conhecendo o gosto do legume, não o do azeite — e aguenta o refogado sem amargar. Entra duas vezes: no refogado e um fio no prato na hora de servir.",
+        "El bebé tiene estómago pequeño y alta necesidad calórica, y es la grasa la que transporta las vitaminas A, D, E y K de las verduras hacia dentro. Una papilla magra es voluminosa y poco nutritiva. Acá es aceite neutro de girasol, y no de oliva, por dos motivos: no compite con el sabor de la comida — en esta etapa el bebé está conociendo el gusto de la verdura, no el del aceite — y aguanta el sofrito sin amargar. Entra dos veces: en el sofrito y un chorrito en el plato al servir.",
+        "A baby has a small stomach and high calorie needs, and it is fat that carries vitamins A, D, E and K out of the vegetables and into the child. Lean baby food is bulky and thin on nutrition. Here it is neutral sunflower oil, not olive oil, for two reasons: it does not compete with the flavour of the food — at this stage the baby is learning the taste of the vegetable, not of the oil — and it survives the sofrito without turning bitter. It goes in twice: in the sofrito and as a drizzle on the plate."
+      ),
+    },
+    {
+      h: T("Fígado, uma vez por semana", "Hígado, una vez por semana", "Liver, once a week"),
+      p: T(
+        "É o ingrediente de maior densidade de ferro que existe para essa fase, e entrava na rotação: bovino ou de frango, uns 50 g no lote, bem limpo, picado miúdo e refogado junto com a cebola até perder o rosado. Sabor forte — equilibra bem com abóbora, cenoura ou beterraba, que são doces. Uma vez por semana basta: fígado concentra vitamina A e não deve virar rotina diária.",
+        "Es el ingrediente de mayor densidad de hierro que existe para esta etapa, y entraba en la rotación: de res o de pollo, unos 50 g por tanda, bien limpio, picado fino y sofrito junto con la cebolla hasta perder el rosado. Sabor fuerte — equilibra bien con calabaza, zanahoria o remolacha, que son dulces. Una vez por semana basta: el hígado concentra vitamina A y no debe volverse rutina diaria.",
+        "It is the densest source of iron available at this stage, and it was part of the rotation: beef or chicken, about 50 g per batch, well trimmed, finely chopped and cooked with the onion until no pink remains. Strong flavour — it balances well with squash, carrot or beetroot, which are sweet. Once a week is enough: liver concentrates vitamin A and should not become a daily habit."
+      ),
+    },
+    {
+      h: T("Textura por fase", "Textura por etapa", "Texture by stage"),
+      p: T(
+        "De 6 a 7 meses, amassado com garfo, com pedaços macios reconhecíveis — não liquidificar. De 8 a 9 meses, amassado grosseiro, pedaços de uns 5 mm, fibras da carne visíveis. De 10 a 12 meses, picado, quase comida de adulto sem sal. Depois de 1 ano é comida da família, e aí o sal volta a existir.",
+        "De 6 a 7 meses, machacado con tenedor, con trozos blandos reconocibles — no licuar. De 8 a 9 meses, machacado grueso, trozos de unos 5 mm, fibras de la carne visibles. De 10 a 12 meses, picado, casi comida de adulto sin sal. Después del año es comida de la familia, y ahí la sal vuelve a existir.",
+        "At 6 to 7 months, fork-mashed with recognisable soft pieces — do not blend. At 8 to 9 months, coarsely mashed, pieces around 5 mm, meat fibres visible. At 10 to 12 months, chopped, nearly adult food without salt. After age one it is family food, and salt comes back."
+      ),
+    },
+    {
+      h: T("Congelamento", "Congelación", "Freezing"),
+      p: T(
+        "Porcione quente-morno em potinhos ou em forma de gelo — cubos de uns 30 ml facilitam montar porções crescentes. Esfrie rápido e congele no mesmo dia, especialmente os lotes com folha verde e beterraba, ricos em nitrato, que não devem passar horas amornando na bancada. Congelador: 30 dias. Geladeira: 48 horas. Descongele na geladeira de véspera ou em banho-maria, e requente uma vez só. O que sobrou no prato do bebê se descarta — a saliva na colher contamina o resto.",
+        "Porcioná tibio en potecitos o en cubetera — cubos de unos 30 ml facilitan armar porciones crecientes. Enfriá rápido y congelá el mismo día, sobre todo las tandas con hoja verde y remolacha, ricas en nitrato, que no deben pasar horas en la mesada. Congelador: 30 días. Heladera: 48 horas. Descongelá en la heladera desde la víspera o a baño maría, y recalentá una sola vez. Lo que sobró en el plato del bebé se descarta — la saliva en la cuchara contamina el resto.",
+        "Portion it warm into small pots or an ice-cube tray — roughly 30 ml cubes make it easy to build growing portions. Cool fast and freeze the same day, especially batches with leafy greens and beetroot, which are high in nitrate and should not sit out warming for hours. Freezer: 30 days. Fridge: 48 hours. Thaw in the fridge overnight or in a water bath, and reheat once only. Whatever is left on the baby's plate goes in the bin — saliva on the spoon contaminates the rest."
+      ),
+    },
+  ],
+  notas: [
+    T("Este capítulo é o registro do que eu fiz em casa, não orientação pediátrica. Introdução alimentar se acerta com o pediatra da criança — sobretudo alergias, ritmo e quantidades.",
+      "Este capítulo es el registro de lo que hice en casa, no orientación pediátrica. La alimentación complementaria se define con el pediatra del niño — sobre todo alergias, ritmo y cantidades.",
+      "This chapter is a record of what I did at home, not paediatric advice. Starting solids is something to settle with the child's paediatrician — especially allergies, pace and quantities."),
+    T("Pressão não estraga nutriente. Pelo contrário: menos tempo e menos água que o cozimento aberto significa menos perda de vitamina hidrossolúvel — e a água do cozimento volta para a papinha.",
+      "La presión no arruina nutrientes. Al contrario: menos tiempo y menos agua que la cocción abierta significa menos pérdida de vitaminas hidrosolubles — y el agua de cocción vuelve a la papilla.",
+      "Pressure does not destroy nutrients. The opposite: less time and less water than open cooking means less loss of water-soluble vitamins — and the cooking liquid goes back into the food."),
+    T("Ferro: carne (ou fígado) + leguminosa + folha verde no mesmo lote é o melhor da série. Uma fruta cítrica de sobremesa, logo depois da refeição, ajuda mais na absorção do que a raspa de limão dentro da panela, que entra por aroma.",
+      "Hierro: carne (o hígado) + legumbre + hoja verde en la misma tanda es lo mejor de la serie. Una fruta cítrica de postre, justo después de la comida, ayuda más en la absorción que la ralladura dentro de la olla, que entra por aroma.",
+      "Iron: meat (or liver) + pulses + leafy greens in the same batch is the best of the series. Citrus fruit for dessert, right after the meal, helps absorption more than the zest inside the pot, which is there for aroma."),
+    T("Beterraba tinge tudo — a papinha #4 sai roxa e a fralda também. Normal; avise quem cuida.",
+      "La remolacha tiñe todo — la papilla #4 sale morada y el pañal también. Es normal; avisá a quien cuida.",
+      "Beetroot stains everything — purée #4 comes out purple and so does the nappy. Normal; warn whoever is on duty."),
+    T("Casca de leguminosa: feijão e grão de bico bem cozidos na pressão soltam a pele e ela some no processamento. Grão de bico mal cozido deixa bolinha de casca — cozinha mais, não processa mais.",
+      "Piel de legumbre: porotos y garbanzos bien cocidos a presión sueltan la piel y desaparece al procesar. El garbanzo mal cocido deja bolitas de piel — cociná más, no proceses más.",
+      "Pulse skins: beans and chickpeas properly pressure-cooked release their skins and they vanish in the mashing. Undercooked chickpeas leave little pellets of skin — cook them longer, do not blend them harder."),
+    T("Um lote por semana era o ritmo; papinha nova a cada 4 ou 5 dias evita enjoo e amplia repertório.",
+      "Una tanda por semana era el ritmo; papilla nueva cada 4 o 5 días evita el hartazgo y amplía el repertorio.",
+      "One batch a week was the rhythm; a new purée every 4 or 5 days avoids boredom and widens the repertoire."),
+  ],
+});
+
+RECEITAS.push(
+  {
+    id: "papinha-4-ervilha-beterraba",
+    capitulo: "papinhas",
+    titulo: T("Papinha #4 — ervilha, beterraba e carne moída", "Papilla #4 — arveja, remolacha y carne molida", "Purée #4 — peas, beetroot and ground beef"),
+    kicker: T("29/6/23 · A MAIS COLORIDA DA SÉRIE", "29/6/23 · LA MÁS COLORIDA DE LA SERIE", "29 JUN 23 · THE MOST COLOURFUL OF THE SERIES"),
+    subtitulo: T(
+      "Sai roxa e doce — quase sempre a favorita.",
+      "Sale morada y dulce — casi siempre la favorita.",
+      "It comes out purple and sweet — usually the favourite."
+    ),
+    principio: T(
+      "Beterraba e carne no mesmo prato é a dupla de ferro mais forte da série. A beterraba domina a cor e adoça bastante. Tinge a fralda também: normal.",
+      "Remolacha y carne en el mismo plato es la dupla de hierro más fuerte de la serie. La remolacha domina el color y endulza bastante. Tiñe el pañal también: es normal.",
+      "Beetroot and beef in one dish is the strongest iron pairing of the series. The beetroot takes over the colour and sweetens it considerably. It stains the nappy too: that is normal."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 50,
+    rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),
+    utensilio: T("Panela de pressão", "Olla a presión", "Pressure cooker"),
+    faixa: T("SEM SAL · A FOLHA ENTRA DEPOIS DA PRESSÃO", "SIN SAL · LA HOJA ENTRA DESPUÉS DE LA PRESIÓN", "NO SALT · THE GREENS GO IN AFTER THE PRESSURE"),
+    ingredientes: [
+      { q: null, u: "", nome: T("óleo de girassol", "aceite de girasol", "sunflower oil"), obs: T("no refogado, mais um fio no prato", "en el sofrito, más un chorrito en el plato", "for the sofrito, plus a drizzle to serve"), escala: false },
+      { q: 1, u: "un", alt: { q: 150, u: "g" }, nome: T("cebola", "cebolla", "onion") },
+      { q: 4, u: "dente", alt: { q: 16, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 200, u: "g", nome: T("carne moída", "carne molida", "ground beef") },
+      { q: 200, u: "g", nome: T("beterraba", "remolacha", "beetroot"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: 200, u: "g", nome: T("batata", "papa", "potato"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: null, u: "", nome: T("água", "agua", "water"), obs: T("até quase cobrir", "hasta casi cubrir", "not quite covering"), escala: false },
+      { q: 230, u: "g", nome: T("ervilha", "arveja", "peas") },
+      { q: 200, u: "g", nome: T("espinafre", "espinaca", "spinach") },
+      { q: null, u: "", nome: T("ervas e condimentos", "hierbas y especias", "herbs and spices"), obs: T("sem sal", "sin sal", "no salt"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 3, titulo: T("refogar", "sofreír", "sofrito"), detalhe: T("cebola → alho → carne, até perder o rosado", "cebolla → ajo → carne, hasta perder el rosado", "onion → garlic → beef, until no pink remains") },
+      { col: 2, de: 0, ate: 6, titulo: T("pressão", "presión", "pressure"), detalhe: T("5–6 min do chiado · beterraba é dura", "5–6 min desde el silbido · la remolacha es dura", "5–6 min from the hiss · beetroot is hard") },
+      { col: 3, de: 0, ate: 8, titulo: T("sem tampa", "sin tapa", "lid off"), detalhe: T("ervilha e espinafre, 2 min", "arveja y espinaca, 2 min", "peas and spinach, 2 min") },
+      { col: 4, de: 0, ate: 9, titulo: T("temperar e amassar", "condimentar y machacar", "season and mash"), detalhe: T("textura conforme a fase", "textura según la etapa", "texture to suit the stage") },
+    ],
+    modo: [
+      { t: T("Descasque e pique tudo. Beterraba e batata em cubos de 2 cm.", "Pelá y picá todo. Remolacha y papa en cubos de 2 cm.", "Peel and chop everything. Beetroot and potato in 2 cm cubes.") },
+      { t: T("Óleo na pressão aberta, cebola até murchar, alho só até perfumar.", "Aceite en la olla destapada, cebolla hasta ablandar, ajo solo hasta perfumar.", "Oil in the open cooker, onion until soft, garlic just until fragrant."), timer: 420 },
+      { t: T("Carne moída, desmanchando com a colher até perder o rosado.", "Carne molida, deshaciéndola con la cuchara hasta perder el rosado.", "Ground beef, breaking it up with the spoon until no pink remains."), timer: 300 },
+      { t: T("Beterraba, batata e água até quase cobrir. Tampa e pressão, 5 a 6 minutos do chiado.", "Remolacha, papa y agua hasta casi cubrir. Tapa y presión, 5 a 6 minutos desde el silbido.", "Beetroot, potato and water not quite covering. Lid on, 5 to 6 minutes from the hiss."), timer: 360 },
+      { t: T("Abra a panela. Ervilha e espinafre no calor residual, sem tampa.", "Abrí la olla. Arveja y espinaca al calor residual, sin tapa.", "Open the cooker. Peas and spinach in the residual heat, lid off."), timer: 120 },
+      { t: T("Ervas e condimentos fora do fogo. Amasse na textura da fase.", "Hierbas y especias fuera del fuego. Machacá según la textura de la etapa.", "Herbs and spices off the heat. Mash to the texture of the stage.") },
+      { t: T("Porcione, esfrie rápido e congele no mesmo dia.", "Porcioná, enfriá rápido y congelá el mismo día.", "Portion, cool fast and freeze the same day.") },
+    ],
+    notas: [
+      T("Ervilha congelada entra depois de abrir a panela; se for seca, cozinha desde o começo junto com os legumes.",
+        "La arveja congelada entra después de abrir la olla; si es seca, se cocina desde el principio con las verduras.",
+        "Frozen peas go in after opening the cooker; dried peas cook from the start with the vegetables."),
+    ],
+  },
+
+  {
+    id: "papinha-5-feijao-mandioquinha",
+    capitulo: "papinhas",
+    titulo: T("Papinha #5 — feijão, mandioquinha e limão", "Papilla #5 — porotos, arracacha y limón", "Purée #5 — beans, arracacha and lime"),
+    kicker: T("6/7/23 · A VEGETARIANA", "6/7/23 · LA VEGETARIANA", "6 JUL 23 · THE VEGETARIAN ONE"),
+    subtitulo: T(
+      "Canela com raspa de limão é o tempero mais bonito de todos os bilhetes.",
+      "Canela con ralladura de limón es el condimento más lindo de todas las notas.",
+      "Cinnamon with lime zest is the prettiest seasoning in the whole set of notes."
+    ),
+    principio: T(
+      "Única sem carne: o ferro vem do feijão, que é menos absorvido, então esta pede uma fruta cítrica de sobremesa logo depois. A mandioquinha deixa a textura mais sedosa que a batata — vale reservar para quando quiser papinha mais macia.",
+      "La única sin carne: el hierro viene de los porotos, que se absorbe menos, así que esta pide una fruta cítrica de postre justo después. La arracacha da una textura más sedosa que la papa — conviene reservarla para cuando quieras una papilla más suave.",
+      "The only meatless one: the iron comes from the beans, which is absorbed less readily, so this one wants citrus fruit for dessert right after. Arracacha gives a silkier texture than potato — worth saving for when you want a softer purée."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 70,
+    rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),
+    utensilio: T("Panela de pressão", "Olla a presión", "Pressure cooker"),
+    faixa: T("SEM SAL · FEIJÃO COZIDO À PARTE, ATÉ DESMANCHAR", "SIN SAL · POROTOS COCIDOS APARTE, HASTA DESHACERSE", "NO SALT · BEANS COOKED SEPARATELY, UNTIL THEY COLLAPSE"),
+    ingredientes: [
+      { q: 200, u: "g", nome: T("feijão", "porotos", "beans"), obs: T("de molho 8–12 h, água trocada", "en remojo 8–12 h, cambiando el agua", "soaked 8–12 h, water changed") },
+      { q: null, u: "", nome: T("óleo de girassol", "aceite de girasol", "sunflower oil"), escala: false },
+      { q: 0.5, u: "un", alt: { q: 75, u: "g" }, nome: T("cebola", "cebolla", "onion") },
+      { q: 4, u: "dente", alt: { q: 16, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 200, u: "g", nome: T("mandioquinha", "arracacha (apio criollo)", "arracacha (Andean root)"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: 200, u: "g", nome: T("cenoura", "zanahoria", "carrot"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: null, u: "", nome: T("água", "agua", "water"), obs: T("até quase cobrir", "hasta casi cubrir", "not quite covering"), escala: false },
+      { q: 100, u: "g", nome: T("espinafre", "espinaca", "spinach") },
+      { q: null, u: "", nome: T("cominho", "comino", "cumin"), escala: false },
+      { q: null, u: "", nome: T("canela", "canela", "cinnamon"), escala: false },
+      { q: null, u: "", nome: T("raspa de limão", "ralladura de limón", "lime zest"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("molho e pressão à parte", "remojo y presión aparte", "soak and pressure, separately"), detalhe: T("8–12 h de molho · 20–25 min de pressão", "8–12 h de remojo · 20–25 min de presión", "8–12 h soak · 20–25 min pressure") },
+      { col: 2, de: 1, ate: 3, titulo: T("refogar", "sofreír", "sofrito"), detalhe: T("cebola até murchar, alho só até perfumar", "cebolla hasta ablandar, ajo solo hasta perfumar", "onion until soft, garlic just until fragrant") },
+      { col: 3, de: 0, ate: 6, titulo: T("pressão", "presión", "pressure"), detalhe: T("4–5 min · com o feijão e um pouco do caldo", "4–5 min · con los porotos y algo de caldo", "4–5 min · with the beans and some of their liquid") },
+      { col: 4, de: 0, ate: 7, titulo: T("sem tampa", "sin tapa", "lid off"), detalhe: T("espinafre, 2 min", "espinaca, 2 min", "spinach, 2 min") },
+      { col: 5, de: 0, ate: 10, titulo: T("temperar e amassar", "condimentar y machacar", "season and mash"), detalhe: T("raspa de limão fora do fogo", "ralladura fuera del fuego", "zest off the heat") },
+    ],
+    modo: [
+      { t: T("Feijão de molho de véspera, água trocada uma vez.", "Porotos en remojo desde la víspera, cambiando el agua una vez.", "Soak the beans overnight, changing the water once.") },
+      { t: T("Cozinhe o feijão sozinho na pressão até desmanchar entre os dedos. Reserve com um pouco do caldo.", "Cociná los porotos solos a presión hasta que se deshagan entre los dedos. Reservá con algo de caldo.", "Pressure-cook the beans alone until they crush between your fingers. Set aside with some of their liquid."), timer: 1350 },
+      { t: T("Óleo, cebola até murchar, alho só até perfumar.", "Aceite, cebolla hasta ablandar, ajo solo hasta perfumar.", "Oil, onion until soft, garlic just until fragrant."), timer: 420 },
+      { t: T("Mandioquinha e cenoura em cubos, o feijão com um pouco do caldo, água até quase cobrir. Pressão.", "Arracacha y zanahoria en cubos, los porotos con algo de caldo, agua hasta casi cubrir. Presión.", "Arracacha and carrot in cubes, the beans with some liquid, water not quite covering. Pressure."), timer: 300 },
+      { t: T("Abra e junte o espinafre no calor residual.", "Abrí y sumá la espinaca al calor residual.", "Open and add the spinach in the residual heat."), timer: 120 },
+      { t: T("Cominho e canela nos últimos minutos; raspa de limão fora do fogo. Amasse.", "Comino y canela en los últimos minutos; ralladura fuera del fuego. Machacá.", "Cumin and cinnamon in the last minutes; zest off the heat. Mash.") },
+      { t: T("Porcione, esfrie rápido e congele no mesmo dia.", "Porcioná, enfriá rápido y congelá el mismo día.", "Portion, cool fast and freeze the same day.") },
+    ],
+    notas: [
+      T("A raspa de limão entra por aroma, não por vitamina C — para ajudar na absorção do ferro, o que vale é uma fruta cítrica logo depois da refeição.",
+        "La ralladura entra por aroma, no por vitamina C — para ayudar en la absorción del hierro, lo que sirve es una fruta cítrica justo después de la comida.",
+        "The zest is there for aroma, not vitamin C — what actually helps iron absorption is citrus fruit right after the meal."),
+    ],
+  },
+
+  {
+    id: "papinha-6-grao-de-bico-abobora",
+    capitulo: "papinhas",
+    titulo: T("Papinha #6 — grão de bico, abóbora e carne", "Papilla #6 — garbanzos, calabaza y carne", "Purée #6 — chickpeas, squash and beef"),
+    kicker: T("11/7/23 · SEM MEDIDAS NO BILHETE", "11/7/23 · SIN MEDIDAS EN LA NOTA", "11 JUL 23 · NO MEASUREMENTS IN THE NOTE"),
+    subtitulo: T(
+      "A mais completa em nutrição: proteína animal e vegetal no mesmo prato.",
+      "La más completa en nutrición: proteína animal y vegetal en el mismo plato.",
+      "The most nutritionally complete: animal and plant protein in one dish."
+    ),
+    principio: T(
+      "A abóbora traz vitamina A e engrossa sozinha. Canela com abóbora é combinação clássica e funciona muito bem sem açúcar nenhum. Cuidado com a água — abóbora e grão de bico soltam bastante, então comece com menos.",
+      "La calabaza aporta vitamina A y espesa sola. Canela con calabaza es combinación clásica y funciona muy bien sin nada de azúcar. Cuidado con el agua — calabaza y garbanzos sueltan bastante, así que empezá con menos.",
+      "Squash brings vitamin A and thickens by itself. Cinnamon and squash is a classic pairing and works beautifully with no sugar at all. Go easy on the water — squash and chickpeas release plenty, so start with less."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 75,
+    rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),
+    utensilio: T("Panela de pressão", "Olla a presión", "Pressure cooker"),
+    faixa: T("SEM SAL · MENOS ÁGUA QUE O NORMAL", "SIN SAL · MENOS AGUA QUE LO HABITUAL", "NO SALT · LESS WATER THAN USUAL"),
+    ingredientes: [
+      { q: null, u: "", nome: T("grão de bico", "garbanzos", "chickpeas"), obs: T("de molho 12 h", "en remojo 12 h", "soaked 12 h"), escala: false },
+      { q: null, u: "", nome: T("óleo de girassol", "aceite de girasol", "sunflower oil"), escala: false },
+      { q: null, u: "", nome: T("cebola", "cebolla", "onion"), escala: false },
+      { q: null, u: "", nome: T("alho", "ajo", "garlic"), escala: false },
+      { q: null, u: "", nome: T("carne moída", "carne molida", "ground beef"), escala: false },
+      { q: null, u: "", nome: T("abóbora", "calabaza", "squash"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes"), escala: false },
+      { q: null, u: "", nome: T("batata", "papa", "potato"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes"), escala: false },
+      { q: null, u: "", nome: T("água", "agua", "water"), obs: T("menos que o normal", "menos que lo habitual", "less than usual"), escala: false },
+      { q: null, u: "", nome: T("espinafre", "espinaca", "spinach"), escala: false },
+      { q: null, u: "", nome: T("canela", "canela", "cinnamon"), escala: false },
+      { q: null, u: "", nome: T("cominho", "comino", "cumin"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("molho e pressão à parte", "remojo y presión aparte", "soak and pressure, separately"), detalhe: T("12 h de molho · 25 min de pressão", "12 h de remojo · 25 min de presión", "12 h soak · 25 min pressure") },
+      { col: 2, de: 1, ate: 4, titulo: T("refogar", "sofreír", "sofrito"), detalhe: T("cebola, alho, carne até perder o rosado", "cebolla, ajo, carne hasta perder el rosado", "onion, garlic, beef until no pink remains") },
+      { col: 3, de: 0, ate: 7, titulo: T("pressão", "presión", "pressure"), detalhe: T("4 min · abóbora cozinha rápido", "4 min · la calabaza se cocina rápido", "4 min · squash cooks fast") },
+      { col: 4, de: 0, ate: 8, titulo: T("sem tampa", "sin tapa", "lid off"), detalhe: T("espinafre, 2 min", "espinaca, 2 min", "spinach, 2 min") },
+      { col: 5, de: 0, ate: 10, titulo: T("temperar e amassar", "condimentar y machacar", "season and mash") },
+    ],
+    modo: [
+      { t: T("Grão de bico de molho 12 h; cozinhe sozinho na pressão até desmanchar mesmo — mal cozido deixa bolinha de casca.", "Garbanzos en remojo 12 h; cocinalos solos a presión hasta que se deshagan de verdad — mal cocidos dejan bolitas de piel.", "Soak the chickpeas 12 h; pressure-cook them alone until they truly collapse — undercooked, the skins leave little pellets."), timer: 1500 },
+      { t: T("Óleo, cebola, alho, e a carne moída até perder o rosado.", "Aceite, cebolla, ajo, y la carne molida hasta perder el rosado.", "Oil, onion, garlic, then the beef until no pink remains."), timer: 480 },
+      { t: T("Abóbora e batata em cubos, o grão de bico, água com moderação. Pressão.", "Calabaza y papa en cubos, los garbanzos, agua con moderación. Presión.", "Squash and potato in cubes, the chickpeas, water sparingly. Pressure."), timer: 240 },
+      { t: T("Abra e junte o espinafre no calor residual.", "Abrí y sumá la espinaca al calor residual.", "Open and add the spinach in the residual heat."), timer: 120 },
+      { t: T("Canela e cominho. Amasse na textura da fase.", "Canela y comino. Machacá según la etapa.", "Cinnamon and cumin. Mash to the texture of the stage.") },
+      { t: T("Porcione, esfrie rápido e congele no mesmo dia.", "Porcioná, enfriá rápido y congelá el mismo día.", "Portion, cool fast and freeze the same day.") },
+    ],
+    notas: [
+      T("O bilhete original só listava os ingredientes, sem quantidade — e não se inventou nenhuma. A proporção das outras papinhas (200 g por item, 100 g de folha, 200 g de proteína) encaixa bem se for repetir.",
+        "La nota original solo listaba los ingredientes, sin cantidad — y no se inventó ninguna. La proporción de las otras papillas (200 g por ítem, 100 g de hoja, 200 g de proteína) encaja bien si se quiere repetir.",
+        "The original note listed only ingredients, no amounts — and none were invented. The proportions of the other purées (200 g per item, 100 g of greens, 200 g of protein) fit well if you want to repeat it."),
+    ],
+  },
+
+  {
+    id: "papinha-7-suina-alho-poro",
+    capitulo: "papinhas",
+    titulo: T("Papinha #7 — carne suína e alho-poró", "Papilla #7 — cerdo y puerro", "Purée #7 — pork and leek"),
+    kicker: T("2/8/23 · A MAIS \"DE GENTE GRANDE\"", "2/8/23 · LA MÁS \"DE GENTE GRANDE\"", "2 AUG 23 · THE MOST GROWN-UP ONE"),
+    subtitulo: T(
+      "Alho-poró é mais doce e menos agressivo que a cebola — bom para bebê que estranha sabor forte.",
+      "El puerro es más dulce y menos agresivo que la cebolla — bueno para un bebé al que le cuesta el sabor fuerte.",
+      "Leek is sweeter and gentler than onion — good for a baby who balks at strong flavours."
+    ),
+    principio: T(
+      "Corte magro de porco — pernil ou lombo — desfia bem na pressão e fica macio sem virar pasta. Peça com gordura fica melhor de sabor, mas exige tirar o excesso depois. Foi a única aparição do alho-poró na série e merecia ter voltado.",
+      "Un corte magro de cerdo — pernil o lomo — se deshilacha bien a presión y queda tierno sin volverse pasta. Un corte con grasa sabe mejor, pero exige retirar el exceso después. Fue la única aparición del puerro en la serie y merecía haber vuelto.",
+      "A lean pork cut — leg or loin — shreds well under pressure and turns tender without going pasty. A fattier cut tastes better but means skimming afterwards. This was the leek's only appearance in the series and it deserved a comeback."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 50,
+    rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),
+    utensilio: T("Panela de pressão", "Olla a presión", "Pressure cooker"),
+    faixa: T("SEM SAL · SÓ A PARTE BRANCA E O VERDE-CLARO DO ALHO-PORÓ", "SIN SAL · SOLO LA PARTE BLANCA Y EL VERDE CLARO DEL PUERRO", "NO SALT · ONLY THE WHITE AND PALE GREEN OF THE LEEK"),
+    ingredientes: [
+      { q: null, u: "", nome: T("óleo de girassol", "aceite de girasol", "sunflower oil"), escala: false },
+      { q: null, u: "", nome: T("cebola", "cebolla", "onion"), escala: false },
+      { q: null, u: "", nome: T("alho-poró", "puerro", "leek"), obs: T("parte branca e verde-claro, fatiado fino", "parte blanca y verde claro, en rodajas finas", "white and pale green, thinly sliced"), escala: false },
+      { q: null, u: "", nome: T("carne suína", "carne de cerdo", "pork"), obs: T("pernil ou lombo, em cubos pequenos", "pernil o lomo, en cubos pequeños", "leg or loin, in small cubes"), escala: false },
+      { q: null, u: "", nome: T("batata", "papa", "potato"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes"), escala: false },
+      { q: null, u: "", nome: T("cenoura", "zanahoria", "carrot"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes"), escala: false },
+      { q: null, u: "", nome: T("água", "agua", "water"), obs: T("até quase cobrir", "hasta casi cubrir", "not quite covering"), escala: false },
+      { q: null, u: "", nome: T("espinafre", "espinaca", "spinach"), escala: false },
+      { q: null, u: "", nome: T("condimentos", "especias", "spices"), obs: T("sem sal", "sin sal", "no salt"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 3, titulo: T("refogar e selar", "sofreír y sellar", "sofrito and sear"), detalhe: T("cebola e alho-poró, depois a carne", "cebolla y puerro, después la carne", "onion and leek, then the pork") },
+      { col: 2, de: 0, ate: 6, titulo: T("pressão", "presión", "pressure"), detalhe: T("5 min do chiado", "5 min desde el silbido", "5 min from the hiss") },
+      { col: 3, de: 0, ate: 7, titulo: T("sem tampa", "sin tapa", "lid off"), detalhe: T("espinafre, 2 min", "espinaca, 2 min", "spinach, 2 min") },
+      { col: 4, de: 0, ate: 8, titulo: T("temperar e amassar", "condimentar y machacar", "season and mash") },
+    ],
+    modo: [
+      { t: T("Óleo, cebola e alho-poró fatiado fino, até murchar sem dourar.", "Aceite, cebolla y puerro en rodajas finas, hasta ablandar sin dorar.", "Oil, onion and thinly sliced leek, softened without colouring."), timer: 480 },
+      { t: T("Carne suína em cubos pequenos, selada até perder o rosado.", "Cerdo en cubos pequeños, sellado hasta perder el rosado.", "Pork in small cubes, seared until no pink remains."), timer: 360 },
+      { t: T("Batata e cenoura em cubos, água até quase cobrir. Pressão.", "Papa y zanahoria en cubos, agua hasta casi cubrir. Presión.", "Potato and carrot in cubes, water not quite covering. Pressure."), timer: 300 },
+      { t: T("Abra e junte o espinafre no calor residual.", "Abrí y sumá la espinaca al calor residual.", "Open and add the spinach in the residual heat."), timer: 120 },
+      { t: T("Condimentos fora do fogo. Amasse na textura da fase.", "Especias fuera del fuego. Machacá según la etapa.", "Spices off the heat. Mash to the texture of the stage.") },
+      { t: T("Porcione, esfrie rápido e congele no mesmo dia.", "Porcioná, enfriá rápido y congelá el mismo día.", "Portion, cool fast and freeze the same day.") },
+    ],
+    notas: [
+      T("Sem medidas no bilhete original — nada foi inventado. Se for repetir, a proporção das outras (200 g por item, 100 g de folha, 200 g de proteína) serve de partida.",
+        "Sin medidas en la nota original — no se inventó nada. Si vas a repetirla, la proporción de las otras (200 g por ítem, 100 g de hoja, 200 g de proteína) sirve de punto de partida.",
+        "No measurements in the original note — nothing was invented. If you repeat it, the proportions of the others (200 g per item, 100 g of greens, 200 g of protein) are a starting point."),
+    ],
+  },
+
+  {
+    id: "papinha-8-frango-feijao",
+    capitulo: "papinhas",
+    titulo: T("Papinha #8 — frango, feijão e cenoura", "Papilla #8 — pollo, porotos y zanahoria", "Purée #8 — chicken, beans and carrot"),
+    kicker: T("21/8/23 · A MAIS EQUILIBRADA", "21/8/23 · LA MÁS EQUILIBRADA", "21 AUG 23 · THE BEST BALANCED"),
+    subtitulo: T(
+      "A mais neutra da série, boa para dia de bebê resistente.",
+      "La más neutra de la serie, buena para un día de bebé reticente.",
+      "The most neutral of the series, good for a day when the baby is resisting."
+    ),
+    principio: T(
+      "Frango com feijão dá proteína suficiente com sabor suave. 100 g de proteína animal para uns 700 g de vegetal é a proporção mais leve das cinco — funciona porque o feijão complementa.",
+      "Pollo con porotos da proteína suficiente con sabor suave. 100 g de proteína animal para unos 700 g de verdura es la proporción más liviana de las cinco — funciona porque los porotos complementan.",
+      "Chicken with beans gives enough protein with a mild flavour. 100 g of animal protein to about 700 g of vegetables is the lightest ratio of the five — it works because the beans fill the gap."
+    ),
+    porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 70,
+    rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),
+    utensilio: T("Panela de pressão", "Olla a presión", "Pressure cooker"),
+    faixa: T("SEM SAL · CINCO DENTES DE ALHO É BASTANTE, E TUDO BEM", "SIN SAL · CINCO DIENTES DE AJO ES BASTANTE, Y ESTÁ BIEN", "NO SALT · FIVE CLOVES OF GARLIC IS A LOT, AND THAT'S FINE"),
+    ingredientes: [
+      { q: 200, u: "g", nome: T("feijão", "porotos", "beans"), obs: T("de molho 8–12 h", "en remojo 8–12 h", "soaked 8–12 h") },
+      { q: null, u: "", nome: T("óleo de girassol", "aceite de girasol", "sunflower oil"), escala: false },
+      { q: 1, u: "un", alt: { q: 150, u: "g" }, nome: T("cebola", "cebolla", "onion") },
+      { q: 5, u: "dente", alt: { q: 20, u: "g" }, nome: T("alho", "ajo", "garlic") },
+      { q: 100, u: "g", nome: T("frango", "pollo", "chicken"), obs: T("em cubinhos", "en cubitos", "in small cubes") },
+      { q: 200, u: "g", nome: T("cenoura", "zanahoria", "carrot"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: 200, u: "g", nome: T("batata", "papa", "potato"), obs: T("em cubos de 2 cm", "en cubos de 2 cm", "in 2 cm cubes") },
+      { q: null, u: "", nome: T("água", "agua", "water"), obs: T("até quase cobrir", "hasta casi cubrir", "not quite covering"), escala: false },
+      { q: 100, u: "g", nome: T("espinafre", "espinaca", "spinach") },
+      { q: null, u: "", nome: T("cominho", "comino", "cumin"), escala: false },
+      { q: null, u: "", nome: T("canela", "canela", "cinnamon"), escala: false },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 0, titulo: T("molho e pressão à parte", "remojo y presión aparte", "soak and pressure, separately"), detalhe: T("20–25 min de pressão", "20–25 min de presión", "20–25 min pressure") },
+      { col: 2, de: 1, ate: 4, titulo: T("refogar", "sofreír", "sofrito"), detalhe: T("cebola, alho, frango até perder o rosado", "cebolla, ajo, pollo hasta perder el rosado", "onion, garlic, chicken until no pink remains") },
+      { col: 3, de: 0, ate: 7, titulo: T("pressão", "presión", "pressure"), detalhe: T("5 min do chiado", "5 min desde el silbido", "5 min from the hiss") },
+      { col: 4, de: 0, ate: 8, titulo: T("sem tampa", "sin tapa", "lid off"), detalhe: T("feijão e espinafre, 2 min", "porotos y espinaca, 2 min", "beans and spinach, 2 min") },
+      { col: 5, de: 0, ate: 10, titulo: T("temperar e amassar", "condimentar y machacar", "season and mash") },
+    ],
+    modo: [
+      { t: T("Feijão de molho de véspera; cozinhe sozinho na pressão até desmanchar.", "Porotos en remojo desde la víspera; cocinalos solos a presión hasta que se deshagan.", "Soak the beans overnight; pressure-cook them alone until they collapse."), timer: 1350 },
+      { t: T("Óleo, cebola até murchar, alho só até perfumar — cinco dentes é bastante, e tudo bem.", "Aceite, cebolla hasta ablandar, ajo solo hasta perfumar — cinco dientes es bastante, y está bien.", "Oil, onion until soft, garlic just until fragrant — five cloves is a lot, and that's fine."), timer: 420 },
+      { t: T("Frango em cubinhos até perder o rosado.", "Pollo en cubitos hasta perder el rosado.", "Chicken in small cubes until no pink remains."), timer: 300 },
+      { t: T("Cenoura e batata em cubos, água até quase cobrir. Pressão.", "Zanahoria y papa en cubos, agua hasta casi cubrir. Presión.", "Carrot and potato in cubes, water not quite covering. Pressure."), timer: 300 },
+      { t: T("Abra, junte o feijão e o espinafre no calor residual.", "Abrí, sumá los porotos y la espinaca al calor residual.", "Open, add the beans and spinach in the residual heat."), timer: 120 },
+      { t: T("Cominho e canela. Amasse na textura da fase.", "Comino y canela. Machacá según la etapa.", "Cumin and cinnamon. Mash to the texture of the stage.") },
+      { t: T("Porcione, esfrie rápido e congele no mesmo dia.", "Porcioná, enfriá rápido y congelá el mismo día.", "Portion, cool fast and freeze the same day.") },
+    ],
+    notas: [
+      T("Trocando o frango por 50 g de fígado picado miúdo, refogado junto com a cebola, esta vira a papinha de maior ferro do caderno.",
+        "Cambiando el pollo por 50 g de hígado bien picado, sofrito junto con la cebolla, esta pasa a ser la papilla con más hierro del cuaderno.",
+        "Swap the chicken for 50 g of finely chopped liver, cooked with the onion, and this becomes the highest-iron purée in the book."),
+    ],
+  }
+);
