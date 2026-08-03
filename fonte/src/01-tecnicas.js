@@ -56,12 +56,12 @@ const TECNICAS = [
       },
     ],
     notas: [
-      T("Ponto certo: 75 °C no centro, ou o osso soltando fácil da carne.",
-        "Punto correcto: 75 °C en el centro, o el hueso soltándose fácil de la carne.",
-        "Doneness: 75 °C at the centre, or the bone pulling free easily."),
-      T("Frango cru temperado dura 1–2 dias na geladeira. No segundo dia, cheire e toque antes: cheiro neutro e superfície não pegajosa = ok, mas cozinhe naquele dia.",
-        "El pollo crudo ya sazonado dura 1–2 días en la nevera. Al segundo día, huélelo y tócalo antes: olor neutro y superficie no pegajosa = bien, pero cocínalo ese mismo día.",
-        "Seasoned raw chicken keeps 1–2 days in the fridge. On the second day, smell and touch it first: neutral smell and non-tacky surface means fine, but cook it that day."),
+      T("Ponto certo: 75 °C no centro é o que garante segurança. O osso soltando fácil da carne é só um sinal a mais, não substitui o termômetro.",
+        "Punto correcto: 75 °C en el centro es lo que garantiza seguridad. El hueso soltándose fácil de la carne es solo una señal extra, no reemplaza el termómetro.",
+        "Doneness: 75 °C at the centre is what actually guarantees safety. The bone pulling free easily is a bonus sign, not a substitute for a thermometer."),
+      T("Frango cru temperado dura 1 a 2 dias na geladeira, mantido sempre a até 4 °C. Cheiro e textura indicam deterioração, mas não confirmam segurança — na dúvida sobre o tempo ou a temperatura de conservação, descarte.",
+        "El pollo crudo ya sazonado dura 1 a 2 días en la nevera, siempre a 4 °C o menos. El olor y la textura indican deterioro, pero no confirman seguridad — ante la duda sobre el tiempo o la temperatura de conservación, descártalo.",
+        "Seasoned raw chicken keeps 1 to 2 days in the fridge, held continuously at 4 °C or below. Smell and texture signal spoilage but do not confirm safety — when in doubt about time or temperature, discard it."),
       T("Marinada líquida atrapalha. Se usar, escorra e seque bem antes de levar ao fogo.",
         "La marinada líquida estorba. Si la usas, escurre y seca bien antes de llevar al fuego.",
         "A wet marinade works against you. If you use one, drain and dry thoroughly before it hits the heat."),
@@ -105,16 +105,16 @@ const TECNICAS = [
       {
         h: T("Quando o sal já foi longe demais", "Cuando la sal ya fue demasiado lejos", "When the salt has already gone too far"),
         p: T(
-          "Nas carnes salgadas, o controle é a dessalga: 24 horas na geladeira em bastante água, trocando a cada 3 a 4 horas. Se o tempo foi menor, prove um pedacinho cru antes de cozinhar — se ainda estiver salgado, pré-cozinhe 15 minutos em vez de 10 e troque a água no meio.",
-          "En las carnes saladas, el control es el desalado: 24 horas en la nevera en abundante agua, cambiándola cada 3 o 4 horas. Si el tiempo fue menor, prueba un trocito crudo antes de cocinar — si sigue salado, precocina 15 minutos en vez de 10 y cambia el agua a mitad.",
-          "With salted meats, the control is the soak: 24 hours in the fridge in plenty of water, changed every 3 to 4 hours. If you had less time, taste a small raw piece before cooking — if it is still salty, pre-boil for 15 minutes instead of 10 and change the water halfway."
+          "Nas carnes salgadas, o controle é a dessalga: 24 horas na geladeira em bastante água, trocando a cada 3 a 4 horas. Se o tempo foi menor, cozinhe uma amostra pequena em água e prove depois de completamente cozida — nunca crua — para decidir; se ainda estiver salgado, pré-cozinhe 15 minutos em vez de 10 e troque a água no meio.",
+          "En las carnes saladas, el control es el desalado: 24 horas en la nevera en abundante agua, cambiándola cada 3 o 4 horas. Si el tiempo fue menor, cociná una muestra pequeña en agua y probá una vez bien cocida — nunca cruda — para decidir; si sigue salado, precociná 15 minutos en vez de 10 y cambiá el agua a mitad.",
+          "With salted meats, the control is the soak: 24 hours in the fridge in plenty of water, changed every 3 to 4 hours. If you had less time, cook a small sample in water and taste it once fully cooked — never raw — to decide; if it is still salty, pre-boil for 15 minutes instead of 10 and change the water halfway."
         ),
       },
     ],
     notas: [
-      T("Prove o líquido da marinada antes de reaproveitá-lo como molho.",
-        "Prueba el líquido de la marinada antes de reaprovecharlo como salsa.",
-        "Taste the marinade liquid before reusing it as a sauce."),
+      T("Marinada que encostou em carne crua não se prova nem vira molho direto: reserve uma parte antes de colocar a carne, ou ferva o líquido usado por completo antes de reduzir e provar.",
+        "La marinada que tocó carne cruda no se prueba ni se convierte en salsa directamente: reservá una parte antes de poner la carne, o herví el líquido usado por completo antes de reducir y probar.",
+        "Marinade that touched raw meat is not tasted or turned straight into a sauce: set a portion aside before adding the meat, or bring the used liquid to a full boil before reducing and tasting."),
       T("Se o molho leva shoyu, alivie o sal de tudo o que vai junto no prato — carne e acompanhamentos.",
         "Si la salsa lleva salsa de soja, alivia la sal de todo lo que va junto en el plato — carne y guarniciones.",
         "If the sauce has soy sauce in it, ease off the salt everywhere else on the plate — meat and sides."),
@@ -255,7 +255,7 @@ const TECNICAS = [
   {
     id: "fermentacao-segura",
     titulo: T("Fermentar em salmoura sem medo", "Fermentar en salmuera sin miedo", "Brine fermenting without fear"),
-    kicker: T("TÉCNICA · SAL A 3%, TUDO SUBMERSO, O NARIZ DECIDE", "TÉCNICA · SAL AL 3%, TODO SUMERGIDO, LA NARIZ DECIDE", "TECHNIQUE · 3% SALT, EVERYTHING SUBMERGED, YOUR NOSE DECIDES"),
+    kicker: T("TÉCNICA · SAL A 3%, TUDO SUBMERSO, O PH CONFIRMA", "TÉCNICA · SAL AL 3%, TODO SUMERGIDO, EL PH CONFIRMA", "TECHNIQUE · 3% SALT, EVERYTHING SUBMERGED, PH CONFIRMS"),
     resumo: T(
       "Lacto-fermentação é simples e segura quando três regras são obedecidas. A quarta regra é saber quando descartar.",
       "La lacto-fermentación es simple y segura cuando se obedecen tres reglas. La cuarta regla es saber cuándo desechar.",

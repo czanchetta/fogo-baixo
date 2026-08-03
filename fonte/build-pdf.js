@@ -14,6 +14,16 @@ const t = v => v == null ? '' : (typeof v === 'string' ? v : (v[LANG] != null ? 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const uni = (cod, pl) => { const u = UNI[cod]; if (!u) return cod || ''; const p = u[LANG] || u.pt; return pl ? p[1] : p[0]; };
 const dec = n => LANG === 'en' ? String(n) : String(n).replace('.', ',');
+const rotuloPorcoes = (n, ehLote) => `${n} ${esc(t(n === 1 ? (ehLote ? UI.lote : UI.porcao) : (ehLote ? UI.lotes : UI.porcoes)))}`;
+const fmtDuracao = min => {
+  if (min < 180) return `${min} ${esc(t(UI.min))}`;
+  if (min < 2880) {
+    const h = Math.floor(min / 60), r = min % 60;
+    return r === 0 ? `${h} ${esc(t(UI.hAbrev))}` : `${h}h${String(r).padStart(2, '0')}`;
+  }
+  const d = Math.round(min / 1440);
+  return `${d} ${esc(t(d === 1 ? UI.dia : UI.dias))}`;
+};
 
 const FR = [[1/8,"⅛"],[1/6,"⅙"],[1/4,"¼"],[1/3,"⅓"],[1/2,"½"],[2/3,"⅔"],[3/4,"¾"]];
 function fracao(n){
@@ -106,9 +116,9 @@ function documento(){
   <hr>
   ${r.principio ? `<p class="principio">${esc(t(r.principio))}</p>` : ''}
   <div class="meta">
-    <div><span>${esc(t(UI.rende))}</span><b>${r.rende ? esc(t(r.rende)) : r.porcoes + ' ' + esc(t(UI.porcoes))}</b></div>
-    <div><span>${esc(t(UI.ativo))}</span><b>${r.ativo} ${esc(t(UI.min))}</b></div>
-    <div><span>${esc(t(UI.totalT))}</span><b>${r.total} ${esc(t(UI.min))}</b></div>
+    <div><span>${esc(t(UI.rende))}</span><b>${r.rende ? esc(t(r.rende)) : rotuloPorcoes(r.porcoes, r.lote)}</b></div>
+    <div><span>${esc(t(UI.ativo))}</span><b>${fmtDuracao(r.ativo)}</b></div>
+    <div><span>${esc(t(UI.totalT))}</span><b>${fmtDuracao(r.total)}</b></div>
     <div><span>${esc(t(UI.utensilio))}</span><b>${esc(t(r.utensilio))}</b></div>
   </div>
   <div class="cols">

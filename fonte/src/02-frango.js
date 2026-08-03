@@ -60,9 +60,9 @@ const RECEITAS = [
         "Añade la mantequilla, el ajo aplastado y las ramas de romero o tomillo. Inclina la sartén y baña la carne con la mantequilla espumosa durante 1 minuto.",
         "Add the butter, smashed garlic and rosemary or thyme sprigs. Tilt the pan and baste the meat with the foaming butter for 1 minute."), timer: 60 },
       { t: T(
-        "Descanse 5 minutos antes de servir. Ponto: 75 °C no centro, ou o osso soltando fácil da carne.",
-        "Deja reposar 5 minutos antes de servir. Punto: 75 °C en el centro, o el hueso soltándose fácil de la carne.",
-        "Rest 5 minutes before serving. Doneness: 75 °C at the centre, or the bone pulling free easily."), timer: 300 },
+        "Descanse 5 minutos antes de servir. Ponto: 75 °C no centro, medidos com termômetro sem encostar no osso — o osso soltando fácil é só um indício a mais.",
+        "Deja reposar 5 minutos antes de servir. Punto: 75 °C en el centro, medidos con termómetro sin tocar el hueso — el hueso soltándose fácil es solo un indicio extra.",
+        "Rest 5 minutes before serving. Doneness: 75 °C at the centre, checked with a thermometer that isn't touching the bone — the bone pulling free easily is just a bonus sign."), timer: 300 },
     ],
     notas: [
       T("A gordura que sobrou na frigideira é ingrediente, não sujeira: vale para as batatas ou para o arroz de alho.",

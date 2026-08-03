@@ -162,9 +162,9 @@ RECEITAS.push(
       "It comes out purple and sweet — usually the favourite."
     ),
     principio: T(
-      "Beterraba e carne no mesmo prato é a dupla de ferro mais forte da série. A beterraba domina a cor e adoça bastante. Tinge a fralda também: normal.",
-      "Remolacha y carne en el mismo plato es la dupla de hierro más fuerte de la serie. La remolacha domina el color y endulza bastante. Tiñe el pañal también: es normal.",
-      "Beetroot and beef in one dish is the strongest iron pairing of the series. The beetroot takes over the colour and sweetens it considerably. It stains the nappy too: that is normal."
+      "A carne é quem carrega o ferro deste prato — a beterraba entra por cor, doçura e variedade, não como fonte de ferro relevante. Ela domina a cor e adoça bastante. Tinge a fralda também: normal.",
+      "La carne es la que aporta el hierro de este plato — la remolacha entra por color, dulzor y variedad, no como fuente relevante de hierro. Domina el color y endulza bastante. Tiñe el pañal también: es normal.",
+      "The beef is what carries the iron in this dish — the beetroot is there for colour, sweetness and variety, not as a meaningful iron source. It takes over the colour and sweetens it considerably. It stains the nappy too: that is normal."
     ),
     porcoes: 1, porcoesOpcoes: [1, 2], lote: true, ativo: 30, total: 50,
     rende: T("8–12 porções congeladas (~1,2–1,5 kg)", "8–12 porciones congeladas (~1,2–1,5 kg)", "8–12 frozen portions (~1.2–1.5 kg)"),

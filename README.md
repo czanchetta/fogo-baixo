@@ -23,10 +23,10 @@ Não é publicação editorial nem consultoria gastronômica. É um arquivo pró
 
 **Técnicas (6)** — o princípio da pele crocante · a disciplina do sal · ponto de carne sem termômetro · chapa, panela e a boca de 4,5 kW · fermentar em salmoura sem medo · papinha é família de alimento, não receita
 
-**Receitas (24), em oito capítulos:**
+**Receitas (25), em oito capítulos:**
 
 - **Frango** — sobrecoxa na frigideira, na airfryer e no forno · batatas na gordura do frango · arroz de alho na gordura rendida
-- **Carnes na chapa e no forno** — prime rib na chapa · smashed potatoes na air fryer · medalhões de filé mignon suíno ao molho de mostarda · fraldinha marinada assada no forno
+- **Carnes na chapa e no forno** — prime rib na chapa · smashed potatoes na air fryer · medalhões de filé mignon suíno ao molho de mostarda · fraldinha marinada assada no forno · costela quadrada assada
 - **Um dia inteiro: a feijoada** — feijoada completa · farofa de bacon com azeitona · couve na gordura de bacon
 - **Arroz e massas rápidas** — fried rice de bacon e calabresa · risone de camarão ao limão
 - **Sem fogo: molhos e acompanhamentos** — farofa fria · molho alemão

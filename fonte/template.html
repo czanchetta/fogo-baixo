@@ -342,6 +342,22 @@ function unidade(cod, plural){
   const par = u[prefs.lang] || u.pt;
   return plural ? par[1] : par[0];
 }
+/* rótulo "N porção/porções" ou "N lote/lotes", concordando com o número */
+function rotuloPorcoes(n, ehLote){
+  const sing = ehLote ? UI.lote : UI.porcao;
+  const plur = ehLote ? UI.lotes : UI.porcoes;
+  return n + " " + esc(t(n === 1 ? sing : plur));
+}
+/* formata minutos como min / h(min) / dias, conforme a escala — sem arredondar horas */
+function fmtDuracao(min){
+  if (min < 180) return min + " " + esc(t(UI.min));
+  if (min < 2880){
+    const h = Math.floor(min / 60), r = min % 60;
+    return r === 0 ? h + " " + esc(t(UI.hAbrev)) : h + "h" + String(r).padStart(2, "0");
+  }
+  const d = Math.round(min / 1440);
+  return d + " " + esc(t(d === 1 ? UI.dia : UI.dias));
+}
 
 const FRACOES = [[1/8,"⅛"],[1/6,"⅙"],[1/4,"¼"],[1/3,"⅓"],[1/2,"½"],[2/3,"⅔"],[3/4,"¾"]];
 function fracao(n){
@@ -685,11 +701,11 @@ function renderReceita(m){
   const meta = el("div", "meta");
   const rendeTxt = r.rende
     ? esc(t(r.rende))
-    : estado.porcoes + " " + esc(t(UI.porcoes));
+    : rotuloPorcoes(estado.porcoes, r.lote);
   meta.innerHTML =
     "<div><span>" + esc(t(UI.rende)) + "</span><b>" + rendeTxt + "</b></div>" +
-    "<div><span>" + esc(t(UI.ativo)) + "</span><b>" + r.ativo + " " + esc(t(UI.min)) + "</b></div>" +
-    "<div><span>" + esc(t(UI.totalT)) + "</span><b>" + r.total + " " + esc(t(UI.min)) + "</b></div>" +
+    "<div><span>" + esc(t(UI.ativo)) + "</span><b>" + fmtDuracao(r.ativo) + "</b></div>" +
+    "<div><span>" + esc(t(UI.totalT)) + "</span><b>" + fmtDuracao(r.total) + "</b></div>" +
     "<div><span>" + esc(t(UI.utensilio)) + "</span><b>" + esc(t(r.utensilio)) + "</b></div>";
   m.appendChild(meta);
 
@@ -889,7 +905,7 @@ function renderCozinha(){
 
   const top = el("div", "k-top");
   top.appendChild(el("div", "k-name", esc(t(r.titulo)) +
-    (r.rende ? " · " + esc(t(r.rende)) : " · " + estado.porcoes + " " + esc(t(UI.porcoes)))));
+    (r.rende ? " · " + esc(t(r.rende)) : " · " + rotuloPorcoes(estado.porcoes, r.lote))));
   const x = el("button", "k-x", esc(t(UI.sair)));
   x.onclick = fechaCozinha;
   top.appendChild(x);
