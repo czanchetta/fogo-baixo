@@ -221,6 +221,24 @@ const CAPITULOS = [
   },
   { id: "conservas",nome: T("Conservas e fermentados", "Conservas y fermentados", "Preserves and ferments") },
   {
+    id: "pao",
+    nome: T("Pão", "Pan", "Bread"),
+    intro: T(
+      "Sovar é só uma forma acelerada de alinhar o glúten. Massa hidratada e parada faz o mesmo trabalho sozinha, mais devagar — dobras espaçadas no tempo substituem a batedeira. O capítulo começa com um só pão, mas a lógica vale para qualquer massa enriquecida.",
+      "Amasar es solo una forma acelerada de alinear el gluten. La masa hidratada y en reposo hace el mismo trabajo sola, más despacio — pliegues espaciados en el tiempo reemplazan a la batidora. El capítulo empieza con un solo pan, pero la lógica vale para cualquier masa enriquecida.",
+      "Kneading is just a sped-up way of aligning gluten. Hydrated, resting dough does the same work alone, only slower — folds spaced out over time replace the stand mixer. The chapter opens with a single loaf, but the logic holds for any enriched dough."
+    ),
+  },
+  {
+    id: "sanduiches",
+    nome: T("Sanduíches", "Sándwiches", "Sandwiches"),
+    intro: T(
+      "Dois sanduíches, dois problemas de água diferentes. Um é feito na hora e comido em quinze minutos — a barreira é o pão tostado na chapa. O outro atravessa uma noite inteira na geladeira antes de uma manhã de caixa térmica — a barreira é o cream cheese até a borda. Nos dois, a mesma pergunta decide o que entra: isso vai soltar água, e o pão vai aguentar até a hora de comer?",
+      "Dos sándwiches, dos problemas de agua distintos. Uno se hace en el momento y se come en quince minutos — la barrera es el pan tostado en la plancha. El otro atraviesa una noche entera en la heladera antes de una mañana de caja térmica — la barrera es el queso crema hasta el borde. En los dos, la misma pregunta decide qué entra: ¿esto va a soltar agua, y el pan va a aguantar hasta la hora de comer?",
+      "Two sandwiches, two different water problems. One is made on the spot and eaten within fifteen minutes — the barrier is bread toasted on the griddle. The other spends a whole night in the fridge before a morning in a cool box — the barrier is cream cheese spread to the edge. In both, the same question decides what goes in: will this release water, and will the bread hold until it's eaten?"
+    ),
+  },
+  {
     id: "papinhas",
     nome: T("Papinhas: a introdução alimentar", "Papillas: la alimentación complementaria", "Baby food: starting solids"),
     intro: T(
