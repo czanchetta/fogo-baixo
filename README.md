@@ -21,14 +21,15 @@ Não é publicação editorial nem consultoria gastronômica. É um arquivo pró
 
 ## Conteúdo
 
-**Técnicas (7)** — o princípio da pele crocante · a disciplina do sal · ponto de carne sem termômetro · chapa, panela e a boca de 4,5 kW · fermentar em salmoura sem medo · papinha é família de alimento, não receita · piquenique de manhã: comida de uma mão e caixa térmica
+**Técnicas (8)** — o princípio da pele crocante · a disciplina do sal · ponto de carne sem termômetro · chapa, panela e a boca de 4,5 kW · fermentar em salmoura sem medo · papinha é família de alimento, não receita · piquenique de manhã: comida de uma mão e caixa térmica · bechamel
 
-**Receitas (30), em dez capítulos:**
+**Receitas (33), em onze capítulos:**
 
 - **Frango** — sobrecoxa na frigideira, na airfryer e no forno · batatas na gordura do frango · arroz de alho na gordura rendida
 - **Carnes na chapa e no forno** — prime rib na chapa · smashed potatoes na air fryer · medalhões de filé mignon suíno ao molho de mostarda · fraldinha marinada assada no forno · costela quadrada assada
 - **Um dia inteiro: a feijoada** — feijoada completa · farofa de bacon com azeitona · couve na gordura de bacon
-- **Arroz e massas rápidas** — fried rice de bacon e calabresa · risone de camarão ao limão
+- **Ragù e lasanha** — ragù à bolonhesa · lasanha de presunto, queijo e bolonhesa, coberta com bechamel
+- **Arroz e massas rápidas** — fried rice de bacon e calabresa · risone de camarão ao limão · paella mista com arroz arbóreo
 - **Sem fogo: molhos e acompanhamentos** — farofa fria · molho alemão · patê de atum (duas consistências) · guacamole
 - **Conservas e fermentados** — escabeche de sardinha · molho de pimenta lacto-fermentado
 - **Pão** — pão de forma sem sova

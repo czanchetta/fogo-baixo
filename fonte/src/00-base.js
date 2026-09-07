@@ -209,6 +209,15 @@ const CAPITULOS = [
   { id: "frango",   nome: T("Frango", "Pollo", "Chicken") },
   { id: "carnes",   nome: T("Carnes na chapa e no forno", "Carnes a la plancha y al horno", "Meat on the griddle and in the oven") },
   { id: "feijoada", nome: T("Um dia inteiro: a feijoada", "Un día entero: la feijoada", "A whole day: feijoada") },
+  {
+    id: "ragu-lasanha",
+    nome: T("Ragù e lasanha", "Ragù y lasaña", "Ragù and lasagna"),
+    intro: T(
+      "Um projeto de tarde inteira, não uma massa rápida: 1h30 de fervura no fogo mínimo é o oposto do sofrito de 10 minutos do resto do livro, mas segue o mesmo princípio — dar tempo pro sabor se formar, em vez de forçar com fogo alto. O ragù rende para duas travessas de lasanha ou para uma massa longa qualquer, e o bechamel entra só como cobertura, dourado no maçarico no final.",
+      "Un proyecto de tarde entera, no una pasta rápida: 1h30 de cocción a fuego mínimo es lo opuesto del sofrito de diez minutos del resto del libro, pero sigue el mismo principio — darle tiempo al sabor para formarse, en vez de forzarlo con fuego alto. El ragù rinde para dos fuentes de lasaña o para cualquier pasta larga, y el bechamel entra solo como cobertura, dorado con soplete al final.",
+      "An all-afternoon project, not a quick pasta: 1h30 simmering on the lowest heat is the opposite of the ten-minute sofrito that runs through the rest of the book, but it follows the same principle — give flavor time to build instead of forcing it with high heat. The ragù makes enough for two lasagna pans or any long pasta, and the béchamel goes on only as a topping, browned with a torch at the end."
+    ),
+  },
   { id: "arroz",    nome: T("Arroz e massas rápidas", "Arroz y pastas rápidas", "Rice and quick pasta") },
   {
     id: "semfogo",
