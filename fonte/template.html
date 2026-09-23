@@ -277,11 +277,66 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
 .k-prog i{flex:1;height:3px;background:#333a2b;border-radius:2px}
 .k-prog i.done{background:var(--accent)}
 
+/* ---------- despensa e lista de compras ---------- */
+.btn{border:1px solid var(--rule);background:transparent;padding:9px 14px;border-radius:3px;
+  font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;line-height:1.15}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#14160e}
+.btn.primary:hover{filter:brightness(1.07)}
+.acoes{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0 0}
+.acoes .conf{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px}
+.desp-barra{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:26px 0 0}
+.desp-busca{flex:1 1 220px;max-width:360px;border:1px solid var(--rule);background:var(--card);color:var(--ink);
+  padding:10px 12px;border-radius:3px;font:inherit;font-size:14.5px}
+.desp-conta{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.nota-p{font-size:13px;color:var(--ink-2);margin:10px 0 0;line-height:1.5}
+.nota-p.vazia{font-size:15px;margin-top:26px;max-width:60ch}
+.desp-banner{margin:20px 0 0;padding:14px 16px;border:1px solid var(--accent);background:var(--card);
+  display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;font-size:14.5px}
+.desp-cat{margin-top:34px}
+.desp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.desp-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--card);
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);cursor:pointer;font-size:14.5px;line-height:1.3}
+.desp-item:hover{background:var(--cell)}
+.desp-item small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-2);margin-top:3px;letter-spacing:.04em}
+.desp-item input,.c-item input{margin:1px 0 0;accent-color:var(--accent);width:17px;height:17px;flex:none}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-left:7px}
+.compras{max-width:780px}
+.compras h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-2);margin:30px 0 4px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.resumo{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin:0}
+.ok-tudo{font-size:16px;font-weight:600;margin:18px 0 0}
+.c-cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin:18px 0 2px}
+.c-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--hair);
+  font-size:15px;line-height:1.35;cursor:pointer}
+.c-item .c-q{font-family:var(--mono);font-weight:700;margin-left:auto;padding-left:12px;text-align:right}
+.c-rec{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
+.c-item.feito{color:var(--ink-2)}
+.lista-rec{list-style:none;margin:0;padding:0}
+.lista-rec li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 0;border-bottom:1px solid var(--hair);font-size:15px}
+.lista-rec li .c-rec{display:inline;margin:0}
+.lista-rec li .c-q{font-family:var(--mono);font-weight:700}
+.lista-rec a{color:var(--ink);font-weight:650;cursor:pointer;text-decoration:none;border-bottom:1px solid var(--hair)}
+.lista-rec a:hover{border-bottom-color:var(--accent)}
+.lista-rec .seg button{padding:5px 10px;font-size:12px}
+.link-btn{background:none;border:0;padding:0;font-family:var(--mono);font-size:11px;color:var(--ink-2);text-decoration:underline;margin-left:auto}
+details.ja-tem{margin-top:30px}
+details.ja-tem summary{cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-2);padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.nav .badge{font-family:var(--mono);font-size:10px;background:var(--accent);color:#14160e;border-radius:9px;
+  padding:1px 7px;margin-left:7px;font-weight:700}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--sel-bg);color:var(--sel-fg);
+  padding:11px 18px;border-radius:4px;font-family:var(--mono);font-size:12.5px;z-index:70;opacity:0;
+  transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1}
+
 /* ---------- impressão: sempre claro ---------- */
 @media print{
   html[data-tema]{--paper:#fff;--card:#fff;--cell:#dde6d4;--ink:#15180f;--ink-2:#5c614f;
     --hair:#c3cbb8;--rule:#15180f;--band-bg:#15180f;--band-fg:#eef1e6}
-  .side,.tabs,.controls,.cook-btn,.hint,.colofao .links{display:none!important}
+  .side,.tabs,.controls,.cook-btn,.hint,.colofao .links,.acoes,.desp-barra,.desp-banner,.toast{display:none!important}
   body{background:#fff}
   .wrap{display:block}
   .main{padding:0;max-width:none}
@@ -302,6 +357,8 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
         <div class="seg-mini" id="seg-idioma"></div>
         <button class="tema-btn" id="btn-tema"></button>
       </div>
+      <h4 id="h-ferr"></h4>
+      <nav class="nav" id="nav-ferr"></nav>
       <h4 id="h-tecnicas"></h4>
       <nav class="nav" id="nav-tec"></nav>
       <h4 id="h-receitas"></h4>
@@ -488,6 +545,17 @@ function montaNav(){
   });
   pintaBotaoTema();
 
+  $("#h-ferr").textContent = t(UI.ferramentas);
+  const fe = $("#nav-ferr");
+  fe.innerHTML = "";
+  const nLista = Object.keys(listaCompras).length;
+  [["despensa", UI.despensa], ["posso-fazer", UI.possoFazer], ["compras", UI.listaCompras]].forEach(([id, rot]) => {
+    const b = el("button", null, esc(t(rot)) + (id === "compras" && nLista ? '<span class="badge">' + nLista + "</span>" : ""));
+    b.onclick = () => abrir(id, id);
+    b.dataset.id = id;
+    fe.appendChild(b);
+  });
+
   const tec = $("#nav-tec"), rec = $("#nav-rec");
   tec.innerHTML = ""; rec.innerHTML = "";
   TECNICAS.forEach(x => {
@@ -520,14 +588,14 @@ function fechaMenuMobile(){
     $("#toggle-nav").setAttribute("aria-expanded", "false");
   }
 }
-function abrir(id, tipo){
+function abrir(id, tipo, porcoes){
   if (kAberto()) fechaCozinha();
   fechaMenuMobile();
   estado.itemId = id; estado.tipo = tipo;
   if (tipo === "receita"){
     const rec = RECEITAS.find(x => x.id === id);
-    estado.porcoes = rec.porcoes;
-    if (!["tradicional","tabela","interativo"].includes(estado.vista)) estado.vista = "tradicional";
+    estado.porcoes = rec.porcoesOpcoes.includes(porcoes) ? porcoes : rec.porcoes;
+    if (!["tradicional","tabela","interativo","compras"].includes(estado.vista)) estado.vista = "tradicional";
   }
   marcaAtual();
   render();
@@ -546,6 +614,9 @@ function render(){
   if (estado.tipo === "capa") renderCapa(m);
   else if (estado.tipo === "sobre") renderSobre(m);
   else if (estado.tipo === "tecnica") renderTecnica(m);
+  else if (estado.tipo === "despensa") renderDespensa(m);
+  else if (estado.tipo === "posso-fazer") renderPosso(m);
+  else if (estado.tipo === "compras") renderCompras(m);
   else renderReceita(m);
   m.appendChild(colofao());
 }
@@ -710,7 +781,7 @@ function renderReceita(m){
   m.appendChild(meta);
 
   const tabs = el("div", "tabs");
-  [["tradicional", UI.tradicional], ["tabela", UI.tabela], ["interativo", UI.interativo]].forEach(([k, rot]) => {
+  [["tradicional", UI.tradicional], ["tabela", UI.tabela], ["interativo", UI.interativo], ["compras", UI.tabCompras]].forEach(([k, rot]) => {
     const b = el("button", null, esc(t(rot)));
     b.setAttribute("aria-selected", estado.vista === k ? "true" : "false");
     b.onclick = () => { estado.vista = k; render(); };
@@ -722,8 +793,9 @@ function renderReceita(m){
   m.appendChild(tabs);
 
   if (estado.vista === "interativo") m.appendChild(controles(r, false));
-  if (estado.vista === "tradicional") m.appendChild(controles(r, true));
+  if (estado.vista === "tradicional" || estado.vista === "compras") m.appendChild(controles(r, true));
 
+  if (estado.vista === "compras") return renderComprasReceita(m, r);
   if (estado.vista === "tradicional") renderTradicional(m, r);
   else renderGrade(m, r, estado.vista === "interativo");
 
@@ -843,6 +915,474 @@ function renderGrade(m, r, interativo){
   requestAnimationFrame(() => {
     if (scroll.scrollWidth > scroll.clientWidth + 4) hint.textContent = t(UI.hintScroll);
   });
+}
+
+/* =========================================================
+   despensa · o que dá pra fazer · lista de compras
+   (dados em src/90-despensa.js)
+   ========================================================= */
+const OPC_EXTRA = new Set(OPCIONAIS_EXTRA);
+const AVULSOS = {};
+function infoItem(id){ return ITENS[id] || AVULSOS[id] || { cat: "mercearia", nome: T(id, id, id) }; }
+const basicosPadrao = () => Object.keys(ITENS).filter(k => ITENS[k].basico && !ITENS[k].oculto);
+
+function carregaDespensa(){
+  const s = lembra("despensa");
+  if (s){ try{ const a = JSON.parse(s); if (Array.isArray(a)) return new Set(a.filter(k => ITENS[k])); }catch(e){} }
+  return new Set(basicosPadrao());
+}
+let despensa = carregaDespensa();
+const salvaDespensa = () => guarda("despensa", JSON.stringify([...despensa]));
+
+function limpaLista(o){
+  const r = {};
+  if (o && typeof o === "object")
+    for (const k in o){
+      const rec = RECEITAS.find(x => x.id === k);
+      if (rec && rec.porcoesOpcoes.includes(o[k])) r[k] = o[k];
+    }
+  return r;
+}
+let listaCompras = (() => { try{ return limpaLista(JSON.parse(lembra("compras") || "{}")); }catch(e){ return {}; } })();
+const salvaLista = () => guarda("compras", JSON.stringify(listaCompras));
+
+const tem = id => despensa.has(id) || !!(ITENS[id] && ITENS[id].oculto);
+const temAlgum = n => n.ids.some(tem);
+
+function mapeia(rid, ing){
+  const k = String(ing.nome.pt).toLowerCase();
+  const m = MAPA_EXC[rid + "|" + k] || MAPA_ING[k];
+  if (m) return m;
+  const id = "avulso:" + k;
+  AVULSOS[id] = { cat: "mercearia", nome: ing.nome };
+  return id;
+}
+function ehOpcional(rid, ing){
+  const o = ing.obs && ing.obs.pt ? ing.obs.pt.toLowerCase() : "";
+  return o.includes("opcional") || OPC_EXTRA.has(rid + "|" + String(ing.nome.pt).toLowerCase());
+}
+
+/* tudo o que uma receita pede, já escalado; receitas-base entram com os próprios ingredientes */
+function necessidades(r, escala, out, pilha){
+  out = out || []; pilha = pilha || [];
+  if (pilha.includes(r.id)) return out;
+  r.ingredientes.forEach(ing => {
+    const m = mapeia(r.id, ing);
+    const opc = ehOpcional(r.id, ing);
+    const fe = ing.escala === false ? 1 : escala;
+    const q = ing.q == null ? null : ing.q * fe;
+    const alt = (ing.alt && ing.q != null) ? { q: ing.alt.q * fe, u: ing.alt.u } : null;
+    const base = { receita: r.id, opc };
+    if (typeof m === "string") out.push(Object.assign({ ids: [m], q, u: ing.u, alt }, base));
+    else if (m.ou) out.push(Object.assign({ ids: m.ou, q, u: ing.u, alt }, base));
+    else if (m.e) m.e.forEach(p => {
+      if (typeof p === "string") out.push(Object.assign({ ids: [p], q: null, u: "" }, base));
+      else out.push(Object.assign({ ids: [p.item], q: p.q * (ing.q == null ? 1 : ing.q) * fe, u: p.u }, base));
+    });
+    else if (m.receita){
+      const sub = RECEITAS.find(x => x.id === m.receita);
+      if (sub){
+        const lotes = (m.fator || 1) * fe;
+        out.push(Object.assign({ tipo: "receita", de: sub.id, lotes }, base));
+        necessidades(sub, lotes, out, pilha.concat(r.id));
+      }
+    }
+    else if (m.subproduto) out.push(Object.assign({ tipo: "sobra", de: m.subproduto }, base));
+  });
+  return out;
+}
+const chave = n => n.ids.join("|");
+function faltas(needs){
+  const vistos = new Map();
+  needs.forEach(n => { if (!n.tipo && !n.opc && !temAlgum(n)) vistos.set(chave(n), n); });
+  return [...vistos.values()];
+}
+
+/* soma por item: quantidades por unidade (g/kg e ml/l normalizados) */
+function agrupa(needs){
+  const g = new Map();
+  needs.forEach(n => {
+    if (n.tipo) return;
+    const k = chave(n);
+    let a = g.get(k);
+    if (!a){ a = { ids: n.ids, qtd: {}, semQtd: false, receitas: new Set(), opc: true }; g.set(k, a); }
+    a.receitas.add(n.receita);
+    if (!n.opc) a.opc = false;
+    const b = (prefs.sistema === "peso" && n.alt) ? n.alt : { q: n.q, u: n.u };
+    if (b.q == null){ a.semQtd = true; return; }
+    let u = b.u || "", q = b.q;
+    if (u === "kg"){ u = "g"; q *= 1000; }
+    if (u === "l"){ u = "ml"; q *= 1000; }
+    a.qtd[u] = (a.qtd[u] || 0) + q;
+  });
+  return [...g.values()];
+}
+function fmtQtdSoma(a){
+  const partes = Object.entries(a.qtd).map(([u, q]) => {
+    if (u === "g" && q >= 1000){ u = "kg"; q = q / 1000; }
+    if (u === "ml" && q >= 1000){ u = "l"; q = q / 1000; }
+    const s = UNI_PESO.has(u) && (u === "kg" || u === "l") ? decimal(Math.round(q * 100) / 100) : formataQtd(q, u);
+    const un = u ? unidade(u, q > 1.0001) : "";
+    return (s + (un ? " " + un : "")).trim();
+  });
+  if (!partes.length) return "";
+  return partes.join(" + ");
+}
+const nomeGrupo = a => a.ids.map(id => t(infoItem(id).nome)).join(" " + t(UI.ou) + " ");
+const catDe = a => infoItem(a.ids[0]).cat;
+const tituloRec = id => t(RECEITAS.find(x => x.id === id).titulo);
+
+/* ---------- avisos e compartilhamento ---------- */
+let toastT = null;
+function aviso(msg){
+  let el0 = $("#toast");
+  if (!el0){ el0 = el("div", "toast"); el0.id = "toast"; document.body.appendChild(el0); }
+  el0.textContent = msg; el0.classList.add("on");
+  clearTimeout(toastT); toastT = setTimeout(() => el0.classList.remove("on"), 2600);
+}
+function copiaTexto(txt, ok){
+  const fim = () => aviso(ok || t(UI.copiado));
+  if (navigator.clipboard && window.isSecureContext)
+    return navigator.clipboard.writeText(txt).then(fim, () => copiaAntigo(txt, fim));
+  copiaAntigo(txt, fim);
+}
+function copiaAntigo(txt, fim){
+  const ta = el("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); fim(); }catch(e){}
+  ta.remove();
+}
+function compartilha(txt){
+  const movel = /Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
+  if (movel && navigator.share){ navigator.share({ text: txt }).catch(() => {}); return; }
+  window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank", "noopener");
+}
+function baixaJson(){
+  const dados = { app: "fogo-baixo", versao: 1, data: new Date().toISOString(),
+                  despensa: [...despensa], listaCompras };
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(dados, null, 1)], { type: "application/json" }));
+  a.download = "fogo-baixo-despensa.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function importaJson(){
+  const inp = el("input"); inp.type = "file"; inp.accept = ".json,application/json";
+  inp.onchange = () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try{
+        const d = JSON.parse(rd.result);
+        const arr = Array.isArray(d) ? d : d.despensa;
+        if (!Array.isArray(arr)) throw 0;
+        despensa = new Set(arr.filter(k => ITENS[k])); salvaDespensa();
+        if (d.listaCompras){ listaCompras = limpaLista(d.listaCompras); salvaLista(); }
+        montaNav(); render(); aviso(t(UI.importarOk));
+      }catch(e){ aviso(t(UI.importarErro)); }
+    };
+    rd.readAsText(f);
+  };
+  inp.click();
+}
+const linkDespensa = () => location.href.split("#")[0] + "#despensa=" + [...despensa].join(",");
+
+/* texto da lista para WhatsApp / cópia */
+function textoLista(grupos, receitas){
+  const L = [t(UI.tituloTexto)];
+  if (receitas.length) L.push(t(UI.paraReceitas) + ": " + receitas.join("; "));
+  CATEGORIAS_MERCADO.forEach(c => {
+    const gs = grupos.filter(a => !a.opc && catDe(a) === c.id);
+    if (!gs.length) return;
+    L.push("", c.icone + " " + t(c.nome));
+    gs.forEach(a => { const q = fmtQtdSoma(a); L.push("• " + nomeGrupo(a) + (q ? " — " + q : "")); });
+  });
+  const op = grupos.filter(a => a.opc);
+  if (op.length){ L.push("", t(UI.opcionais) + ":"); op.forEach(a => { const q = fmtQtdSoma(a); L.push("• " + nomeGrupo(a) + (q ? " — " + q : "")); }); }
+  return L.join("\n");
+}
+
+/* linhas clicáveis: marcar = tenho em casa */
+function linhaItem(a, marcado, mostraReceitas){
+  const lab = el("label", "c-item" + (marcado ? " feito" : ""));
+  const cb = el("input"); cb.type = "checkbox"; cb.checked = marcado;
+  cb.onchange = () => {
+    if (cb.checked) despensa.add(a.ids[0]); else a.ids.forEach(id => despensa.delete(id));
+    salvaDespensa(); render();
+  };
+  lab.appendChild(cb);
+  const rec = mostraReceitas ? '<span class="c-rec">' + esc([...a.receitas].map(tituloRec).join(" · ")) + "</span>" : "";
+  lab.appendChild(el("span", "c-nome", esc(nomeGrupo(a)) + rec));
+  const q = fmtQtdSoma(a);
+  if (q) lab.appendChild(el("span", "c-q", esc(q)));
+  return lab;
+}
+function blocoPorCategoria(grupos, marcado, mostraReceitas){
+  const box = el("div");
+  CATEGORIAS_MERCADO.forEach(c => {
+    const gs = grupos.filter(a => catDe(a) === c.id);
+    if (!gs.length) return;
+    box.appendChild(el("div", "c-cat", esc(c.icone + " " + t(c.nome))));
+    gs.forEach(a => box.appendChild(linhaItem(a, marcado, mostraReceitas)));
+  });
+  return box;
+}
+function secaoCompras(needs, mostraReceitas){
+  const grupos = agrupa(needs);
+  const falta = grupos.filter(a => !a.opc && !temAlgum(a));
+  const opc = grupos.filter(a => a.opc && !temAlgum(a));
+  const ja = grupos.filter(a => temAlgum(a) && !a.ids.every(id => ITENS[id] && ITENS[id].oculto));
+  const box = el("div", "compras");
+  const total = falta.length + ja.filter(a => !a.opc).length;
+  box.appendChild(el("p", "resumo", esc(t(UI.resumoFalta).replace("{f}", falta.length).replace("{n}", total))));
+  if (!falta.length) box.appendChild(el("p", "ok-tudo", esc(t(UI.nadaFalta))));
+  else { box.appendChild(el("h3", null, esc(t(UI.faltaComprar)))); box.appendChild(blocoPorCategoria(falta, false, mostraReceitas)); }
+  if (opc.length){ box.appendChild(el("h3", null, esc(t(UI.opcionais)))); box.appendChild(blocoPorCategoria(opc, false, mostraReceitas)); }
+  const outras = needs.filter(n => n.tipo);
+  if (outras.length){
+    box.appendChild(el("h3", null, esc(t(UI.deOutra))));
+    const ul = el("ul", "lista-rec");
+    const vistos = new Set();
+    outras.forEach(n => {
+      const k = n.tipo + n.de; if (vistos.has(k)) return; vistos.add(k);
+      const li = el("li");
+      const a = el("a", null, esc(tituloRec(n.de)));
+      a.onclick = () => abrir(n.de, "receita");
+      if (n.tipo === "receita"){
+        li.appendChild(el("span", "c-q", esc(fracao(n.lotes) + " " + t(UI.lotesDe))));
+        li.appendChild(a);
+        li.appendChild(el("span", "c-rec", "— " + esc(t(UI.incluiReceita))));
+      } else {
+        li.appendChild(el("span", "c-rec", esc(t(UI.usaSobra))));
+        li.appendChild(a);
+      }
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  }
+  if (ja.length){
+    const d = el("details", "ja-tem");
+    d.appendChild(el("summary", null, esc(t(UI.jaTem)) + " (" + ja.length + ")"));
+    d.appendChild(blocoPorCategoria(ja, true, mostraReceitas));
+    box.appendChild(d);
+  }
+  return { box, grupos: falta.concat(opc) };
+}
+
+/* ---------- aba "Lista de compras" dentro da receita ---------- */
+function renderComprasReceita(m, r){
+  const needs = necessidades(r, fator());
+  const { box, grupos } = secaoCompras(needs, false);
+  const acoes = el("div", "acoes");
+  const naLista = listaCompras[r.id];
+  if (naLista !== estado.porcoes){
+    const b = el("button", "btn primary", esc(t(naLista ? UI.atualizar : UI.adicionar)));
+    b.onclick = () => { listaCompras[r.id] = estado.porcoes; salvaLista(); montaNav(); render(); };
+    acoes.appendChild(b);
+  } else {
+    const b = el("button", "btn primary", esc(t(UI.verLista)));
+    b.onclick = () => abrir("compras", "compras");
+    acoes.appendChild(b);
+    const x = el("button", "btn", esc(t(UI.remover)));
+    x.onclick = () => { delete listaCompras[r.id]; salvaLista(); montaNav(); render(); };
+    acoes.appendChild(x);
+  }
+  const rot = tituloRec(r.id) + " (" + (r.rende && estado.porcoes === r.porcoes ? t(r.rende) : estado.porcoes + " " + t(r.lote ? UI.lotes : UI.porcoes)) + ")";
+  if (grupos.length){
+    const w = el("button", "btn", esc(t(UI.enviar)));
+    w.onclick = () => compartilha(textoLista(grupos, [rot]));
+    const c = el("button", "btn", esc(t(UI.copiar)));
+    c.onclick = () => copiaTexto(textoLista(grupos, [rot]));
+    acoes.appendChild(w); acoes.appendChild(c);
+  }
+  box.insertBefore(acoes, box.children[1] || null);
+  m.appendChild(box);
+}
+
+/* ---------- página: despensa ---------- */
+let usoItens = null;
+function calculaUso(){
+  usoItens = {};
+  RECEITAS.forEach(r => necessidades(r, 1).forEach(n => {
+    if (n.tipo) return;
+    n.ids.forEach(id => { (usoItens[id] = usoItens[id] || new Set()).add(r.id); });
+  }));
+}
+function renderDespensa(m){
+  if (!usoItens) calculaUso();
+  m.appendChild(el("p", "kicker", esc(t(UI.despKicker))));
+  m.appendChild(el("h1", "title", esc(t(UI.despTitulo))));
+  m.appendChild(el("p", "lede", esc(t(UI.despLede))));
+  m.appendChild(el("div", "rule"));
+
+  if (estado.importPendente){
+    const ids = estado.importPendente;
+    const bn = el("div", "desp-banner");
+    bn.appendChild(el("span", null, esc(t(UI.importarLink).replace("{n}", ids.length))));
+    const s = el("button", "btn primary", esc(t(UI.sim)));
+    s.onclick = () => { despensa = new Set(ids); salvaDespensa(); estado.importPendente = null; render(); aviso(t(UI.importarOk)); };
+    const n = el("button", "btn", esc(t(UI.cancelar)));
+    n.onclick = () => { estado.importPendente = null; render(); };
+    bn.appendChild(s); bn.appendChild(n);
+    m.appendChild(bn);
+  }
+
+  const visiveis = Object.keys(ITENS).filter(k => !ITENS[k].oculto);
+  const barra = el("div", "desp-barra");
+  const busca = el("input", "desp-busca"); busca.type = "search";
+  busca.placeholder = t(UI.buscar); busca.value = estado.buscaDesp || "";
+  const conta = el("span", "desp-conta");
+  const pintaConta = () => { conta.textContent = visiveis.filter(k => despensa.has(k)).length + " / " + visiveis.length + " " + t(UI.marcados); };
+  pintaConta();
+  barra.appendChild(busca); barra.appendChild(conta);
+  m.appendChild(barra);
+
+  const acoes = el("div", "acoes");
+  const b1 = el("button", "btn primary", esc(t(UI.compartDesp)));
+  b1.onclick = () => compartilha(t(UI.msgDespensa) + "\n" + linkDespensa());
+  const b1b = el("button", "btn", esc(t(UI.copiarLink)));
+  b1b.onclick = () => copiaTexto(linkDespensa(), t(UI.linkCopiado));
+  const b2 = el("button", "btn", esc(t(UI.exportar))); b2.onclick = baixaJson;
+  const b3 = el("button", "btn", esc(t(UI.importar))); b3.onclick = importaJson;
+  const b4 = el("button", "btn", esc(t(UI.padrao)));
+  b4.onclick = () => {
+    if (acoes.querySelector(".conf")) return;
+    const c = el("span", "conf", esc(t(UI.padraoConf)) + " ");
+    const s = el("button", "btn", esc(t(UI.sim)));
+    s.onclick = () => { despensa = new Set(basicosPadrao()); salvaDespensa(); render(); };
+    const n = el("button", "btn", esc(t(UI.cancelar))); n.onclick = () => c.remove();
+    c.appendChild(s); c.appendChild(n); acoes.appendChild(c);
+  };
+  [b1, b1b, b2, b3, b4].forEach(b => acoes.appendChild(b));
+  m.appendChild(acoes);
+  m.appendChild(el("p", "nota-p", esc(t(UI.despNota))));
+
+  const secoes = [];
+  CATEGORIAS_MERCADO.forEach(c => {
+    const ks = visiveis.filter(k => ITENS[k].cat === c.id)
+      .sort((a, b) => t(ITENS[a].nome).localeCompare(t(ITENS[b].nome), prefs.lang));
+    if (!ks.length) return;
+    const sec = el("div", "desp-cat");
+    const h = el("h3", "secao-t");
+    const pintaH = () => { h.textContent = c.icone + " " + t(c.nome) + " · " + ks.filter(k => despensa.has(k)).length + "/" + ks.length; };
+    pintaH();
+    sec.appendChild(h);
+    const grid = el("div", "desp-grid");
+    ks.forEach(k => {
+      const it = ITENS[k];
+      const lab = el("label", "desp-item");
+      const cb = el("input"); cb.type = "checkbox"; cb.checked = despensa.has(k);
+      cb.onchange = () => { if (cb.checked) despensa.add(k); else despensa.delete(k); salvaDespensa(); pintaH(); pintaConta(); };
+      const uso = usoItens[k] ? usoItens[k].size : 0;
+      const nomes = usoItens[k] ? [...usoItens[k]].map(tituloRec).join(" · ") : "";
+      lab.title = nomes;
+      lab.appendChild(cb);
+      lab.appendChild(el("span", null, esc(t(it.nome)) + (it.basico ? '<span class="tag">' + esc(t(UI.basico)) + "</span>" : "") +
+        "<small>" + uso + " " + esc(t(uso === 1 ? UI.receitaSing : UI.receitasPl)) + "</small>"));
+      lab.dataset.busca = (t(it.nome) + " " + it.nome.pt).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      grid.appendChild(lab);
+    });
+    sec.appendChild(grid);
+    m.appendChild(sec);
+    secoes.push(sec);
+  });
+  const filtra = () => {
+    const q = busca.value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+    estado.buscaDesp = busca.value;
+    secoes.forEach(sec => {
+      let algum = false;
+      sec.querySelectorAll(".desp-item").forEach(l => { const ok = !q || l.dataset.busca.includes(q); l.style.display = ok ? "" : "none"; if (ok) algum = true; });
+      sec.style.display = algum ? "" : "none";
+    });
+  };
+  busca.oninput = filtra;
+  filtra();
+}
+
+/* ---------- página: o que dá pra fazer ---------- */
+function renderPosso(m){
+  m.appendChild(el("p", "kicker", esc(t(UI.possoKicker))));
+  m.appendChild(el("h1", "title", esc(t(UI.possoFazer))));
+  m.appendChild(el("p", "lede", esc(t(UI.possoLede))));
+  m.appendChild(el("div", "rule"));
+  const grupos = [[UI.gAgora, []], [UI.gFalta1, []], [UI.gFalta2, []], [UI.gFaltaN, []]];
+  CAPITULOS.forEach(cap => RECEITAS.filter(r => r.capitulo === cap.id).forEach(r => {
+    const f = faltas(necessidades(r, 1));
+    grupos[Math.min(f.length, 3)][1].push([r, f]);
+  }));
+  grupos.forEach(([rot, lista]) => {
+    if (!lista.length) return;
+    const b = el("div", "bloco");
+    b.appendChild(el("h3", "secao-t", esc(t(rot)) + " · " + lista.length));
+    const it = el("div", "itens");
+    lista.forEach(([r, f]) => {
+      const nomes = f.map(n => n.ids.map(id => t(infoItem(id).nome)).join(" " + t(UI.ou) + " "));
+      const k = f.length ? t(UI.falta) + ": " + (nomes.length > 4 ? nomes.slice(0, 4).join(", ") + "… (+" + (nomes.length - 4) + ")" : nomes.join(", ")) : t(UI.tudoEmCasa);
+      const bt = el("button", null,
+        '<span class="n">' + nn(r.id) + "</span>" +
+        '<span class="t">' + esc(t(r.titulo)) + "</span>" +
+        '<span class="k">' + esc(k) + "</span>");
+      bt.onclick = () => { estado.vista = "compras"; abrir(r.id, "receita"); };
+      it.appendChild(bt);
+    });
+    b.appendChild(it);
+    m.appendChild(b);
+  });
+}
+
+/* ---------- página: lista de compras ---------- */
+function renderCompras(m){
+  m.appendChild(el("p", "kicker", esc(t(UI.comprasKicker))));
+  m.appendChild(el("h1", "title", esc(t(UI.listaCompras))));
+  m.appendChild(el("p", "lede", esc(t(UI.comprasLede))));
+  m.appendChild(el("div", "rule"));
+  const ids = RECEITAS.map(r => r.id).filter(id => listaCompras[id]);
+  if (!ids.length){ m.appendChild(el("p", "nota-p vazia", esc(t(UI.listaVazia)))); return; }
+
+  const cab = el("div", "compras");
+  cab.appendChild(el("h3", null, esc(t(UI.receitasNaLista))));
+  const ul = el("ul", "lista-rec");
+  let needs = [];
+  const rotulos = [];
+  ids.forEach(id => {
+    const r = RECEITAS.find(x => x.id === id), p = listaCompras[id];
+    needs = necessidades(r, p / r.porcoes, needs);
+    rotulos.push(t(r.titulo) + " (" + p + " " + t(r.lote ? (p === 1 ? UI.lote : UI.lotes) : (p === 1 ? UI.porcao : UI.porcoes)) + ")");
+    const li = el("li");
+    const a = el("a", null, esc(t(r.titulo)));
+    a.onclick = () => { estado.vista = "compras"; abrir(id, "receita", p); };
+    li.appendChild(a);
+    const seg = el("div", "seg");
+    r.porcoesOpcoes.forEach(o => {
+      const b = el("button", null, String(o));
+      b.setAttribute("aria-pressed", o === p ? "true" : "false");
+      b.onclick = () => { listaCompras[id] = o; salvaLista(); render(); };
+      seg.appendChild(b);
+    });
+    li.appendChild(seg);
+    li.appendChild(el("span", "c-rec", esc(t(r.lote ? UI.lotes : UI.porcoes))));
+    const x = el("button", "link-btn", esc(t(UI.remover)));
+    x.onclick = () => { delete listaCompras[id]; salvaLista(); montaNav(); render(); };
+    li.appendChild(x);
+    ul.appendChild(li);
+  });
+  cab.appendChild(ul);
+  m.appendChild(cab);
+
+  const { box, grupos } = secaoCompras(needs, true);
+  const acoes = el("div", "acoes");
+  const w = el("button", "btn primary", esc(t(UI.enviar)));
+  w.onclick = () => compartilha(textoLista(grupos, rotulos));
+  const c = el("button", "btn", esc(t(UI.copiar)));
+  c.onclick = () => copiaTexto(textoLista(grupos, rotulos));
+  const k = el("button", "btn", esc(t(UI.comprei)));
+  k.onclick = () => { grupos.filter(a => !a.opc).forEach(a => despensa.add(a.ids[0])); salvaDespensa(); render(); };
+  const z = el("button", "btn", esc(t(UI.limparLista)));
+  z.onclick = () => { listaCompras = {}; salvaLista(); montaNav(); render(); };
+  if (grupos.length){ acoes.appendChild(w); acoes.appendChild(c); acoes.appendChild(k); }
+  acoes.appendChild(z);
+  box.insertBefore(acoes, box.children[1] || null);
+  m.appendChild(box);
 }
 
 /* =========================================================
@@ -1021,6 +1561,13 @@ function rota(){
   if (h === estado.itemId) return;
   if (!h || h === "capa") return abrir("capa", "capa");
   if (h === "sobre") return abrir("sobre", "sobre");
+  if (h.startsWith("despensa=")){
+    const ids = decodeURIComponent(h.slice(9)).split(",").filter(k => ITENS[k]);
+    estado.importPendente = ids.length ? ids : null;
+    estado.itemId = "";
+    return abrir("despensa", "despensa");
+  }
+  if (["despensa", "posso-fazer", "compras"].includes(h)) return abrir(h, h);
   if (RECEITAS.some(r => r.id === h)) return abrir(h, "receita");
   if (TECNICAS.some(x => x.id === h)) return abrir(h, "tecnica");
   abrir("capa", "capa");

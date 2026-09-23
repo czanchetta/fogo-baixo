@@ -39,6 +39,18 @@ Não é publicação editorial nem consultoria gastronômica. É um arquivo pró
 
 > O capítulo das papinhas é o registro do que foi feito em casa, não orientação pediátrica. Introdução alimentar se acerta com o pediatra da criança.
 
+## Despensa e lista de compras
+
+No site (não nos PDFs), a seção **Na cozinha** tem três páginas:
+
+- **Despensa**: marque o que tem em casa. Os 127 itens de compra vêm organizados por categoria de mercado.
+- **O que dá pra fazer**: as receitas agrupadas por quantos itens faltam. Opcionais e básicos não contam.
+- **Lista de compras**: junte várias receitas, com as porções escolhidas. O que falta vem somado por item, descontando a despensa, e dá para mandar pelo WhatsApp ou copiar.
+
+Cada receita também ganhou a aba **Lista de compras**. A despensa fica salva no navegador. O botão *Compartilhar despensa* gera um link que importa tudo em outro aparelho, e também há exportar/importar em JSON.
+
+O mapeamento entre as linhas de ingrediente e os itens de compra fica em [`fonte/src/90-despensa.js`](fonte/src/90-despensa.js). Receita nova com ingrediente de nome novo: acrescente o nome em `MAPA_ING`. Se esquecer, o site não quebra, o ingrediente só aparece como item avulso.
+
 Também em PDF: [`Fogo-Baixo.pdf`](Fogo-Baixo.pdf) · [`Fogo-Baixo-ES.pdf`](Fogo-Baixo-ES.pdf) · [`Fogo-Baixo-EN.pdf`](Fogo-Baixo-EN.pdf)
 
 ## Como mexer
