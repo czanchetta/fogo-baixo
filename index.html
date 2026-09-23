@@ -2009,6 +2009,121 @@ RECEITAS.push(
     ],
   },
 
+  {
+    id: "arroz-sirio-frango-zatar",
+    capitulo: "arroz",
+    titulo: T("Arroz sírio com frango e zatar", "Arroz sirio con pollo y za'atar", "Syrian rice with chicken and za'atar"),
+    kicker: T("~70 MIN · TUDO NUMA PANELA SÓ", "~70 MIN · TODO EN UNA SOLA OLLA", "~70 MIN · EVERYTHING IN ONE POT"),
+    subtitulo: T(
+      "O sabor vem da cebola caramelizada devagar; o frango dourado em levas guarda o fundo que tempera os grãos.",
+      "El sabor viene de la cebolla caramelizada despacio; el pollo dorado en tandas guarda el fondo que sazona los granos.",
+      "The flavour comes from the onion caramelized slowly; the chicken browned in batches keeps the fond that seasons the grains."
+    ),
+    principio: T(
+      "Fogo alto queima a cebola em vez de adoçar, e esse amargor contamina a panela inteira — por isso ela cozinha devagar, sem pressa. O frango tem que dourar em levas: tudo de uma vez solta água, cozinha no vapor e perde o fundo que tempera os grãos. A lentilha fica de molho em água fervente para chegar à panela no mesmo ritmo do arroz — sem isso, o arroz fica pronto e ela continua dura. E o zatar entra só onde o calor é curto (na selagem do frango, cru na finalização): em 25 minutos de fervura o gergelim amolece, o tomilho perde o perfume e o sumagre azeda o arroz.",
+      "El fuego alto quema la cebolla en vez de endulzarla, y ese amargor contamina toda la olla — por eso cocina despacio, sin apuro. El pollo tiene que dorarse en tandas: todo de una vez suelta agua, se cocina al vapor y pierde el fondo que sazona los granos. La lenteja se pone en remojo con agua hirviendo para llegar a la olla al mismo ritmo que el arroz — sin eso, el arroz queda listo y ella sigue dura. Y el za'atar entra solo donde el calor es breve (al sellar el pollo, crudo en la terminación): en 25 minutos de hervor el sésamo se ablanda, el tomillo pierde el perfume y el sumac deja un ácido difuso en el arroz.",
+      "High heat burns the onion instead of sweetening it, and that bitterness spreads through the whole pot — so it cooks slowly, without rushing. The chicken has to brown in batches: all at once it releases water, steams instead of searing, and loses the fond that seasons the grains. The lentils soak in boiling water so they reach the pot on the same clock as the rice — without that, the rice finishes while the lentils are still hard. And the za'atar only goes in where the heat is brief (searing the chicken, raw at the finish): 25 minutes of simmering softens the sesame, mutes the thyme and leaves the sumac's sourness diffused through the rice."
+    ),
+    porcoes: 6, porcoesOpcoes: [3, 6, 12],
+    ativo: 30, total: 70,
+    utensilio: T("Panela larga de 24 cm ou mais, fundo grosso", "Olla ancha de 24 cm o más, fondo grueso", "Wide pot, 24 cm or more, thick bottom"),
+    faixa: T("FRANGO EM LEVAS PARA NÃO SOLTAR ÁGUA", "POLLO EN TANDAS PARA QUE NO SUELTE AGUA", "CHICKEN IN BATCHES SO IT DOESN'T RELEASE WATER"),
+    ingredientes: [
+      { q: 1, u: "xic", alt: { q: 192, u: "g" }, nome: T("lentilha", "lenteja", "lentils"), obs: T("seca", "seca", "dry") },
+      { q: null, u: "", nome: T("água fervente", "agua hirviendo", "boiling water"), obs: T("para cobrir a lentilha, uns 2 dedos acima", "para cubrir la lenteja, unos 2 dedos por encima", "to cover the lentils, about 2 finger-widths above"), escala: false },
+      { q: 568, u: "g", nome: T("filé de peito de frango", "pechuga de pollo", "chicken breast"), obs: T("em tirinhas de ~1 × 7 cm", "en tiras de ~1 × 7 cm", "cut into ~1 × 7 cm strips") },
+      { q: 1.5, u: "cs", alt: { q: 9, u: "g" }, nome: T("zatar", "za'atar", "za'atar"), obs: T("para o frango", "para el pollo", "for the chicken") },
+      { q: 1, u: "cc", alt: { q: 2, u: "g" }, nome: T("pimenta síria", "pimienta siria", "Syrian pepper (baharat-style blend)") },
+      { q: 2, u: "cc", alt: { q: 12, u: "g" }, nome: T("sal", "sal", "salt"), obs: T("mais pitadas para a cebola e o frango", "más pizcas para la cebolla y el pollo", "plus pinches for the onion and the chicken") },
+      { q: 2, u: "un", alt: { q: 600, u: "g" }, nome: T("cebolas grandes", "cebollas grandes", "large onions"), obs: T("em meias-luas · ~300 g cada", "en medias lunas · ~300 g cada una", "in half-moons · ~300 g each") },
+      { q: 0.25, u: "cc", alt: { q: 1, u: "g" }, nome: T("açúcar", "azúcar", "sugar") },
+      { q: 4, u: "cs", alt: { q: 60, u: "ml" }, nome: T("azeite", "aceite de oliva", "olive oil"), obs: T("dividido entre a cebola e o frango", "dividido entre la cebolla y el pollo", "split between the onion and the chicken") },
+      { q: 3, u: "dente", nome: T("alho", "ajo", "garlic"), obs: T("picado fino", "picado fino", "finely chopped") },
+      { q: 1.5, u: "xic", alt: { q: 300, u: "g" }, nome: T("arroz branco", "arroz blanco", "white rice") },
+      { q: 0.5, u: "cc", alt: { q: 1, u: "g" }, nome: T("zatar", "za'atar", "za'atar"), obs: T("opcional, nos grãos", "opcional, en los granos", "optional, in the grains") },
+      { q: 5, u: "xic", alt: { q: 1200, u: "ml" }, nome: T("água", "agua", "water"), obs: T("para o cozimento", "para la cocción", "for cooking") },
+      { q: 0.5, u: "xic", alt: { q: 50, u: "g" }, nome: T("nozes picadas", "nueces picadas", "chopped walnuts") },
+      { q: 2, u: "cc", alt: { q: 4, u: "g" }, nome: T("zatar", "za'atar", "za'atar"), obs: T("para a finalização", "para la terminación", "for the finish") },
+      { q: 1, u: "cs", alt: { q: 15, u: "ml" }, nome: T("azeite", "aceite de oliva", "olive oil"), obs: T("para a finalização", "para la terminación", "for the finish") },
+      { q: 1, u: "xic", alt: { q: 245, u: "g" }, nome: T("iogurte natural", "yogur natural", "plain yogurt") },
+    ],
+    grade: [
+      { col: 1, de: 0, ate: 1, titulo: T("lentilha de molho", "lenteja en remojo", "lentils soaking"), detalhe: T("água fervente, ~20 min, enquanto prepara o resto", "agua hirviendo, ~20 min, mientras prepara el resto", "boiling water, ~20 min, while you prep the rest") },
+      { col: 2, de: 2, ate: 5, titulo: T("temperar o frango", "sazonar el pollo", "season the chicken"), detalhe: T("zatar, metade da pimenta síria, pitada de sal · secar bem antes", "za'atar, mitad de la pimienta siria, pizca de sal · secar bien antes", "za'atar, half the Syrian pepper, a pinch of salt · pat dry first") },
+      { col: 3, de: 6, ate: 8, titulo: T("cebola caramelizada devagar", "cebolla caramelizada despacio", "onion caramelized slowly"), detalhe: T("fogo baixo, pitada de sal e açúcar, ~12 min, sem pressa", "fuego bajo, pizca de sal y azúcar, ~12 min, sin apuro", "low heat, a pinch of salt and sugar, ~12 min, no rushing") },
+      { col: 4, de: 2, ate: 2, titulo: T("frango em 3 levas", "pollo en 3 tandas", "chicken in 3 batches"), detalhe: T("fogo médio-alto, sem lotar a panela · o fundo é tempero", "fuego medio-alto, sin llenar la olla · el fondo es condimento", "medium-high heat, don't crowd the pot · the fond is seasoning") },
+      { col: 5, de: 9, ate: 11, titulo: T("temperar os grãos", "sazonar los granos", "season the grains"), detalhe: T("alho 1 min, arroz, sal e pimenta restantes, zatar opcional", "ajo 1 min, arroz, sal y pimienta restantes, za'atar opcional", "garlic 1 min, rice, remaining salt and pepper, optional za'atar") },
+      { col: 6, de: 12, ate: 12, titulo: T("cozimento com a lentilha escorrida", "cocción con la lenteja escurrida", "cooking with the drained lentils"), detalhe: T("tampa entreaberta até secar, ~25 min · conferir aos 20", "tapa entreabierta hasta secar, ~25 min · revisar a los 20", "lid ajar until dry, ~25 min · check at 20") },
+      { col: 7, de: 13, ate: 13, titulo: T("nozes tostadas", "nueces tostadas", "toasted walnuts"), detalhe: T("3 min em frigideira seca, se estiverem cruas", "3 min en sartén seca, si están crudas", "3 min in a dry pan, if raw") },
+      { col: 8, de: 14, ate: 16, titulo: T("finalização", "terminación", "to finish"), detalhe: T("zatar e azeite sobre o iogurte · nozes por cima do arroz", "za'atar y aceite sobre el yogur · nueces encima del arroz", "za'atar and oil over the yogurt · walnuts on top of the rice") },
+    ],
+    modo: [
+      { t: T(
+        "Ponha a lentilha numa tigela funda e cubra com água fervente, uns 2 dedos acima. Deixe ali enquanto faz o resto.",
+        "Pon la lenteja en un bol hondo y cúbrela con agua hirviendo, unos 2 dedos por encima. Déjala ahí mientras haces el resto.",
+        "Put the lentils in a deep bowl and cover with boiling water, about 2 finger-widths above. Leave them there while you do the rest."), timer: 1200 },
+      { t: T(
+        "Corte o frango em tirinhas de ~1 × 7 cm. Tempere com o zatar, metade da pimenta síria e uma pitada de sal. Seque bem antes — superfície molhada não doura.",
+        "Corta el pollo en tiras de ~1 × 7 cm. Sazona con el za'atar, la mitad de la pimienta siria y una pizca de sal. Sécalo bien antes — la superficie mojada no dora.",
+        "Cut the chicken into ~1 × 7 cm strips. Season with the za'atar, half the Syrian pepper and a pinch of salt. Pat it dry first — a wet surface won't brown.") },
+      { t: T(
+        "Na panela em fogo médio, coloque metade do azeite e a cebola, com uma pitada de sal e o açúcar. Abaixe o fogo e cozinhe ~12 min, mexendo de vez em quando, até ficar bem dourada. Não aumente o fogo para acelerar. Transfira para uma tigela.",
+        "En la olla a fuego medio, pon la mitad del aceite y la cebolla, con una pizca de sal y el azúcar. Baja el fuego y cocina ~12 min, revolviendo de vez en cuando, hasta que quede bien dorada. No subas el fuego para acelerar. Pásala a un bol.",
+        "In the pot over medium heat, add half the olive oil and the onion, with a pinch of salt and the sugar. Lower the heat and cook for ~12 min, stirring occasionally, until well browned. Don't raise the heat to speed it up. Transfer to a bowl."), timer: 720 },
+      { t: T(
+        "Aumente para médio-alto, junte o restante do azeite e doure o frango em 3 levas, sem lotar a panela, mexendo pouco para criar cor. Vá reservando cada leva junto com a cebola. O fundo que fica grudado é tempero, não sujeira.",
+        "Sube a medio-alto, añade el resto del aceite y dora el pollo en 3 tandas, sin llenar la olla, revolviendo poco para que tome color. Ve reservando cada tanda junto con la cebolla. El fondo que queda pegado es condimento, no suciedad.",
+        "Turn up to medium-high, add the remaining oil and brown the chicken in 3 batches, without crowding the pot, stirring little so it colours. Set each batch aside with the onion as you go. The browned bits stuck to the pot are seasoning, not mess.") },
+      { t: T(
+        "Volte o frango e a cebola para a panela, junte o alho e mexa 1 min. Acrescente o arroz, o sal e a pimenta síria restantes e, se quiser, o zatar opcional. Mexa até envolver todos os grãos.",
+        "Devuelve el pollo y la cebolla a la olla, añade el ajo y revuelve 1 min. Agrega el arroz, la sal y la pimienta siria restantes y, si quieres, el za'atar opcional. Revuelve hasta envolver todos los granos.",
+        "Return the chicken and onion to the pot, add the garlic and stir for 1 min. Add the rice, the remaining salt and Syrian pepper and, if using, the optional za'atar. Stir until every grain is coated.") },
+      { t: T(
+        "Escorra a lentilha na peneira e junte à panela. Cubra com a água, raspe o fundo e misture. Quando ferver, abaixe o fogo e deixe com a tampa entreaberta até a água secar, ~25 min.",
+        "Escurre la lenteja en el colador y añádela a la olla. Cubre con el agua, raspa el fondo y mezcla. Cuando hierva, baja el fuego y deja con la tapa entreabierta hasta que se seque el agua, ~25 min.",
+        "Drain the lentils in a sieve and add them to the pot. Cover with the water, scrape the bottom and stir. Once it boils, lower the heat and leave with the lid ajar until the water dries up, ~25 min."), timer: 1500 },
+      { t: T(
+        "⏳ Confira aos 20 min: se a água já secou e o arroz ainda está firme, junte ½ xícara de água quente e tampe por mais 5 min.",
+        "⏳ Revisa a los 20 min: si el agua ya se secó y el arroz sigue firme, añade ½ taza de agua caliente y tapa por 5 min más.",
+        "⏳ Check at 20 min: if the water has dried up and the rice is still firm, add ½ cup of hot water and cover for another 5 min.") },
+      { t: T(
+        "Desligue o fogo e deixe tampado por 10 min. Os grãos terminam de cozinhar no vapor.",
+        "Apaga el fuego y deja tapado por 10 min. Los granos terminan de cocinarse al vapor.",
+        "Turn off the heat and leave covered for 10 min. The grains finish cooking in the steam."), timer: 600 },
+      { t: T(
+        "Se as nozes estiverem cruas, toste 3 min numa frigideira seca antes de picar.",
+        "Si las nueces están crudas, tuéstalas 3 min en una sartén seca antes de picarlas.",
+        "If the walnuts are raw, toast them for 3 min in a dry pan before chopping."), timer: 180 },
+      { t: T(
+        "Misture o zatar da finalização com o azeite e regue por cima do iogurte. Sirva o arroz salpicado com as nozes e, se quiser mais zatar, mais uma pitada crua por cima, com o iogurte ao lado.",
+        "Mezcla el za'atar de la terminación con el aceite y riégalo sobre el yogur. Sirve el arroz salpicado con las nueces y, si quieres más za'atar, otra pizca cruda por encima, con el yogur al lado.",
+        "Mix the finishing za'atar with the oil and drizzle it over the yogurt. Serve the rice sprinkled with the walnuts and, if you like more za'atar, another raw pinch on top, with the yogurt on the side.") },
+    ],
+    notas: [
+      T("Adaptado do \"arroz sírio com frango\" do Panelinha, que serve 2 com 240 g de frango. Aqui a proporção foi invertida para ficar mais arroz que lentilha, escalado para 568 g de frango.",
+        "Adaptado del \"arroz sirio con pollo\" de Panelinha, que sirve 2 con 240 g de pollo. Aquí la proporción se invirtió para que quede más arroz que lenteja, escalado a 568 g de pollo.",
+        "Adapted from Panelinha's \"Syrian rice with chicken,\" which serves 2 with 240 g of chicken. Here the ratio was flipped to be more rice than lentils, scaled up to 568 g of chicken."),
+      T("Panela estreita empilha os grãos: o fundo pega enquanto o topo ainda está cru. Fundo fino queima a cebola na caramelização.",
+        "Una olla angosta amontona los granos: el fondo se pega mientras la superficie sigue cruda. Un fondo fino quema la cebolla al caramelizar.",
+        "A narrow pot piles the grains up: the bottom catches while the top is still raw. A thin bottom scorches the onion while it caramelizes."),
+      T("Numa boca de 4,5 kW regule pelo que vê, não pelo registro: a cebola deve chiar de leve, nunca fritar; o frango precisa de chiado forte — se parar de chiar, a panela está lotada.",
+        "En un quemador de 4,5 kW regula por lo que ves, no por el mando: la cebolla debe chisporrotear apenas, nunca freírse; el pollo necesita chisporroteo fuerte — si deja de sonar, la olla está llena.",
+        "On a 4.5 kW burner, judge by what you see, not the dial: the onion should sizzle faintly, never fry; the chicken needs a strong sizzle — if it goes quiet, the pot is overcrowded."),
+      T("Com mais arroz que o original, o frango rende menos por porção. Para um prato mais proteico, sirva 5 porções generosas em vez de 6.",
+        "Con más arroz que el original, el pollo rinde menos por porción. Para un plato más proteico, sirve 5 porciones generosas en vez de 6.",
+        "With more rice than the original, the chicken stretches thinner per serving. For a more protein-forward plate, serve 5 generous portions instead of 6."),
+      T("Zatar com sumagre forte demais? Corte a pimenta síria pela metade para os dois não competirem.",
+        "¿Za'atar con sumac muy fuerte? Corta la pimienta siria a la mitad para que no compitan entre sí.",
+        "Za'atar heavy on the sumac? Cut the Syrian pepper in half so the two don't compete."),
+      T("Sal, tempo de cozimento e a pitada de zatar nos grãos ainda estão em ajuste — a próxima vez confirma se os 25 min e as 2 colheres (chá) de sal batem no ponto certo.",
+        "La sal, el tiempo de cocción y la pizca de za'atar en los granos todavía están en ajuste — la próxima vez confirma si los 25 min y las 2 cucharaditas de sal dan el punto justo.",
+        "The salt, cooking time and the pinch of za'atar in the grains are still being dialled in — next time will confirm whether the 25 min and 2 tsp of salt hit the right point."),
+      T("Sobras requentam bem com um fio de água, tampado.",
+        "Las sobras se recalientan bien con un chorrito de agua, tapadas.",
+        "Leftovers reheat well with a splash of water, covered."),
+    ],
+  },
+
   /* ===================== CONSERVAS ===================== */
   {
     id: "escabeche-sardinha",
