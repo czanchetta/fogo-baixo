@@ -588,14 +588,16 @@ function fechaMenuMobile(){
     $("#toggle-nav").setAttribute("aria-expanded", "false");
   }
 }
-function abrir(id, tipo, porcoes){
+function abrir(id, tipo, porcoes, vista){
   if (kAberto()) fechaCozinha();
   fechaMenuMobile();
   estado.itemId = id; estado.tipo = tipo;
   if (tipo === "receita"){
     const rec = RECEITAS.find(x => x.id === id);
     estado.porcoes = rec.porcoesOpcoes.includes(porcoes) ? porcoes : rec.porcoes;
-    if (!["tradicional","tabela","interativo","compras"].includes(estado.vista)) estado.vista = "tradicional";
+    /* a aba Lista de compras só abre quando pedida (despensa, lista); nos demais caminhos volta ao tradicional */
+    if (vista) estado.vista = vista;
+    else if (!["tradicional","tabela","interativo"].includes(estado.vista)) estado.vista = "tradicional";
   }
   marcaAtual();
   render();
@@ -1322,7 +1324,7 @@ function renderPosso(m){
         '<span class="n">' + nn(r.id) + "</span>" +
         '<span class="t">' + esc(t(r.titulo)) + "</span>" +
         '<span class="k">' + esc(k) + "</span>");
-      bt.onclick = () => { estado.vista = "compras"; abrir(r.id, "receita"); };
+      bt.onclick = () => abrir(r.id, "receita", null, "compras");
       it.appendChild(bt);
     });
     b.appendChild(it);
@@ -1350,7 +1352,7 @@ function renderCompras(m){
     rotulos.push(t(r.titulo) + " (" + p + " " + t(r.lote ? (p === 1 ? UI.lote : UI.lotes) : (p === 1 ? UI.porcao : UI.porcoes)) + ")");
     const li = el("li");
     const a = el("a", null, esc(t(r.titulo)));
-    a.onclick = () => { estado.vista = "compras"; abrir(id, "receita", p); };
+    a.onclick = () => abrir(id, "receita", p, "compras");
     li.appendChild(a);
     const seg = el("div", "seg");
     r.porcoesOpcoes.forEach(o => {
