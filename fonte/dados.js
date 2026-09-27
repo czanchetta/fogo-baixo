@@ -115,6 +115,8 @@ const UI = {
     "→ La tabla es más ancha que la pantalla: desliza en horizontal para ver las últimas etapas.",
     "→ The table is wider than the screen: scroll sideways to see the last steps."
   ),
+  baixarImagem: T("Baixar tabela como imagem", "Descargar la tabla como imagen", "Download table as image"),
+  imagemPronta: T("Imagem baixada.", "Imagen descargada.", "Image downloaded."),
   quatroFormatos: T(
     "A mesma receita, quatro formatos",
     "La misma receta, cuatro formatos",

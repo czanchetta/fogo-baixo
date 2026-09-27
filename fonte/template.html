@@ -914,6 +914,11 @@ function renderGrade(m, r, interativo){
   m.appendChild(scroll);
   const hint = el("p", "hint", t(interativo ? UI.hintInterativo : UI.hintTabela));
   m.appendChild(hint);
+  const acoes = el("div", "acoes");
+  const bImg = el("button", "btn", esc(t(UI.baixarImagem)));
+  bImg.onclick = () => baixaImagemGrade(r);
+  acoes.appendChild(bImg);
+  m.appendChild(acoes);
   requestAnimationFrame(() => {
     if (scroll.scrollWidth > scroll.clientWidth + 4) hint.textContent = t(UI.hintScroll);
   });
@@ -1385,6 +1390,179 @@ function renderCompras(m){
   acoes.appendChild(z);
   box.insertBefore(acoes, box.children[1] || null);
   m.appendChild(box);
+}
+
+
+/* =========================================================
+   tabela de cozimento como imagem (PNG desenhado no canvas,
+   a partir dos dados — sem bibliotecas, sempre no tema claro)
+   ========================================================= */
+const IMG_COR = { papel: "#fbfbf8", celula: "#dde6d4", tinta: "#15180f", tinta2: "#5c614f",
+  fio: "#c3cbb8", faixa: "#15180f", faixaTxt: "#eef1e6", destaque: "#c07d1c" };
+const IMG_SANS = 'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
+const IMG_MONO = 'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace';
+
+/* quebra texto com trechos de estilos diferentes em linhas de largura máxima */
+function quebraRico(ctx, trechos, largura){
+  const palavras = [];
+  trechos.forEach(tr => String(tr.texto).split(/(\s+)/).forEach(p => { if (p) palavras.push({ texto: p, fonte: tr.fonte, cor: tr.cor }); }));
+  const linhas = []; let linha = [], x = 0;
+  const fecha = () => { while (linha.length && /^\s+$/.test(linha[linha.length - 1].texto)) { x -= linha.pop().w; } linhas.push({ itens: linha, w: x }); linha = []; x = 0; };
+  palavras.forEach(p => {
+    ctx.font = p.fonte;
+    const espaco = /^\s+$/.test(p.texto);
+    if (espaco){ if (!linha.length) return; const w = ctx.measureText(" ").width; linha.push({ texto: " ", fonte: p.fonte, cor: p.cor, w }); x += w; return; }
+    let w = ctx.measureText(p.texto).width;
+    if (x + w > largura && linha.length) fecha();
+    if (w > largura){
+      let resto = p.texto;
+      while (resto){
+        let n = resto.length;
+        while (n > 1 && ctx.measureText(resto.slice(0, n)).width > largura - x) n--;
+        const pedaco = resto.slice(0, n); const wp = ctx.measureText(pedaco).width;
+        linha.push({ texto: pedaco, fonte: p.fonte, cor: p.cor, w: wp }); x += wp;
+        resto = resto.slice(n);
+        if (resto) fecha();
+      }
+      return;
+    }
+    linha.push({ texto: p.texto, fonte: p.fonte, cor: p.cor, w }); x += w;
+  });
+  if (linha.length) fecha();
+  return linhas;
+}
+function desenhaLinhas(ctx, linhas, x, y, largura, alturaLinha, centro){
+  linhas.forEach((ln, i) => {
+    let cx = centro ? x + (largura - ln.w) / 2 : x;
+    ln.itens.forEach(it => { ctx.font = it.fonte; ctx.fillStyle = it.cor; ctx.fillText(it.texto, cx, y + i * alturaLinha); cx += it.w; });
+  });
+}
+function espacamento(ctx, v){ if ("letterSpacing" in ctx) ctx.letterSpacing = v; }
+
+function imagemGrade(r){
+  const f = fator(), E = 2;
+  const nCols = Math.max(...r.grade.map(g => g.col));
+  const M = 36, W_ING = 330, W_ETAPA = 156;
+  const largGrade = W_ING + nCols * W_ETAPA, larg = largGrade + 2 * M;
+  const cv = document.createElement("canvas"), ctx = cv.getContext("2d");
+  ctx.textBaseline = "top";
+
+  const F = {
+    kicker: "700 11px " + IMG_MONO, titulo: "800 32px " + IMG_SANS, meta: "600 12px " + IMG_MONO,
+    faixa: "600 12px " + IMG_MONO, q: "700 14.5px " + IMG_MONO, ing: "400 14.5px " + IMG_SANS,
+    obs: "400 14.5px " + IMG_SANS, etapa: "650 15px " + IMG_SANS, det: "400 11.5px " + IMG_MONO, rodape: "500 10.5px " + IMG_MONO,
+  };
+  const LH = { titulo: 34, ing: 19.5, etapa: 18.5, det: 15.5, faixa: 16 };
+
+  /* cabeçalho */
+  const kicker = (nn(r.id) + " · " + LIVRO.titulo).toUpperCase();
+  const linTitulo = quebraRico(ctx, [{ texto: t(r.titulo), fonte: F.titulo, cor: IMG_COR.tinta }], largGrade);
+  const rende = estado.porcoes + " " + t(r.lote ? (estado.porcoes === 1 ? UI.lote : UI.lotes) : (estado.porcoes === 1 ? UI.porcao : UI.porcoes));
+  const meta = [rende, t(UI.ativo) + " " + fmtDuracao(r.ativo), t(UI.totalT) + " " + fmtDuracao(r.total),
+                t(prefs.sistema === "peso" ? UI.uPeso : UI.uCaseiro)].join("  ·  ").toUpperCase();
+  espacamento(ctx, "1.8px");
+  const linFaixa = quebraRico(ctx, [{ texto: t(r.faixa).toUpperCase(), fonte: F.faixa, cor: IMG_COR.faixaTxt }], largGrade - 40);
+  espacamento(ctx, "0px");
+  const hFaixa = 26 + linFaixa.length * LH.faixa;
+
+  /* ingredientes: altura mínima de cada linha */
+  const ings = r.ingredientes.map(i => {
+    const x = textoIng(i, f);
+    const tr = [];
+    if (x.q) tr.push({ texto: x.q + " ", fonte: F.q, cor: IMG_COR.tinta });
+    tr.push({ texto: x.nome, fonte: F.ing, cor: IMG_COR.tinta });
+    if (x.obs) tr.push({ texto: " — " + x.obs, fonte: F.obs, cor: IMG_COR.tinta2 });
+    return quebraRico(ctx, tr, W_ING - 30);
+  });
+  const alt = ings.map(l => Math.max(44, l.length * LH.ing + 24));
+
+  /* etapas: cada célula precisa caber nas linhas que abraça */
+  const etapas = r.grade.map(s => {
+    const lt = quebraRico(ctx, [{ texto: t(s.titulo), fonte: F.etapa, cor: IMG_COR.tinta }], W_ETAPA - 24);
+    const ld = s.detalhe ? quebraRico(ctx, [{ texto: t(s.detalhe), fonte: F.det, cor: IMG_COR.tinta2 }], W_ETAPA - 24) : [];
+    const h = lt.length * LH.etapa + (ld.length ? 6 + ld.length * LH.det : 0);
+    return { s, lt, ld, h };
+  });
+  etapas.slice().sort((a, b) => (a.s.ate - a.s.de) - (b.s.ate - b.s.de)).forEach(e => {
+    let tem = 0; for (let i = e.s.de; i <= e.s.ate; i++) tem += alt[i];
+    const precisa = e.h + 32;
+    if (tem < precisa){ const extra = (precisa - tem) / (e.s.ate - e.s.de + 1); for (let i = e.s.de; i <= e.s.ate; i++) alt[i] += extra; }
+  });
+  const yLinha = []; let acc = 0; alt.forEach((h, i) => { yLinha[i] = acc; acc += h; });
+  const hGrade = acc;
+
+  const yKicker = M, yTitulo = yKicker + 24, yMeta = yTitulo + linTitulo.length * LH.titulo + 12;
+  const yTabela = yMeta + 34, yGrade = yTabela + hFaixa, yRodape = yGrade + hGrade + 20;
+  const alturaTotal = yRodape + 14 + M;
+
+  cv.width = larg * E; cv.height = Math.ceil(alturaTotal * E);
+  ctx.scale(E, E); ctx.textBaseline = "top";
+  ctx.fillStyle = IMG_COR.papel; ctx.fillRect(0, 0, larg, alturaTotal);
+
+  espacamento(ctx, "2.4px");
+  ctx.font = F.kicker; ctx.fillStyle = IMG_COR.destaque; ctx.fillText(kicker, M, yKicker);
+  espacamento(ctx, "-0.6px");
+  desenhaLinhas(ctx, linTitulo, M, yTitulo, largGrade, LH.titulo, false);
+  espacamento(ctx, "1.2px");
+  ctx.font = F.meta; ctx.fillStyle = IMG_COR.tinta2; ctx.fillText(meta, M, yMeta);
+
+  /* faixa */
+  ctx.fillStyle = IMG_COR.faixa; ctx.fillRect(M, yTabela, largGrade, hFaixa);
+  espacamento(ctx, "1.8px");
+  desenhaLinhas(ctx, linFaixa, M + 20, yTabela + 13, largGrade - 40, LH.faixa, true);
+  espacamento(ctx, "0px");
+
+  /* ingredientes */
+  ings.forEach((l, i) => {
+    const y = yGrade + yLinha[i], h = alt[i];
+    const hTxt = l.length * LH.ing;
+    desenhaLinhas(ctx, l, M + 15, y + (h - hTxt) / 2 + 1, W_ING - 30, LH.ing, false);
+    ctx.fillStyle = IMG_COR.fio; ctx.fillRect(M, y + h - 1, W_ING, 1);
+  });
+  ctx.fillStyle = IMG_COR.tinta; ctx.fillRect(M + W_ING - 1, yGrade, 1, hGrade);
+
+  /* etapas */
+  etapas.forEach(e => {
+    const x = M + W_ING + (e.s.col - 1) * W_ETAPA, y = yGrade + yLinha[e.s.de];
+    let h = 0; for (let i = e.s.de; i <= e.s.ate; i++) h += alt[i];
+    ctx.fillStyle = IMG_COR.celula; ctx.fillRect(x, y, W_ETAPA - 1, h - 1);
+    let ty = y + (h - e.h) / 2;
+    desenhaLinhas(ctx, e.lt, x + 12, ty, W_ETAPA - 24, LH.etapa, true);
+    ty += e.lt.length * LH.etapa + 6;
+    desenhaLinhas(ctx, e.ld, x + 12, ty, W_ETAPA - 24, LH.det, true);
+  });
+
+  /* moldura e rodapé */
+  ctx.strokeStyle = IMG_COR.tinta; ctx.lineWidth = 1;
+  ctx.strokeRect(M - 0.5, yTabela - 0.5, largGrade + 1, hFaixa + hGrade + 1);
+  espacamento(ctx, "1px");
+  ctx.font = F.rodape; ctx.fillStyle = IMG_COR.tinta2;
+  ctx.fillText(LIVRO.titulo + " · " + LIVRO.autor, M, yRodape);
+  const site = "czanchetta.github.io/fogo-baixo";
+  ctx.fillText(site, M + largGrade - ctx.measureText(site).width, yRodape);
+  espacamento(ctx, "0px");
+  return cv;
+}
+
+function baixaImagemGrade(r){
+  const cv = imagemGrade(r);
+  const nome = "fogo-baixo-" + nn(r.id) + "-" + r.id + "-" + estado.porcoes + ".png";
+  cv.toBlob(blob => {
+    if (!blob) return;
+    const movel = /Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
+    try{
+      const arq = new File([blob], nome, { type: "image/png" });
+      if (movel && navigator.canShare && navigator.canShare({ files: [arq] })){
+        navigator.share({ files: [arq], title: t(r.titulo) }).catch(() => {});
+        return;
+      }
+    }catch(e){}
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = nome;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    aviso(t(UI.imagemPronta));
+  }, "image/png");
 }
 
 /* =========================================================
