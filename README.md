@@ -56,8 +56,8 @@ O mapeamento entre as linhas de ingrediente e os itens de compra fica em [`fonte
 
 Também só no site, a seção **Fora de casa** liga o caderno ao **[Safari Gastronômico](https://czanchetta.github.io/fogo-baixo/safari/)**, um roteiro pessoal pelas cozinhas que formam São Paulo.
 
-- **Da rua para casa**: receitas daqui que têm par numa parada do safari (feijoada e Leiteria Ita, lasanha e Cantina Roperto, fraldinha e Templo da Carne) e pratos do safari que estão na fila para virar receita. Prato da fila não tem quantidade: só entra no caderno depois de testado em casa.
-- **Safari gastronômico** ([`safari/`](safari/)): mapa, paradas agrupadas pela origem da cozinha, o que pedir em cada uma e roteiros a pé. Só em português.
+- **Da rua para casa**: receitas daqui que têm par numa parada do safari (feijoada e Leiteria Ita, lasanha e Cantina Roperto, fraldinha e Templo da Carne, paella e Fuentes) e pratos do safari que estão na fila para virar receita. Prato da fila não tem quantidade: só entra no caderno depois de testado em casa.
+- **Safari gastronômico** ([`safari/`](safari/)): mapa, paradas agrupadas pela origem da cozinha, o que pedir em cada uma, roteiros a pé e a nota de 0 a 10 com a recomendação de cada parada. A nota é uma avaliação do Claude (assistente de IA), com o método explicado na página. Só em português.
 
 Lugares, horários e preços mudam mais rápido que receitas, por isso nada disso entra nos PDFs. Os pares e a fila ficam em [`fonte/src/95-darua.js`](fonte/src/95-darua.js); o safari é gerado de [`fonte/safari/`](fonte/safari/) com `python3 fonte/safari/build.py`.
 

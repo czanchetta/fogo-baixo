@@ -1,5 +1,14 @@
 {
  "consulta": "31/10/2026",
+ "pesos": {
+  "g": 40,
+  "r": 30,
+  "s": 30
+ },
+ "prior": {
+  "m": 500,
+  "c": 4.5
+ },
  "itens": [
   {
    "id": "cepam",
@@ -23,7 +32,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Casa de 1968; já venceu o concurso Padocaria."
+   "rec": "Casa de 1968; já venceu o concurso Padocaria.",
+   "claude": {
+    "G": 7.49,
+    "gadj": 4.599,
+    "R": 3,
+    "S": 3.5,
+    "motivo": "Casa de 1968; já venceu o concurso Padocaria."
+   }
   },
   {
    "id": "graca",
@@ -48,7 +64,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Desde 1993."
+   "rec": "Desde 1993.",
+   "claude": {
+    "G": 8.56,
+    "gadj": 4.685,
+    "R": 2.5,
+    "S": 3.5,
+    "motivo": "Desde 1993; nenhum prêmio encontrado."
+   }
   },
   {
    "id": "nozoie",
@@ -73,7 +96,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Casa de 1962; participou do Comida di Buteco 2012."
+   "rec": "Casa de 1962; participou do Comida di Buteco 2012.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 3.5,
+    "S": 4,
+    "motivo": "Casa de 1962; participou do Comida di Buteco 2012."
+   }
   },
   {
    "id": "ctn",
@@ -98,7 +128,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Referência da cultura nordestina em SP desde os anos 1990."
+   "rec": "Referência da cultura nordestina em SP desde os anos 1990.",
+   "claude": {
+    "G": 7.49,
+    "gadj": 4.599,
+    "R": 3,
+    "S": 5,
+    "motivo": "Referência da cultura nordestina em SP desde os anos 1990."
+   }
   },
   {
    "id": "halim",
@@ -123,7 +160,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Família libanesa no ramo desde os anos 1970."
+   "rec": "Família libanesa no ramo desde os anos 1970.",
+   "claude": {
+    "G": 5.06,
+    "gadj": 4.405,
+    "R": 3,
+    "S": 3.5,
+    "motivo": "Família libanesa no ramo desde os anos 1970."
+   }
   },
   {
    "id": "baiao",
@@ -146,6 +190,13 @@
    "status": "fui",
    "nota": null,
    "rec": "",
+   "claude": {
+    "G": 7.3,
+    "gadj": 4.584,
+    "R": 1.5,
+    "S": 4,
+    "motivo": "Nenhum registro na imprensa encontrado."
+   },
    "fila": "Baião de dois"
   },
   {
@@ -173,6 +224,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Bassi é referência nacional em cortes; perfil na Forbes (2021).",
+   "claude": {
+    "G": 7.35,
+    "gadj": 4.588,
+    "R": 4,
+    "S": 3.5,
+    "motivo": "Bassi é referência nacional em cortes; perfil na Forbes (2021)."
+   },
    "casa": {
     "receita": "fraldinha-forno",
     "titulo": "Fraldinha marinada assada no forno"
@@ -202,6 +260,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Mais de 80 anos; pioneira da Treze de Maio.",
+   "claude": {
+    "G": 5.09,
+    "gadj": 4.407,
+    "R": 4,
+    "S": 4,
+    "motivo": "Mais de 80 anos; pioneira da Treze de Maio."
+   },
    "casa": {
     "receita": "lasanha-bolonhesa-bechamel",
     "titulo": "Lasanha de presunto, queijo e bolonhesa, coberta com bechamel"
@@ -231,6 +296,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Na lista de melhores de SP da The Infatuation; destaque na CNN Brasil.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 4,
+    "S": 4.5,
+    "motivo": "Na lista de melhores de SP da The Infatuation; destaque na CNN Brasil."
+   },
    "fila": "Karaage"
   },
   {
@@ -256,7 +328,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Pioneira do lamen na cidade; na lista da The Infatuation."
+   "rec": "Pioneira do lamen na cidade; na lista da The Infatuation.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 4,
+    "S": 4,
+    "motivo": "Pioneira do lamen na cidade; na lista da The Infatuation."
+   }
   },
   {
    "id": "barikote",
@@ -280,7 +359,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Citado na imprensa em 2026."
+   "rec": "Citado na imprensa em 2026.",
+   "claude": {
+    "G": 5.28,
+    "gadj": 4.423,
+    "R": 2,
+    "S": 3,
+    "motivo": "Citado na imprensa em 2026, sem prêmios."
+   }
   },
   {
    "id": "cocoro",
@@ -304,7 +390,14 @@
    "lista": true,
    "status": "quero",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 2.82,
+    "gadj": 4.225,
+    "R": 1,
+    "S": 2.5,
+    "motivo": "Nenhum registro na imprensa; menor nota Google da lista."
+   }
   },
   {
    "id": "oriental",
@@ -328,7 +421,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 7.02,
+    "gadj": 4.562,
+    "R": 1.5,
+    "S": 3,
+    "motivo": "Nenhum reconhecimento encontrado."
+   }
   },
   {
    "id": "veloso",
@@ -354,6 +454,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Coxinha presente nas listas de melhores da cidade (CNN Brasil).",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 3.5,
+    "S": 3.5,
+    "motivo": "Coxinha presente nas listas de melhores da cidade (CNN Brasil)."
+   },
    "fila": "Coxinha de frango"
   },
   {
@@ -380,6 +487,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Selecionado no Guia Michelin 2026; a chef foi eleita a melhor do mundo pelo 50 Best em 2024.",
+   "claude": {
+    "G": 5.06,
+    "gadj": 4.405,
+    "R": 5,
+    "S": 4,
+    "motivo": "Selecionado no Guia Michelin 2026; a chef foi eleita a melhor do mundo pelo 50 Best em 2024."
+   },
    "fila": "Picadinho"
   },
   {
@@ -405,7 +519,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Mais de 110 anos de casa."
+   "rec": "Mais de 110 anos de casa.",
+   "claude": {
+    "G": 3.23,
+    "gadj": 4.258,
+    "R": 4,
+    "S": 4,
+    "motivo": "Mais de 110 anos de casa."
+   }
   },
   {
    "id": "biyouz",
@@ -431,6 +552,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Pioneira da cozinha africana em SP; matérias na Alma Preta e na imprensa estrangeira.",
+   "claude": {
+    "G": 7.2,
+    "gadj": 4.576,
+    "R": 3.5,
+    "S": 5,
+    "motivo": "Pioneira da cozinha africana em SP; matérias na Alma Preta e na imprensa estrangeira."
+   },
    "fila": "Mafé"
   },
   {
@@ -455,7 +583,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Na Rua 24 de Maio desde os anos 1970."
+   "rec": "Na Rua 24 de Maio desde os anos 1970.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 2.5,
+    "S": 3.5,
+    "motivo": "Casa longeva, sem prêmios; destaque em blogs (2026)."
+   }
   },
   {
    "id": "ita",
@@ -481,6 +616,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Mais de 70 anos, com a decoração original.",
+   "claude": {
+    "G": 7.2,
+    "gadj": 4.576,
+    "R": 4,
+    "S": 4.5,
+    "motivo": "Mais de 70 anos, com a decoração original."
+   },
    "casa": {
     "receita": "feijoada",
     "titulo": "Feijoada completa"
@@ -508,7 +650,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 8.3,
+    "gadj": 4.664,
+    "R": 2,
+    "S": 3.5,
+    "motivo": "Nenhum prêmio; nota alta no Google."
+   }
   },
   {
    "id": "raouche",
@@ -530,7 +679,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 6.29,
+    "gadj": 4.503,
+    "R": 1,
+    "S": 3.5,
+    "motivo": "Só 3 avaliações no Google: nota pouco confiável."
+   }
   },
   {
    "id": "samui",
@@ -554,7 +710,14 @@
    "lista": true,
    "status": "quero",
    "nota": null,
-   "rec": "Matéria na Catraca Livre."
+   "rec": "Matéria na Catraca Livre.",
+   "claude": {
+    "G": 5.85,
+    "gadj": 4.468,
+    "R": 2,
+    "S": 5,
+    "motivo": "Matéria na Catraca Livre; nenhum prêmio."
+   }
   },
   {
    "id": "francisca",
@@ -579,7 +742,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Desde 2006."
+   "rec": "Desde 2006.",
+   "claude": {
+    "G": 8.55,
+    "gadj": 4.684,
+    "R": 3.5,
+    "S": 4,
+    "motivo": "Desde 2006; nenhum prêmio gastronômico encontrado."
+   }
   },
   {
    "id": "naraobento",
@@ -604,7 +774,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 7.32,
+    "gadj": 4.585,
+    "R": 2,
+    "S": 4,
+    "motivo": "Cobertura só em blogs."
+   }
   },
   {
    "id": "naralamen",
@@ -629,7 +806,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Citado na imprensa em 2026."
+   "rec": "Citado na imprensa em 2026.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 2.5,
+    "S": 3.5,
+    "motivo": "Citado na imprensa em 2026, sem prêmios."
+   }
   },
   {
    "id": "makanai",
@@ -651,7 +835,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": ""
+   "rec": "",
+   "claude": {
+    "G": 6.88,
+    "gadj": 4.551,
+    "R": 1,
+    "S": 3,
+    "motivo": "Casa recente, sem registro na imprensa."
+   }
   },
   {
    "id": "omoide",
@@ -675,7 +866,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Citado num guia de izakayas de São Paulo (2025–2026)."
+   "rec": "Citado num guia de izakayas de São Paulo (2025–2026).",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 2,
+    "S": 4.5,
+    "motivo": "Citado em guia de izakayas (2025–2026), sem prêmios."
+   }
   },
   {
    "id": "edopara",
@@ -700,7 +898,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Matérias na Exame (2023) e na Catraca Livre (2025)."
+   "rec": "Matérias na Exame (2023) e na Catraca Livre (2025).",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 2.5,
+    "S": 4.5,
+    "motivo": "Matérias na Exame (2023) e na Catraca Livre (2025)."
+   }
   },
   {
    "id": "porco",
@@ -725,7 +930,14 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Bib Gourmand Michelin 2026, Estrela Verde Michelin (2024) e 27º no World's 50 Best (2024)."
+   "rec": "Bib Gourmand Michelin 2026, Estrela Verde Michelin (2024) e 27º no World's 50 Best (2024).",
+   "claude": {
+    "G": 5.04,
+    "gadj": 4.403,
+    "R": 5,
+    "S": 4.5,
+    "motivo": "Bib Gourmand Michelin 2026, Estrela Verde Michelin (2024) e 27º no World's 50 Best (2024)."
+   }
   },
   {
    "id": "leo",
@@ -750,7 +962,50 @@
    "lista": true,
    "status": "fui",
    "nota": null,
-   "rec": "Casa de 1940, com Selo de Valor Cultural da Prefeitura."
+   "rec": "Casa de 1940, com Selo de Valor Cultural da Prefeitura.",
+   "claude": {
+    "G": 5.12,
+    "gadj": 4.41,
+    "R": 4,
+    "S": 4,
+    "motivo": "Casa de 1940, com Selo de Valor Cultural da Prefeitura."
+   }
+  },
+  {
+   "id": "fuentes",
+   "nome": "Fuentes",
+   "cont": "europa",
+   "origem": "Espanhola · paella",
+   "bairro": "Jardins",
+   "end": "R. Dr. Melo Alves, 82",
+   "lat": -23.5587357,
+   "lon": -46.6683767,
+   "pid": "ChIJMesc3ipYzpQRmoREA4qYe5U",
+   "g": 4.4,
+   "n": 631,
+   "preco": "—",
+   "pratos": "Paellas valenciana e marinera, bacalhau à espanhola, caldeirada, puchero às terças e domingos, sangria.",
+   "hist": "Severino Fernandez Fuentes deixou a Espanha nos anos 1950, fugindo da ditadura de Franco, e abriu o restaurante em Bauru em 1954. Veio para a capital em 1960, na Rua do Seminário, no centro. Hoje a terceira geração da família toca a casa nos Jardins.",
+   "dica": "Fecha segunda; de terça a domingo, só no almoço, segundo o Google Maps. A 700 m do Ping Yang.",
+   "fontes": [
+    "https://baressp.com.br/restaurantes/espanhois/fuentes-restaurante",
+    "https://www.baressp.com.br/restaurantes/espanhois/fuentes"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Família no ramo desde 1954, hoje na terceira geração.",
+   "claude": {
+    "G": 5.55,
+    "gadj": 4.444,
+    "R": 4,
+    "S": 4.5,
+    "motivo": "Família no ramo desde 1954, hoje na terceira geração."
+   },
+   "casa": {
+    "receita": "paella-mista-arborio",
+    "titulo": "Paella mista com arroz arbóreo"
+   }
   },
   {
    "id": "mocoto",
@@ -776,6 +1031,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "claude": {
+    "G": 8.68,
+    "gadj": 4.695,
+    "R": 5,
+    "S": 5,
+    "motivo": "Bib Gourmand no Guia Michelin 2026."
+   },
    "porque": "A referência da cozinha sertaneja em São Paulo.",
    "evid": "Listado no Guia Michelin 2026."
   },
@@ -802,6 +1064,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Ícone do Mercado Municipal.",
+   "claude": {
+    "G": 7.27,
+    "gadj": 4.582,
+    "R": 3,
+    "S": 4.5,
+    "motivo": "Ícone do Mercado Municipal; nenhum prêmio."
+   },
    "porque": "O sanduíche mais paulistano que existe, no Mercadão.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026."
   },
@@ -829,6 +1098,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Casa de 1968.",
+   "claude": {
+    "G": 7.48,
+    "gadj": 4.598,
+    "R": 3.5,
+    "S": 4.5,
+    "motivo": "Casa de 1968, com 32 mil avaliações."
+   },
    "porque": "O lanche da madrugada paulistana, aberto 24 horas.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026.",
    "fila": "Sanduíche de pernil"
@@ -857,6 +1133,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Bauru reconhecido como patrimônio imaterial paulista (2018).",
+   "claude": {
+    "G": 5.15,
+    "gadj": 4.412,
+    "R": 4.5,
+    "S": 4.5,
+    "motivo": "Bauru reconhecido como patrimônio imaterial paulista (2018)."
+   },
    "porque": "O balcão onde nasceu o bauru.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026.",
    "fila": "Bauru"
@@ -885,6 +1168,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Mais de 100 anos de forno.",
+   "claude": {
+    "G": 3.28,
+    "gadj": 4.262,
+    "R": 4,
+    "S": 4.5,
+    "motivo": "Mais de 100 anos de forno."
+   },
    "porque": "A pizza paulistana em sua forma mais antiga.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026."
   },
@@ -912,6 +1202,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "claude": {
+    "G": 7.28,
+    "gadj": 4.582,
+    "R": 4,
+    "S": 4,
+    "motivo": "Bib Gourmand no Guia Michelin 2026."
+   },
    "porque": "A Bahia e o Jequitinhonha no subsolo do MASP.",
    "evid": "Listado no Guia Michelin 2026."
   },
@@ -939,6 +1236,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Selo de Valor Cultural da Prefeitura de São Paulo.",
+   "claude": {
+    "G": 7.12,
+    "gadj": 4.57,
+    "R": 3.5,
+    "S": 4,
+    "motivo": "Selo de Valor Cultural da Prefeitura de São Paulo."
+   },
    "porque": "O Leste Europeu de Vila Zelina.",
    "evid": "Ficha do Selo de Valor Cultural revisada em 2025."
   },
@@ -965,6 +1269,13 @@
    "status": "fui",
    "nota": null,
    "rec": "Casa de 1951; na lista de melhores da The Infatuation (2024).",
+   "claude": {
+    "G": 6.99,
+    "gadj": 4.559,
+    "R": 3.5,
+    "S": 5,
+    "motivo": "Casa de 1951; na lista de melhores da The Infatuation (2024)."
+   },
    "porque": "A esfiha armênia de forno a lenha.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026.",
    "fila": "Esfiha de carne"
@@ -992,6 +1303,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Casa de 1946.",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 3,
+    "S": 4,
+    "motivo": "Casa de 1946."
+   },
    "porque": "Portugal no Pari, desde 1946.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026."
   },
@@ -1019,6 +1337,13 @@
    "status": "sug",
    "nota": null,
    "rec": "",
+   "claude": {
+    "G": 6.25,
+    "gadj": 4.5,
+    "R": 2,
+    "S": 4.5,
+    "motivo": "Nenhum prêmio encontrado."
+   },
    "porque": "A herança judaica do Bom Retiro.",
    "evid": "Citado na imprensa em 2026."
   },
@@ -1046,6 +1371,13 @@
    "status": "sug",
    "nota": null,
    "rec": "No Guia da Culinária Imigrante de São Paulo (2026).",
+   "claude": {
+    "G": 7.01,
+    "gadj": 4.561,
+    "R": 2,
+    "S": 4.5,
+    "motivo": "No Guia da Culinária Imigrante (2026); nenhum prêmio."
+   },
    "porque": "O churrasco de mesa do bairro coreano.",
    "evid": "Citado na imprensa em 2026."
   },
@@ -1073,6 +1405,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Em roteiros de culinária imigrante (2026).",
+   "claude": {
+    "G": 5.3,
+    "gadj": 4.424,
+    "R": 2,
+    "S": 5,
+    "motivo": "Nenhum prêmio; aparece em roteiros de culinária imigrante (2026)."
+   },
    "porque": "Cozinha congolesa vegana, de um chef da comunidade.",
    "evid": "Citado na imprensa em 2026."
   },
@@ -1099,6 +1438,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Em roteiro de restaurantes de imigrantes (2026).",
+   "claude": {
+    "G": 6.8,
+    "gadj": 4.544,
+    "R": 1.5,
+    "S": 4,
+    "motivo": "Nenhum prêmio; roteiro de restaurantes de imigrantes (2026)."
+   },
    "porque": "A Colômbia em Vila Mariana.",
    "evid": "Citado na imprensa em 2026."
   },
@@ -1125,6 +1471,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Selecionado no Guia Michelin.",
+   "claude": {
+    "G": 7.3,
+    "gadj": 4.584,
+    "R": 4,
+    "S": 4,
+    "motivo": "Selecionado no Guia Michelin."
+   },
    "porque": "O Peru, com ingredientes amazônicos.",
    "evid": "Listado no Guia Michelin 2026."
   },
@@ -1151,6 +1504,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "claude": {
+    "G": 4.32,
+    "gadj": 4.346,
+    "R": 4,
+    "S": 3.5,
+    "motivo": "Bib Gourmand no Guia Michelin 2026."
+   },
    "porque": "A Tailândia de rua, com ervas da horta do chef.",
    "evid": "Listado no Guia Michelin 2026."
   },
@@ -1175,6 +1535,13 @@
    "status": "sug",
    "nota": null,
    "rec": "Ponto de encontro da comunidade boliviana.",
+   "claude": {
+    "G": 3.6,
+    "gadj": 4.288,
+    "R": 2,
+    "S": 5,
+    "motivo": "Nenhum prêmio; ponto de encontro da comunidade boliviana."
+   },
    "porque": "A feira de domingo da comunidade boliviana.",
    "evid": "Com horário publicado no Google Maps em outubro de 2026."
   }
@@ -1419,6 +1786,21 @@
      "min": 7
     }
    ]
+  },
+  {
+   "id": "jardins",
+   "nome": "Jardins",
+   "sub": "Espanha e Tailândia na mesma rua",
+   "stops": [
+    "fuentes",
+    "pingyang"
+   ],
+   "segs": [
+    {
+     "m": 890,
+     "min": 11
+    }
+   ]
   }
  ],
  "solo": [
@@ -1426,7 +1808,6 @@
   "mocoto",
   "garabed",
   "baiao",
-  "congolinaria",
-  "pingyang"
+  "congolinaria"
  ]
 }

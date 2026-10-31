@@ -21,6 +21,10 @@ const DA_RUA = {
       nota: T("A fraldinha é uma das especialidades da casa que o açougueiro Marcos Bassi abriu em 1979.",
               "El vacío es una de las especialidades de la casa que el carnicero Marcos Bassi abrió en 1979.",
               "Flap steak is one of the specialties at the steakhouse butcher Marcos Bassi opened in 1979.") },
+    { receita: "paella-mista-arborio", lugar: "fuentes", nome: "Fuentes", bairro: "Jardins",
+      nota: T("Paella valenciana de uma família espanhola no ramo desde 1954, hoje na terceira geração.",
+              "Paella valenciana de una familia española en el oficio desde 1954, hoy en la tercera generación.",
+              "Paella valenciana from a Spanish family in the trade since 1954, now in its third generation.") },
   ],
   fila: [
     { prato: T("Baião de dois", "Baião de dois (arroz con frijoles de Ceará)", "Baião de dois (Ceará rice and beans)"),

@@ -136,6 +136,7 @@ ol.paradas{list-style:none;margin:0;padding:0}
 .nome{font-size:16.5px;font-weight:700;letter-spacing:-.012em;line-height:1.2}
 .abrir:hover .nome{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .meta{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13.5px;color:var(--ink-2)}
+.meta .chip{white-space:normal;align-items:baseline}
 .st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;padding-top:3px}
 .estrelas{font-family:var(--sans);letter-spacing:.06em;color:var(--accent-ink)}
 .det{padding:2px 12px 18px;display:grid;gap:12px}
@@ -180,6 +181,33 @@ ol.paradas{list-style:none;margin:0;padding:0}
 .colofao .links{display:flex;gap:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em}
 .colofao a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:1px}
 .colofao a:hover{border-bottom-color:var(--accent)}
+/* nota e recomendação do Claude */
+.it-dir{display:grid;justify-items:end;gap:6px}
+.nota-c{display:grid;justify-items:end;gap:3px}
+.nota-c b{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.faixa{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.pips{display:inline-flex;gap:2px}
+.pips i{width:6px;height:6px;border-radius:1px;background:var(--hair)}
+.pips i.on{background:var(--accent)}
+.avaliacao{border:1px solid var(--hair);background:var(--paper);padding:12px 14px;display:grid;gap:8px;max-width:540px}
+.avaliacao .t{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);font-weight:700;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.calc-l{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 2.6rem;gap:10px;align-items:center;font-size:13.5px;color:var(--ink-2)}
+.calc-l em{height:6px;border-radius:3px;background:var(--cell);position:relative;overflow:hidden;display:block}
+.calc-l em b{position:absolute;inset:0 auto 0 0;background:var(--ink-2);border-radius:3px}
+.calc-l span:last-child{text-align:right;color:var(--ink);font-weight:700;font-family:var(--mono);font-size:12.5px}
+.avaliacao p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.avaliacao a{font-family:var(--mono);font-size:11.5px}
+.recs{display:grid;gap:22px 40px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.recs{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
+.recs .intro{margin-bottom:10px}
+.rec-lista{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.rec-lista button{display:grid;grid-template-columns:2.8rem minmax(0,1fr) auto;gap:10px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--hair);padding:9px 2px}
+.rec-lista button:hover{background:var(--cell)}
+.rec-lista .v{font-weight:800;font-size:17px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rec-lista .n{font-weight:650;line-height:1.3}
+.rec-lista small{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;line-height:1.4}
+.metodo ul{margin:0 0 10px;padding-left:1.1rem;font-size:14px;color:var(--ink-2);max-width:80ch;line-height:1.55;display:grid;gap:4px}
+@media (max-width:520px){.calc-l{grid-template-columns:7.2rem minmax(0,1fr) 2.4rem}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -197,6 +225,8 @@ ol.paradas{list-style:none;margin:0;padding:0}
 
 <main class="main">
   <section class="compos" id="compos" aria-label="Composição por origem"></section>
+
+  <section class="recs" id="recs" aria-label="Recomendações do Claude"></section>
 
   <div class="mesa">
     <section class="painel mapa-p" aria-label="Mapa">
@@ -224,7 +254,11 @@ ol.paradas{list-style:none;margin:0;padding:0}
           <button type="button" data-f="sug" aria-pressed="false">Sugestões</button>
         </div>
         <div class="chips" id="f-cont" role="group" aria-label="Filtrar por origem"></div>
-        <p class="nota-sug">Sugestão é uma casa que entrou para cobrir uma cozinha que faltava no safari e ainda não foi visitada.</p>
+        <div class="seg" role="group" aria-label="Ordem dentro de cada origem" id="f-ordem">
+          <button type="button" data-o="nota" aria-pressed="true">Melhor nota primeiro</button>
+          <button type="button" data-o="nome" aria-pressed="false">A–Z</button>
+        </div>
+        <p class="nota-sug">A nota de 0 a 10 e a recomendação são uma avaliação do Claude (veja <a href="#t-metodo">como é calculada</a>). Sugestão é uma casa que entrou para cobrir uma cozinha que faltava no safari e ainda não foi visitada.</p>
       </div>
       <div id="lista"></div>
     </section>
@@ -236,6 +270,17 @@ ol.paradas{list-style:none;margin:0;padding:0}
     <div class="linhas" id="linhas"></div>
     <h3 class="secao-t" style="margin-top:14px">Viagem de um destino só</h3>
     <div class="solo" id="solo"></div>
+  </section>
+
+  <section class="como metodo" aria-labelledby="t-metodo">
+    <h2 class="secao-t" id="t-metodo">Como a nota é calculada</h2>
+    <p>A nota de 0 a 10 e a recomendação de cada parada são uma avaliação do Claude, assistente de IA da Anthropic, feita a partir das fontes citadas. Ela é uma média ponderada de três partes:</p>
+    <ul>
+      <li><b>Nota do Google ajustada (40%).</b> A nota do Google é puxada para <span id="m-prior-c"></span> quando há poucas avaliações (média bayesiana com peso de <span id="m-prior-m"></span> avaliações) e vai para a escala de 0 a 10, com 4,0 valendo 0 e 4,8 valendo 10. Assim, um 5,0 com três avaliações não passa à frente de um 4,7 com 18 mil.</li>
+      <li><b>Crítica e legado (30%).</b> Guia Michelin, World's 50 Best, listas da imprensa e a idade da casa, de 1 a 5. O motivo está em cada parada.</li>
+      <li><b>Valor de safari (30%).</b> O quanto a casa leva você para outra cultura ou para uma São Paulo antiga, de 1 a 5.</li>
+    </ul>
+    <p>Recomendação: <b>Imperdível</b> com 7,5 ou mais; <b>Vale a viagem</b> de 6,5 a 7,4; <b>Se estiver por perto</b> abaixo de 6,5. As estrelas, quando aparecem, são do Celso.</p>
   </section>
 
   <section class="como" aria-labelledby="t-como">
@@ -274,7 +319,11 @@ const ROT = {fui:"Já fui", quero:"Quero ir", sug:"Sugestão"};
 const NOME_DISTR = {"Se":"Sé","Republica":"República","Liberdade":"Liberdade","Bela Vista":"Bela Vista","Vila Mariana":"Vila Mariana","Saude":"Saúde","Pinheiros":"Pinheiros","Bras":"Brás","Pari":"Pari","Bom Retiro":"Bom Retiro","Santana":"Santana","Limao":"Limão","Vila Medeiros":"Vila Medeiros","Vila Prudente":"Vila Prudente","Jardim Paulista":"Jd. Paulista","Consolacao":"Consolação","Mooca":"Mooca","Perdizes":"Perdizes","Santa Cecilia":"Sta. Cecília","Cambuci":"Cambuci","Ipiranga":"Ipiranga","Moema":"Moema","Itaim Bibi":"Itaim Bibi","Lapa":"Lapa","Tatuape":"Tatuapé","Butanta":"Butantã","Barra Funda":"Barra Funda","Cursino":"Cursino","Sacoma":"Sacomã","Casa Verde":"Casa Verde","Vila Maria":"Vila Maria","Jabaquara":"Jabaquara","Agua Rasa":"Água Rasa","Belem":"Belém"};
 const LBL_CIDADE = ["Santana","Limao","Vila Medeiros","Pinheiros","Bela Vista","Vila Mariana","Saude","Mooca","Vila Prudente","Ipiranga","Perdizes","Itaim Bibi","Lapa","Tatuape","Butanta","Casa Verde","Vila Maria","Jabaquara","Moema","Cursino","Sacoma","Agua Rasa","Belem","Barra Funda"];
 const LBL_CENTRO = ["Se","Republica","Liberdade","Bela Vista","Bom Retiro","Bras","Pari","Santa Cecilia","Consolacao","Cambuci","Mooca","Jardim Paulista","Barra Funda","Belem"];
-const st = { status:"todos", cont:null, sel:null, abertos:new Set(), zoom:"cidade" };
+const st = { status:"todos", cont:null, sel:null, abertos:new Set(), zoom:"cidade", ordem:"nota" };
+const P = D.pesos;
+function indice(it){ const c = it.claude; return (P.g * c.G + P.r * c.R * 2 + P.s * c.S * 2) / (P.g + P.r + P.s); }
+function faixa(v){ return v >= 7.5 ? [3, "Imperdível"] : v >= 6.5 ? [2, "Vale a viagem"] : [1, "Se estiver por perto"]; }
+const pips = n => '<span class="pips" aria-hidden="true">' + [1, 2, 3].map(i => "<i" + (i <= n ? ' class="on"' : "") + "></i>").join("") + "</span>";
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = (v, d=1) => v.toLocaleString("pt-BR", {minimumFractionDigits:d, maximumFractionDigits:d});
@@ -319,6 +368,20 @@ function renderCompos(){
     '<div class="legenda">' + GRUPOS.map(k => '<span><i class="sq" style="background:' + CONT[k].v + '"></i>' + CONT[k].n + ' <em>' + (cF[k]||0) + " de " + (cT[k]||0) + "</em></span>").join("") + "</div>";
 }
 
+function renderRecs(){
+  const ord = ITENS.slice().sort((a, b) => indice(b) - indice(a));
+  const linha = (it, extra) => '<li><button type="button" data-sel="' + it.id + '"><span class="v">' + fmt(indice(it)) + "</span>" +
+    '<span class="n">' + esc(it.nome) + "<small>" + esc(extra) + "</small></span>" +
+    '<span class="st"><i class="pt ' + it.status + '" aria-hidden="true"></i>' + ROT[it.status] + "</span></button></li>";
+  const imp = ord.filter(x => indice(x) >= 7.5);
+  const prox = ord.filter(x => x.status !== "fui").slice(0, 3);
+  $("#recs").innerHTML =
+    '<div><h2 class="secao-t">Imperdíveis, segundo o Claude</h2><p class="intro">As paradas com nota 7,5 ou mais.</p><ol class="rec-lista">' +
+      imp.map(x => linha(x, x.origem + " · " + x.bairro)).join("") + "</ol></div>" +
+    '<div><h2 class="secao-t">Próximas paradas</h2><p class="intro">As mais bem avaliadas entre as que ainda não foram visitadas.</p><ol class="rec-lista">' +
+      prox.map(x => linha(x, x.porque || (x.origem + " · " + x.bairro))).join("") + "</ol></div>";
+}
+
 /* filtros */
 function renderChips(){
   $("#f-cont").innerHTML = ['<button type="button" class="chip" data-c="" aria-pressed="' + (st.cont === null) + '">Todas as origens</button>']
@@ -332,7 +395,7 @@ function passa(it){
 /* paradas */
 function renderLista(){
   const html = GRUPOS.map(k => {
-    const its = ITENS.filter(x => x.cont === k && passa(x)).sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
+    const its = ITENS.filter(x => x.cont === k && passa(x)).sort((a,b) => st.ordem === "nome" ? a.nome.localeCompare(b.nome, "pt-BR") : indice(b) - indice(a));
     if (!its.length) return "";
     return '<section class="grupo"><h3><i class="sq" style="background:' + CONT[k].v + '"></i>' + CONT[k].n + " <em>" + its.length + "</em></h3>" +
       '<ol class="paradas">' + its.map(itemHTML).join("") + "</ol></section>";
@@ -340,14 +403,15 @@ function renderLista(){
   $("#lista").innerHTML = html || '<p class="intro" style="padding:20px 12px">Nenhuma parada com esses filtros.</p>';
 }
 function itemHTML(it){
-  const aberto = st.abertos.has(it.id);
+  const aberto = st.abertos.has(it.id), v = indice(it), [nf, nomeF] = faixa(v);
   const estrelas = it.nota ? ' <span class="estrelas" aria-label="Nota ' + it.nota + ' de 5">' + "★".repeat(it.nota) + "</span>" : "";
   return '<li class="item' + (st.sel === it.id ? " sel" : "") + '" id="' + it.id + '">' +
     '<div class="it-topo"><button type="button" class="abrir" data-abrir="' + it.id + '" aria-expanded="' + aberto + '" aria-controls="det-' + it.id + '">' +
       '<span class="nome">' + esc(it.nome) + "</span>" +
       '<span class="meta"><span class="chip"><i class="sq" style="background:' + CONT[it.cont].v + '"></i>' + esc(it.origem) + "</span><span>" + esc(it.bairro) + "</span></span>" +
     "</button>" +
-    '<span class="st"><i class="pt ' + it.status + '" aria-hidden="true"></i>' + ROT[it.status] + estrelas + "</span></div>" +
+    '<div class="it-dir"><span class="nota-c" title="Nota do Claude, de 0 a 10"><b>' + fmt(v) + '</b><span class="faixa">' + pips(nf) + esc(nomeF) + "</span></span>" +
+    '<span class="st"><i class="pt ' + it.status + '" aria-hidden="true"></i>' + ROT[it.status] + estrelas + "</span></div></div>" +
     '<div class="det" id="det-' + it.id + '"' + (aberto ? "" : " hidden") + ">" + detHTML(it) + "</div></li>";
 }
 function detHTML(it){
@@ -366,7 +430,15 @@ function detHTML(it){
       "<dt>No Google</dt><dd>" + fmt(it.g) + " em " + it.n.toLocaleString("pt-BR") + " avaliações" + (it.preco && it.preco !== "—" && it.preco !== "Centro cultural" ? " · " + esc(it.preco) + " por pessoa" : "") +
         (it.status === "sug" && it.evid ? "<small>" + esc(it.evid) + "</small>" : "") + "</dd>" +
       '<dt>Fontes</dt><dd class="fontes">' + fontes + "</dd>" +
-    "</dl>";
+    "</dl>" + avaliacaoHTML(it);
+}
+function avaliacaoHTML(it){
+  const c = it.claude, v = indice(it), [, nomeF] = faixa(v);
+  const l = (rot, frac, txt) => '<div class="calc-l"><span>' + rot + '</span><em><b style="width:' + Math.round(Math.max(0, Math.min(1, frac)) * 100) + '%"></b></em><span>' + txt + "</span></div>";
+  return '<div class="avaliacao"><div class="t"><span>Avaliação do Claude</span><span>' + fmt(v) + " · " + esc(nomeF) + "</span></div>" +
+    l("Google ajustada", c.G / 10, fmt(c.G)) + l("Crítica e legado", c.R / 5, fmt(c.R * 2)) + l("Valor de safari", c.S / 5, fmt(c.S * 2)) +
+    "<p>" + esc(c.motivo) + " Google " + fmt(it.g) + " em " + it.n.toLocaleString("pt-BR") + " avaliações, ajustada para " + fmt(c.gadj, 2) + ".</p>" +
+    '<a href="#t-metodo">como a nota é calculada</a></div>';
 }
 
 /* mapa */
@@ -406,7 +478,7 @@ function montaMapa(){
 }
 function mostraDica(el, it){
   const r = el.getBoundingClientRect(), b = $("#mapa-box").getBoundingClientRect();
-  dica.innerHTML = "<b>" + esc(it.nome) + "</b><br>" + esc(it.origem) + " · " + ROT[it.status];
+  dica.innerHTML = "<b>" + esc(it.nome) + "</b><br>" + esc(it.origem) + " · " + fmt(indice(it)) + " · " + ROT[it.status];
   dica.style.left = Math.min(Math.max(r.left + r.width / 2 - b.left, 115), b.width - 115) + "px";
   dica.style.top = (r.top - b.top) + "px";
   dica.hidden = false;
@@ -463,6 +535,7 @@ function seleciona(id, rolar){
 }
 function marcaStatus(){ document.querySelectorAll("#f-status button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === st.status))); }
 $("#f-status").addEventListener("click", e => { const b = e.target.closest("button[data-f]"); if (!b) return; st.status = b.dataset.f; marcaStatus(); render(); });
+$("#f-ordem").addEventListener("click", e => { const b = e.target.closest("button[data-o]"); if (!b) return; st.ordem = b.dataset.o; document.querySelectorAll("#f-ordem button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); renderLista(); });
 $("#f-cont").addEventListener("click", e => { const b = e.target.closest("button[data-c]"); if (!b) return; st.cont = b.dataset.c || null; renderChips(); render(); });
 $("#z-cidade").addEventListener("click", () => { st.zoom = "cidade"; $("#z-cidade").setAttribute("aria-pressed", "true"); $("#z-centro").setAttribute("aria-pressed", "false"); renderMapa(); });
 $("#z-centro").addEventListener("click", () => { st.zoom = "centro"; $("#z-centro").setAttribute("aria-pressed", "true"); $("#z-cidade").setAttribute("aria-pressed", "false"); renderMapa(); });
@@ -474,7 +547,8 @@ document.addEventListener("click", e => {
 });
 window.addEventListener("hashchange", () => { const id = location.hash.slice(1); if (POR_ID[id] && id !== st.sel) seleciona(id, true); });
 
-pintaTema(); renderTopo(); renderCompos(); renderChips(); montaMapa(); renderLinhas(); render();
+pintaTema(); renderTopo(); renderCompos(); renderRecs(); renderChips(); montaMapa(); renderLinhas(); render();
+$("#m-prior-c").textContent = fmt(D.prior.c); $("#m-prior-m").textContent = D.prior.m;
 const inicial = location.hash.slice(1);
 if (POR_ID[inicial]) seleciona(inicial, true);
 })();
