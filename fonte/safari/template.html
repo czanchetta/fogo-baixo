@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Safari Gastronômico — Fogo Baixo</title>
+<meta name="description" content="Safari Gastronômico: um roteiro pessoal pelas cozinhas que formam São Paulo, com mapa, roteiros a pé e o que pedir em cada parada. Parte do caderno Fogo Baixo, de Celso Zanchetta.">
+<meta name="author" content="Celso Zanchetta">
+<meta name="theme-color" content="#eaefe4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12140d" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Safari Gastronômico — Fogo Baixo">
+<meta property="og:description" content="Um roteiro pessoal pelas cozinhas que formam São Paulo.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315180f'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Helvetica,Arial' font-weight='bold' fill='%23c07d1c' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<script>
+(function(){
+  var t = null;
+  try { t = localStorage.getItem("fogobaixo:tema"); } catch (e) {}
+  if (t !== "claro" && t !== "escuro")
+    t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "escuro" : "claro";
+  document.documentElement.setAttribute("data-tema", t);
+})();
+</script>
+<style>
+/* Mesma identidade do caderno Fogo Baixo. Faixa escura no topo; mapa fixo à esquerda e paradas por origem à direita; roteiros a pé em grade. */
+:root{
+  --paper:#eaefe4; --card:#fbfbf8; --cell:#dde6d4;
+  --ink:#15180f; --ink-2:#5c614f; --hair:#c3cbb8;
+  --accent:#c07d1c; --accent-ink:#8f5a0e;
+  --rule:#15180f;
+  --sel-bg:#15180f; --sel-fg:#f4f6ef;
+  --hero-bg:#15180f; --hero-fg:#eef1e6; --hero-dim:#c3ccb5; --hero-line:#4a5140; --hero-quiet:#8e9a7c;
+  --hover:#dfe6d7;
+  --land:#dfe6d7; --edge:#c3cbb8; --label:#8e9a7c; --dot-fui:#5c614f;
+  --c-brasil:#eb6834; --c-asia:#1baf7a; --c-oriente:#eda100; --c-europa:#e87ba4; --c-africa:#008300; --c-latam:#6250d6; --c-sp:#e34948;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+html[data-tema="escuro"]{
+  --paper:#12140d; --card:#1b1e15; --cell:#2b3120;
+  --ink:#e9ede0; --ink-2:#9aa48a; --hair:#333a2b;
+  --accent:#d99a33; --accent-ink:#e8b363;
+  --rule:#4d5642;
+  --sel-bg:#d99a33; --sel-fg:#14160e;
+  --hero-bg:#080a05; --hero-fg:#e9ede0; --hero-dim:#9aa48a; --hero-line:#3f4636; --hero-quiet:#79856a;
+  --hover:#242819;
+  --land:#1d2117; --edge:#333a2b; --label:#5f6a52; --dot-fui:#9aa48a;
+  --c-brasil:#d95926; --c-asia:#199e70; --c-oriente:#c98500; --c-europa:#d55181; --c-africa:#008300; --c-latam:#9085e9; --c-sp:#e66767;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono)}
+
+/* faixa do topo */
+.hero{background:var(--hero-bg);color:var(--hero-fg);padding-block:22px 52px;padding-left:max(48px, env(safe-area-inset-left, 0px));padding-right:max(48px, env(safe-area-inset-right, 0px))}
+@media (max-width:900px){.hero{padding-block:16px 40px;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}}
+.hero-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:44px}
+.voltar{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--hero-fg);text-decoration:none;border-bottom:1px solid var(--hero-line);padding-bottom:2px}
+.voltar:hover{border-bottom-color:var(--accent)}
+.tema-btn{border:1px solid var(--hero-line);background:none;border-radius:3px;padding:6px 11px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;line-height:1;color:var(--hero-dim);display:flex;align-items:center;gap:6px}
+.tema-btn svg{width:13px;height:13px;flex:none}
+.tema-btn:hover{color:var(--hero-fg);border-color:var(--hero-quiet)}
+.hero .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.hero h1{font-size:clamp(46px,9vw,112px);line-height:.88;letter-spacing:-.05em;font-weight:800;margin:20px 0 0;text-wrap:balance}
+.hero p.sub{font-size:clamp(17px,2.1vw,22px);line-height:1.38;max-width:44ch;margin:22px 0 0;color:var(--hero-dim)}
+.contagem{display:flex;flex-wrap:wrap;gap:10px 30px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--hero-quiet)}
+.contagem b{display:block;font-family:var(--sans);font-size:30px;letter-spacing:-.03em;color:var(--hero-fg);font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* corpo */
+.main{max-width:1320px;padding-block:40px 110px;padding-left:max(48px, env(safe-area-inset-left, 0px));padding-right:max(48px, env(safe-area-inset-right, 0px));display:grid;gap:44px}
+@media (max-width:900px){.main{padding-block:28px 80px;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px));gap:36px}}
+.secao-t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.intro{font-size:14.5px;color:var(--ink-2);line-height:1.5;margin:0;max-width:72ch}
+
+/* composição */
+.compos{display:grid;gap:10px}
+.barra-l{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:12px;align-items:center}
+.barra-l span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.barra{display:flex;gap:2px;height:14px}
+.barra i{display:block;height:100%;border-radius:2px;min-width:3px}
+.legenda{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--ink-2)}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.sq{width:9px;height:9px;border-radius:2px;display:inline-block;flex:none}
+
+/* mesa: mapa + paradas */
+.mesa{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.mesa{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}}
+.painel{background:var(--card);border:1px solid var(--hair);min-width:0}
+@media (min-width:1000px){.mapa-p{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px)}}
+.ferr{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--hair)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--rule);background:transparent;padding:6px 12px;border-radius:3px;font-family:var(--mono);font-size:12px;font-weight:600;line-height:1}
+.seg button[aria-pressed="true"]{background:var(--sel-bg);color:var(--sel-fg);border-color:var(--sel-bg)}
+.leg-mapa{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-2)}
+.leg-mapa span{display:inline-flex;align-items:center;gap:5px}
+.pt{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+.pt.fui{background:var(--dot-fui)}
+.pt.quero{background:var(--accent)}
+.pt.sug{background:var(--card);box-shadow:inset 0 0 0 2px var(--accent)}
+.mapa-box{position:relative;padding:6px}
+.mapa-box svg{display:block;width:100%;height:auto;max-height:calc(100vh - 150px)}
+.mapa-box .distr{fill:var(--land);stroke:var(--edge);stroke-width:1;vector-effect:non-scaling-stroke}
+.mapa-box .mun{fill:none;stroke:var(--ink-2);stroke-width:1.2;vector-effect:non-scaling-stroke;opacity:.5}
+.mapa-box .lbl{fill:var(--label);font-family:var(--mono);font-weight:600;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.mapa-box .dot{cursor:pointer;stroke:var(--card);transition:opacity .15s}
+.mapa-box .dot.fui{fill:var(--dot-fui)}
+.mapa-box .dot.quero{fill:var(--accent)}
+.mapa-box .dot.sug{fill:var(--card);stroke:var(--accent)}
+.mapa-box .dot.apagado{opacity:.13;pointer-events:none}
+.mapa-box .dot.sel{stroke:var(--ink)}
+.mapa-box .sel-lbl{fill:var(--ink);font-family:var(--sans);font-weight:750;paint-order:stroke;stroke:var(--card);stroke-linejoin:round;pointer-events:none}
+.dica-mapa{position:absolute;pointer-events:none;background:var(--sel-bg);color:var(--sel-fg);padding:6px 9px;border-radius:3px;font-size:13px;line-height:1.3;max-width:230px;transform:translate(-50%,calc(-100% - 12px));z-index:2}
+.dica-mapa b{font-weight:700}
+.mapa-nota{padding:0 12px 12px;margin:0;font-size:12px;color:var(--ink-2)}
+
+.filtros{display:grid;gap:10px;padding:12px;border-bottom:1px solid var(--hair)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+button.chip{border:1px solid var(--hair);background:var(--card);border-radius:3px;padding:5px 10px;font-size:13px;color:var(--ink-2)}
+button.chip[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--cell);font-weight:650}
+.nota-sug{margin:0;font-size:12.5px;color:var(--ink-2)}
+.grupo h3{margin:0;padding:16px 12px 8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);font-weight:700;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--rule)}
+.grupo h3 em{font-style:normal;font-weight:500;opacity:.8}
+ol.paradas{list-style:none;margin:0;padding:0}
+.item{border-bottom:1px solid var(--hair);scroll-margin-top:16px}
+.item.sel{background:var(--cell)}
+.it-topo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;padding:12px}
+.abrir{border:0;background:none;padding:0;text-align:left;display:grid;gap:3px;min-width:0}
+.nome{font-size:16.5px;font-weight:700;letter-spacing:-.012em;line-height:1.2}
+.abrir:hover .nome{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.meta{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13.5px;color:var(--ink-2)}
+.st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;padding-top:3px}
+.estrelas{font-family:var(--sans);letter-spacing:.06em;color:var(--accent-ink)}
+.det{padding:2px 12px 18px;display:grid;gap:12px}
+.det dl{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+@media (min-width:640px){.det dl{grid-template-columns:8.5rem minmax(0,1fr);gap:9px 16px}}
+.det dt{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);font-weight:700;padding-top:4px}
+.det dd{margin:0;font-size:15px;line-height:1.5;max-width:62ch}
+.det dd small{display:block;color:var(--ink-2);font-size:13px}
+.det a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
+.det a:hover{border-bottom-color:var(--accent)}
+.det .fontes a{display:inline-block;margin-right:12px;font-family:var(--mono);font-size:12px}
+.porque{border-left:2px solid var(--accent);padding-left:14px;margin:0;font-size:15.5px;max-width:60ch}
+.casa{display:inline-flex;gap:6px;align-items:baseline}
+.casa b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+
+/* roteiros */
+.secao{display:grid;gap:14px}
+.linhas{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.linha{background:var(--card);border:1px solid var(--hair);padding:14px 14px 10px;display:grid;gap:10px;align-content:start;min-width:0}
+.linha h4{margin:0;font-size:17px;font-weight:750;letter-spacing:-.015em}
+.linha p{margin:2px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.trilho{list-style:none;margin:0;padding:0;position:relative}
+.trilho::before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:3px;border-radius:2px;background:var(--ink)}
+.parada button{display:grid;grid-template-columns:15px minmax(0,1fr);gap:10px;align-items:center;border:0;background:none;padding:3px 0;text-align:left;width:100%}
+.parada .pt{width:15px;height:15px;box-shadow:0 0 0 3px var(--card)}
+.parada .pt.sug{box-shadow:inset 0 0 0 3px var(--accent),0 0 0 3px var(--card)}
+.parada .nm{font-size:14.5px;font-weight:650;line-height:1.25;display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}
+.parada .nm small{font-weight:400;font-size:12.5px;color:var(--ink-2)}
+.parada button:hover .nm span{text-decoration:underline;text-underline-offset:3px}
+.trecho{font-family:var(--mono);font-size:11px;color:var(--ink-2);padding:1px 0 1px 25px}
+.solo{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.solo button{display:grid;grid-template-columns:12px minmax(0,1fr);gap:8px;align-items:start;text-align:left;border:1px solid var(--hair);background:var(--card);padding:10px 12px}
+.solo button:hover{background:var(--cell)}
+.solo .pt{margin-top:5px}
+.solo b{display:block;font-weight:700}
+.solo small{color:var(--ink-2);font-size:13px}
+
+/* rodapé */
+.como p{margin:0 0 8px;font-size:14px;color:var(--ink-2);max-width:80ch;line-height:1.55}
+.colofao{padding-top:22px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:12px 34px;align-items:baseline}
+.colofao p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:52ch;line-height:1.5}
+.colofao .links{display:flex;gap:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em}
+.colofao a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:1px}
+.colofao a:hover{border-bottom-color:var(--accent)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-bar">
+    <a class="voltar" href="../">← Fogo Baixo</a>
+    <button type="button" class="tema-btn" id="btn-tema"></button>
+  </div>
+  <div class="k">Fogo Baixo · Fora de casa</div>
+  <h1>Safari Gastronômico</h1>
+  <p class="sub">Um roteiro pessoal pelas cozinhas que formam São Paulo, das regionais brasileiras às de imigrantes. Cada parada traz a origem da cozinha, o que pedir e o que saber antes de ir.</p>
+  <div class="contagem" id="contagem"></div>
+</header>
+
+<main class="main">
+  <section class="compos" id="compos" aria-label="Composição por origem"></section>
+
+  <div class="mesa">
+    <section class="painel mapa-p" aria-label="Mapa">
+      <div class="ferr">
+        <div class="seg" role="group" aria-label="Enquadramento do mapa">
+          <button type="button" id="z-cidade" aria-pressed="true">Cidade</button>
+          <button type="button" id="z-centro" aria-pressed="false">Centro</button>
+        </div>
+        <div class="leg-mapa">
+          <span><i class="pt fui"></i>Já fui</span>
+          <span><i class="pt quero"></i>Quero ir</span>
+          <span><i class="pt sug"></i>Sugestão</span>
+        </div>
+      </div>
+      <div class="mapa-box" id="mapa-box"></div>
+      <p class="mapa-nota">Toque num ponto para abrir a parada.</p>
+    </section>
+
+    <section class="painel" aria-label="Paradas">
+      <div class="filtros">
+        <div class="seg" role="group" aria-label="Filtrar por situação" id="f-status">
+          <button type="button" data-f="todos" aria-pressed="true">Todas</button>
+          <button type="button" data-f="fui" aria-pressed="false">Já fui</button>
+          <button type="button" data-f="quero" aria-pressed="false">Quero ir</button>
+          <button type="button" data-f="sug" aria-pressed="false">Sugestões</button>
+        </div>
+        <div class="chips" id="f-cont" role="group" aria-label="Filtrar por origem"></div>
+        <p class="nota-sug">Sugestão é uma casa que entrou para cobrir uma cozinha que faltava no safari e ainda não foi visitada.</p>
+      </div>
+      <div id="lista"></div>
+    </section>
+  </div>
+
+  <section class="secao" aria-labelledby="t-linhas">
+    <h2 class="secao-t" id="t-linhas">Roteiros a pé</h2>
+    <p class="intro">Cada linha junta paradas próximas. Os tempos são estimados pela distância em linha reta, com 30% a mais pelo traçado das ruas.</p>
+    <div class="linhas" id="linhas"></div>
+    <h3 class="secao-t" style="margin-top:14px">Viagem de um destino só</h3>
+    <div class="solo" id="solo"></div>
+  </section>
+
+  <section class="como" aria-labelledby="t-como">
+    <h2 class="secao-t" id="t-como">Como esta página foi feita</h2>
+    <p>Os lugares vêm de uma lista pessoal no Google Maps; as sugestões entraram para cobrir cozinhas que faltavam. Notas, número de avaliações, endereços e faixas de preço são do Google Maps, consultado em <span id="data-consulta"></span>. Pratos e histórias vêm das fontes citadas em cada parada.</p>
+    <p>Horários e preços mudam: confira antes de ir. Limites dos distritos: GeoSampa, Prefeitura de São Paulo, via codigourbano/distritos-sp.</p>
+  </section>
+
+  <footer class="colofao">
+    <p>Fogo Baixo é um caderno pessoal de cozinha de Celso Zanchetta. Não é publicação editorial nem consultoria gastronômica.</p>
+    <div class="links">
+      <a href="../">Fogo Baixo</a>
+      <a href="../#da-rua">Da rua para casa</a>
+      <a href="https://github.com/czanchetta" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+</main>
+
+<script type="application/json" id="dados">/*__DADOS__*/</script>
+<script type="application/json" id="mapa">/*__MAPA__*/</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById("dados").textContent);
+const MAPA = JSON.parse(document.getElementById("mapa").textContent);
+const ITENS = D.itens;
+const POR_ID = Object.fromEntries(ITENS.map(x => [x.id, x]));
+const CONT = {
+  sp:{n:"São Paulo raiz", v:"var(--c-sp)"}, brasil:{n:"Brasil regional", v:"var(--c-brasil)"},
+  asia:{n:"Ásia", v:"var(--c-asia)"}, oriente:{n:"Oriente Médio", v:"var(--c-oriente)"},
+  europa:{n:"Europa", v:"var(--c-europa)"}, africa:{n:"África", v:"var(--c-africa)"},
+  latam:{n:"América Latina", v:"var(--c-latam)"}
+};
+const GRUPOS = ["sp","brasil","asia","oriente","europa","africa","latam"];
+const ROT = {fui:"Já fui", quero:"Quero ir", sug:"Sugestão"};
+const NOME_DISTR = {"Se":"Sé","Republica":"República","Liberdade":"Liberdade","Bela Vista":"Bela Vista","Vila Mariana":"Vila Mariana","Saude":"Saúde","Pinheiros":"Pinheiros","Bras":"Brás","Pari":"Pari","Bom Retiro":"Bom Retiro","Santana":"Santana","Limao":"Limão","Vila Medeiros":"Vila Medeiros","Vila Prudente":"Vila Prudente","Jardim Paulista":"Jd. Paulista","Consolacao":"Consolação","Mooca":"Mooca","Perdizes":"Perdizes","Santa Cecilia":"Sta. Cecília","Cambuci":"Cambuci","Ipiranga":"Ipiranga","Moema":"Moema","Itaim Bibi":"Itaim Bibi","Lapa":"Lapa","Tatuape":"Tatuapé","Butanta":"Butantã","Barra Funda":"Barra Funda","Cursino":"Cursino","Sacoma":"Sacomã","Casa Verde":"Casa Verde","Vila Maria":"Vila Maria","Jabaquara":"Jabaquara","Agua Rasa":"Água Rasa","Belem":"Belém"};
+const LBL_CIDADE = ["Santana","Limao","Vila Medeiros","Pinheiros","Bela Vista","Vila Mariana","Saude","Mooca","Vila Prudente","Ipiranga","Perdizes","Itaim Bibi","Lapa","Tatuape","Butanta","Casa Verde","Vila Maria","Jabaquara","Moema","Cursino","Sacoma","Agua Rasa","Belem","Barra Funda"];
+const LBL_CENTRO = ["Se","Republica","Liberdade","Bela Vista","Bom Retiro","Bras","Pari","Santa Cecilia","Consolacao","Cambuci","Mooca","Jardim Paulista","Barra Funda","Belem"];
+const st = { status:"todos", cont:null, sel:null, abertos:new Set(), zoom:"cidade" };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = (v, d=1) => v.toLocaleString("pt-BR", {minimumFractionDigits:d, maximumFractionDigits:d});
+const linkMaps = it => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(it.nome + " " + it.end + " São Paulo") + "&query_place_id=" + encodeURIComponent(it.pid);
+
+/* tema, o mesmo do caderno */
+const LUA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const SOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+function temaAtual(){ return document.documentElement.getAttribute("data-tema") === "escuro" ? "escuro" : "claro"; }
+function pintaTema(){
+  const escuro = temaAtual() === "escuro", b = $("#btn-tema");
+  b.innerHTML = (escuro ? SOL : LUA) + " " + (escuro ? "Claro" : "Escuro");
+  b.setAttribute("aria-label", "Tema: " + (escuro ? "escuro" : "claro"));
+}
+$("#btn-tema").addEventListener("click", () => {
+  const novo = temaAtual() === "escuro" ? "claro" : "escuro";
+  document.documentElement.setAttribute("data-tema", novo);
+  try { localStorage.setItem("fogobaixo:tema", novo); } catch (e) {}
+  pintaTema();
+});
+if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ev => {
+  let salvo = null; try { salvo = localStorage.getItem("fogobaixo:tema"); } catch (e) {}
+  if (!salvo){ document.documentElement.setAttribute("data-tema", ev.matches ? "escuro" : "claro"); pintaTema(); }
+});
+
+/* topo e composição */
+function renderTopo(){
+  const n = s => ITENS.filter(x => x.status === s).length;
+  $("#contagem").innerHTML =
+    "<div><b>" + ITENS.length + "</b>paradas</div><div><b>" + n("fui") + "</b>visitadas</div>" +
+    "<div><b>" + n("quero") + "</b>quero ir</div><div><b>" + n("sug") + "</b>sugestões</div>";
+  $("#data-consulta").textContent = D.consulta;
+}
+function renderCompos(){
+  const conta = conj => { const c = {}; conj.forEach(x => c[x.cont] = (c[x.cont]||0) + 1); return c; };
+  const fui = ITENS.filter(x => x.status === "fui"), cF = conta(fui), cT = conta(ITENS);
+  const barra = (rot, c) => '<div class="barra-l"><span>' + rot + '</span><div class="barra" role="img" aria-label="' +
+    esc(rot + ": " + GRUPOS.filter(k => c[k]).map(k => CONT[k].n + " " + c[k]).join(", ")) + '">' +
+    GRUPOS.filter(k => c[k]).map(k => '<i style="flex:' + c[k] + ';background:' + CONT[k].v + '" title="' + esc(CONT[k].n) + ': ' + c[k] + '"></i>').join("") + "</div></div>";
+  $("#compos").innerHTML = '<h2 class="secao-t">De onde vem cada parada</h2>' +
+    barra("Visitadas", cF) + barra("Safari inteiro", cT) +
+    '<div class="legenda">' + GRUPOS.map(k => '<span><i class="sq" style="background:' + CONT[k].v + '"></i>' + CONT[k].n + ' <em>' + (cF[k]||0) + " de " + (cT[k]||0) + "</em></span>").join("") + "</div>";
+}
+
+/* filtros */
+function renderChips(){
+  $("#f-cont").innerHTML = ['<button type="button" class="chip" data-c="" aria-pressed="' + (st.cont === null) + '">Todas as origens</button>']
+    .concat(GRUPOS.map(k => '<button type="button" class="chip" data-c="' + k + '" aria-pressed="' + (st.cont === k) + '"><i class="sq" style="background:' + CONT[k].v + '"></i>' + CONT[k].n + "</button>")).join("");
+}
+function passa(it){
+  if (st.cont && it.cont !== st.cont) return false;
+  return st.status === "todos" || it.status === st.status;
+}
+
+/* paradas */
+function renderLista(){
+  const html = GRUPOS.map(k => {
+    const its = ITENS.filter(x => x.cont === k && passa(x)).sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
+    if (!its.length) return "";
+    return '<section class="grupo"><h3><i class="sq" style="background:' + CONT[k].v + '"></i>' + CONT[k].n + " <em>" + its.length + "</em></h3>" +
+      '<ol class="paradas">' + its.map(itemHTML).join("") + "</ol></section>";
+  }).join("");
+  $("#lista").innerHTML = html || '<p class="intro" style="padding:20px 12px">Nenhuma parada com esses filtros.</p>';
+}
+function itemHTML(it){
+  const aberto = st.abertos.has(it.id);
+  const estrelas = it.nota ? ' <span class="estrelas" aria-label="Nota ' + it.nota + ' de 5">' + "★".repeat(it.nota) + "</span>" : "";
+  return '<li class="item' + (st.sel === it.id ? " sel" : "") + '" id="' + it.id + '">' +
+    '<div class="it-topo"><button type="button" class="abrir" data-abrir="' + it.id + '" aria-expanded="' + aberto + '" aria-controls="det-' + it.id + '">' +
+      '<span class="nome">' + esc(it.nome) + "</span>" +
+      '<span class="meta"><span class="chip"><i class="sq" style="background:' + CONT[it.cont].v + '"></i>' + esc(it.origem) + "</span><span>" + esc(it.bairro) + "</span></span>" +
+    "</button>" +
+    '<span class="st"><i class="pt ' + it.status + '" aria-hidden="true"></i>' + ROT[it.status] + estrelas + "</span></div>" +
+    '<div class="det" id="det-' + it.id + '"' + (aberto ? "" : " hidden") + ">" + detHTML(it) + "</div></li>";
+}
+function detHTML(it){
+  const fontes = it.fontes.length ? it.fontes.map(u => { let h = u; try { h = new URL(u).hostname.replace(/^www\./, ""); } catch (e) {} return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(h) + "</a>"; }).join("") : "<span>Google Maps</span>";
+  let casa = "";
+  if (it.casa) casa = '<dt>No caderno</dt><dd><a href="../#' + esc(it.casa.receita) + '">' + esc(it.casa.titulo) + "</a><small>A versão de casa, testada no Fogo Baixo.</small></dd>";
+  else if (it.fila) casa = '<dt>No caderno</dt><dd><a href="../#da-rua">' + esc(it.fila) + "</a><small>Na fila para virar receita; ainda não testado em casa.</small></dd>";
+  return (it.porque ? '<p class="porque">' + esc(it.porque) + "</p>" : "") +
+    "<dl>" +
+      "<dt>O que pedir</dt><dd>" + esc(it.pratos) + "</dd>" +
+      "<dt>História</dt><dd>" + esc(it.hist) + "</dd>" +
+      "<dt>Antes de ir</dt><dd>" + esc(it.dica) + "</dd>" +
+      (it.rec ? "<dt>Reconhecimento</dt><dd>" + esc(it.rec) + "</dd>" : "") +
+      casa +
+      "<dt>Endereço</dt><dd>" + esc(it.end) + ", " + esc(it.bairro) + ' · <a href="' + linkMaps(it) + '" target="_blank" rel="noopener">abrir no Google Maps</a></dd>' +
+      "<dt>No Google</dt><dd>" + fmt(it.g) + " em " + it.n.toLocaleString("pt-BR") + " avaliações" + (it.preco && it.preco !== "—" && it.preco !== "Centro cultural" ? " · " + esc(it.preco) + " por pessoa" : "") +
+        (it.status === "sug" && it.evid ? "<small>" + esc(it.evid) + "</small>" : "") + "</dd>" +
+      '<dt>Fontes</dt><dd class="fontes">' + fontes + "</dd>" +
+    "</dl>";
+}
+
+/* mapa */
+const NS = "http://www.w3.org/2000/svg";
+let svg, gDots, gLbl, gSel, dica;
+const proj = (lat, lon) => [(lon - MAPA.lon_min) * MAPA.kx * MAPA.scale, (MAPA.lat_max - lat) * MAPA.scale];
+function vbAtual(){
+  if (st.zoom !== "centro") return [0, 0, MAPA.w, MAPA.h];
+  const [x0, y0] = proj(-23.5215, -46.6625), [x1, y1] = proj(-23.5665, -46.6165);
+  return [x0, y0, x1 - x0, y1 - y0];
+}
+function montaMapa(){
+  svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("role", "group");
+  svg.setAttribute("aria-label", "Mapa de São Paulo com as paradas do safari");
+  const gD = document.createElementNS(NS, "g");
+  MAPA.distritos.forEach(d => { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d.d); p.setAttribute("class", "distr"); gD.appendChild(p); });
+  const mun = document.createElementNS(NS, "path"); mun.setAttribute("d", MAPA.municipio); mun.setAttribute("class", "mun");
+  gLbl = document.createElementNS(NS, "g"); gDots = document.createElementNS(NS, "g"); gSel = document.createElementNS(NS, "g");
+  svg.append(gD, mun, gLbl, gDots, gSel);
+  ITENS.forEach(it => {
+    const [x, y] = proj(it.lat, it.lon), c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1));
+    c.setAttribute("tabindex", "0"); c.setAttribute("role", "button");
+    c.setAttribute("aria-label", it.nome + ", " + it.origem + ", " + it.bairro + ", " + ROT[it.status]);
+    c.dataset.id = it.id; gDots.appendChild(c);
+  });
+  dica = document.createElement("div"); dica.className = "dica-mapa"; dica.hidden = true;
+  $("#mapa-box").append(svg, dica);
+  const idDe = e => e.target && e.target.dataset ? e.target.dataset.id : null;
+  svg.addEventListener("pointerover", e => { const id = idDe(e); if (id) mostraDica(e.target, POR_ID[id]); });
+  svg.addEventListener("pointerout", e => { if (idDe(e)) dica.hidden = true; });
+  svg.addEventListener("focusin", e => { const id = idDe(e); if (id) mostraDica(e.target, POR_ID[id]); });
+  svg.addEventListener("focusout", () => { dica.hidden = true; });
+  svg.addEventListener("click", e => { const id = idDe(e); if (id) seleciona(id, true); });
+  svg.addEventListener("keydown", e => { const id = idDe(e); if (id && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); seleciona(id, true); } });
+}
+function mostraDica(el, it){
+  const r = el.getBoundingClientRect(), b = $("#mapa-box").getBoundingClientRect();
+  dica.innerHTML = "<b>" + esc(it.nome) + "</b><br>" + esc(it.origem) + " · " + ROT[it.status];
+  dica.style.left = Math.min(Math.max(r.left + r.width / 2 - b.left, 115), b.width - 115) + "px";
+  dica.style.top = (r.top - b.top) + "px";
+  dica.hidden = false;
+}
+function renderMapa(){
+  const vb = vbAtual(), k = vb[2] / MAPA.w, r = 8.5 * k, sw = 2.2 * k;
+  svg.setAttribute("viewBox", vb.map(n => n.toFixed(1)).join(" "));
+  gDots.querySelectorAll("circle").forEach(c => {
+    const it = POR_ID[c.dataset.id];
+    c.setAttribute("r", (st.sel === it.id ? r * 1.45 : r).toFixed(2));
+    c.setAttribute("stroke-width", (it.status === "sug" ? sw * 1.15 : sw).toFixed(2));
+    c.setAttribute("class", "dot " + it.status + (passa(it) ? "" : " apagado") + (st.sel === it.id ? " sel" : ""));
+  });
+  gDots.querySelectorAll("circle.sug").forEach(c => gDots.appendChild(c));
+  const selC = gDots.querySelector("circle.sel"); if (selC) gDots.appendChild(selC);
+  const quais = st.zoom === "centro" ? LBL_CENTRO : LBL_CIDADE;
+  gLbl.innerHTML = "";
+  MAPA.distritos.filter(d => quais.includes(d.n)).forEach(d => {
+    const t = document.createElementNS(NS, "text");
+    t.setAttribute("x", d.cx); t.setAttribute("y", d.cy); t.setAttribute("text-anchor", "middle");
+    t.setAttribute("class", "lbl"); t.setAttribute("font-size", (10.5 * k).toFixed(2));
+    t.textContent = NOME_DISTR[d.n] || d.n; gLbl.appendChild(t);
+  });
+  gSel.innerHTML = "";
+  if (st.sel){
+    const it = POR_ID[st.sel], [x, y] = proj(it.lat, it.lon), t = document.createElementNS(NS, "text");
+    t.setAttribute("x", x); t.setAttribute("y", (y - r * 2.1).toFixed(1)); t.setAttribute("text-anchor", "middle");
+    t.setAttribute("class", "sel-lbl"); t.setAttribute("font-size", (14 * k).toFixed(2)); t.setAttribute("stroke-width", (4 * k).toFixed(2));
+    t.textContent = it.nome; gSel.appendChild(t);
+  }
+}
+
+/* roteiros */
+function renderLinhas(){
+  $("#linhas").innerHTML = D.linhas.map(ln => {
+    const its = ln.stops.map(id => POR_ID[id]), tot = ln.segs.reduce((a, s) => a + s.min, 0);
+    const corpo = its.map((it, i) => '<li class="parada"><button type="button" data-sel="' + it.id + '"><i class="pt ' + it.status + '" aria-hidden="true"></i><span class="nm"><span>' + esc(it.nome) + "</span><small>" + esc(it.origem) + "</small></span></button></li>" +
+      (i < ln.segs.length ? '<li class="trecho">' + ln.segs[i].min + " min a pé" + (ln.segs[i].min > 18 ? " (ou ônibus)" : "") + "</li>" : "")).join("");
+    return '<article class="linha"><header><h4>' + esc(ln.nome) + "</h4><p>" + esc(ln.sub) + " · ~" + tot + " min · " + its.length + " paradas</p></header><ol class=\"trilho\">" + corpo + "</ol></article>";
+  }).join("");
+  $("#solo").innerHTML = D.solo.map(id => { const it = POR_ID[id];
+    return '<button type="button" data-sel="' + it.id + '"><i class="pt ' + it.status + '" aria-hidden="true"></i><span><b>' + esc(it.nome) + "</b><small>" + esc(it.origem) + " · " + esc(it.bairro) + "</small></span></button>"; }).join("");
+}
+
+/* interação */
+function render(){ renderLista(); renderMapa(); }
+function seleciona(id, rolar){
+  if (!POR_ID[id]) return;
+  st.sel = id; st.abertos.add(id);
+  if (!passa(POR_ID[id])){ st.status = "todos"; st.cont = null; marcaStatus(); renderChips(); }
+  render();
+  if (location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id);
+  if (rolar){ const el = document.getElementById(id); if (el) el.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"}); }
+}
+function marcaStatus(){ document.querySelectorAll("#f-status button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === st.status))); }
+$("#f-status").addEventListener("click", e => { const b = e.target.closest("button[data-f]"); if (!b) return; st.status = b.dataset.f; marcaStatus(); render(); });
+$("#f-cont").addEventListener("click", e => { const b = e.target.closest("button[data-c]"); if (!b) return; st.cont = b.dataset.c || null; renderChips(); render(); });
+$("#z-cidade").addEventListener("click", () => { st.zoom = "cidade"; $("#z-cidade").setAttribute("aria-pressed", "true"); $("#z-centro").setAttribute("aria-pressed", "false"); renderMapa(); });
+$("#z-centro").addEventListener("click", () => { st.zoom = "centro"; $("#z-centro").setAttribute("aria-pressed", "true"); $("#z-cidade").setAttribute("aria-pressed", "false"); renderMapa(); });
+document.addEventListener("click", e => {
+  const ab = e.target.closest("[data-abrir]");
+  if (ab){ const id = ab.dataset.abrir; if (st.abertos.has(id)) st.abertos.delete(id); else st.abertos.add(id); st.sel = id; render(); const f = document.querySelector('[data-abrir="' + id + '"]'); if (f) f.focus(); return; }
+  const sl = e.target.closest("[data-sel]");
+  if (sl) seleciona(sl.dataset.sel, true);
+});
+window.addEventListener("hashchange", () => { const id = location.hash.slice(1); if (POR_ID[id] && id !== st.sel) seleciona(id, true); });
+
+pintaTema(); renderTopo(); renderCompos(); renderChips(); montaMapa(); renderLinhas(); render();
+const inicial = location.hash.slice(1);
+if (POR_ID[inicial]) seleciona(inicial, true);
+})();
+</script>
+</body>
+</html>

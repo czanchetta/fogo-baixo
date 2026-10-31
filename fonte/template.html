@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Fogo Baixo — um caderno pessoal de cozinha</title>
-<meta name="description" content="Fogo Baixo: caderno pessoal de técnicas e receitas de Celso Zanchetta, em português, español e English. Cada receita em quatro formatos.">
+<meta name="description" content="Fogo Baixo: caderno pessoal de técnicas e receitas de Celso Zanchetta, em português, español e English. Cada receita em tabela de cozimento, fluxograma e mais.">
 <meta name="author" content="Celso Zanchetta">
 <meta name="theme-color" content="#eaefe4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12140d" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Fogo Baixo — um caderno pessoal de cozinha">
-<meta property="og:description" content="Técnicas e receitas testadas em casa, cada uma em quatro formatos de leitura.">
+<meta property="og:description" content="Técnicas e receitas testadas em casa, cada uma em vários formatos de leitura.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315180f'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Helvetica,Arial' font-weight='bold' fill='%23c07d1c' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <style>
@@ -44,7 +44,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ---------- layout ---------- */
 .wrap{display:grid;grid-template-columns:288px minmax(0,1fr);min-height:100vh}
-@media (max-width:900px){ .wrap{grid-template-columns:1fr} }
+@media (max-width:900px){ .wrap{grid-template-columns:minmax(0,1fr)} }
 
 /* ---------- sidebar ---------- */
 .side{border-right:1px solid var(--hair);padding:28px 22px 60px;
@@ -182,6 +182,52 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
   color:var(--ink-2);margin:0 0 10px;font-weight:700}
 .sobre .idbox a{color:var(--ink);font-weight:600}
 
+/* ---------- fora de casa ---------- */
+.nav a{display:block;text-align:left;padding:8px 10px;border-radius:5px;font-size:14.5px;line-height:1.3;
+  color:var(--ink);text-decoration:none}
+.nav a:hover{background:var(--hover)}
+.itens a{background:var(--card);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  text-align:left;padding:15px 17px;display:block;color:var(--ink);text-decoration:none}
+.itens a:hover{background:var(--cell)}
+.onde-provar{margin:14px 0 0;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2)}
+.onde-provar span{text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;margin-right:6px}
+.onde-provar a, .ext{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
+.onde-provar a:hover, .ext:hover{border-bottom-color:var(--accent)}
+.ext{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;white-space:nowrap}
+.darua{max-width:1000px}
+.pares{border-top:1px solid var(--hair);border-left:1px solid var(--hair);margin-top:12px}
+.par{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid var(--hair);border-right:1px solid var(--hair)}
+.par > *{padding:16px 18px;min-width:0}
+.par .rec{background:var(--card);border:0;border-right:1px solid var(--hair);text-align:left;display:block;width:100%}
+.par .rec:hover{background:var(--cell)}
+.par .rec .n{font-family:var(--mono);font-size:10.5px;color:var(--accent);font-weight:700}
+.par .rec .t{display:block;font-size:16px;font-weight:650;letter-spacing:-.012em;margin:5px 0 4px;line-height:1.25}
+.par .rec .k{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);line-height:1.4}
+.par .rua p{margin:0}
+.lugar-k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+.par .rua .lugar{font-size:16px;font-weight:650;margin-top:6px;line-height:1.25}
+.lugar small{font-weight:400;color:var(--ink-2);font-size:13.5px;margin-left:8px}
+.par .rua .nota-rua{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin-top:6px}
+.par .rua .ext{display:inline-block;margin-top:8px}
+@media (max-width:760px){
+  .par{grid-template-columns:minmax(0,1fr)}
+  .par .rec{border-right:0;border-bottom:1px dashed var(--hair)}
+}
+.fila{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--hair)}
+.fila li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;gap:4px 18px;align-items:baseline;
+  padding:12px 2px;border-bottom:1px solid var(--hair)}
+@media (max-width:700px){ .fila li{grid-template-columns:minmax(0,1fr)} }
+.fila .prato{font-size:15.5px;font-weight:650;line-height:1.3}
+.fila .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+  font-weight:700;margin-left:8px;white-space:nowrap}
+.fila .onde{font-size:14px;color:var(--ink-2)}
+.safari-box{margin-top:40px;padding:22px 24px;border:1px solid var(--rule);background:var(--card);
+  display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.safari-box p{margin:0;font-size:15.5px;line-height:1.5;max-width:56ch}
+.safari-box a{background:var(--accent);color:#14160e;text-decoration:none;border-radius:3px;padding:13px 22px;
+  font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+.safari-box a:hover{filter:brightness(1.07)}
+
 /* ---------- colofão ---------- */
 .colofao{margin-top:72px;padding-top:22px;border-top:1px solid var(--rule);
   display:flex;flex-wrap:wrap;gap:12px 34px;align-items:baseline}
@@ -225,6 +271,8 @@ h1.title{font-size:clamp(38px,6vw,68px);line-height:.94;letter-spacing:-.035em;f
 .g-step .t{font-weight:650;font-size:15px;line-height:1.22;letter-spacing:-.01em}
 .g-step .d{font-family:var(--mono);font-size:11.5px;line-height:1.35;color:var(--ink-2)}
 .g-empty{background:var(--card);border-bottom:1px solid var(--card)}
+.fluxo-scroll{overflow-x:auto;padding:4px 0 2px}
+.fluxo-scroll svg{display:block;margin:0 auto}
 .hint{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:10px;letter-spacing:.06em}
 
 /* ---------- técnica ---------- */
@@ -363,6 +411,8 @@ details.ja-tem summary{cursor:pointer;font-family:var(--mono);font-size:10.5px;l
       <nav class="nav" id="nav-tec"></nav>
       <h4 id="h-receitas"></h4>
       <nav class="nav" id="nav-rec"></nav>
+      <h4 id="h-fora"></h4>
+      <nav class="nav" id="nav-fora"></nav>
       <div class="side-foot">
         <p id="foot-assina"></p>
         <p><a href="#sobre" id="link-sobre"></a></p>
@@ -575,6 +625,16 @@ function montaNav(){
       rec.appendChild(b);
     });
   });
+  $("#h-fora").textContent = t(UI.foraDeCasa);
+  const fo = $("#nav-fora");
+  fo.innerHTML = "";
+  const bd = el("button", null, esc(t(UI.daRua)));
+  bd.onclick = () => abrir("da-rua", "da-rua");
+  bd.dataset.id = "da-rua";
+  fo.appendChild(bd);
+  const as = el("a", null, esc(t(UI.safari)) + ' <span aria-hidden="true">↗</span>');
+  as.href = SAFARI_URL;
+  fo.appendChild(as);
   marcaAtual();
 }
 function marcaAtual(){
@@ -597,7 +657,7 @@ function abrir(id, tipo, porcoes, vista){
     estado.porcoes = rec.porcoesOpcoes.includes(porcoes) ? porcoes : rec.porcoes;
     /* a aba Lista de compras só abre quando pedida (despensa, lista); nos demais caminhos volta ao tradicional */
     if (vista) estado.vista = vista;
-    else if (!["tradicional","tabela","interativo"].includes(estado.vista)) estado.vista = "tradicional";
+    else if (!["tradicional","tabela","fluxo","interativo"].includes(estado.vista)) estado.vista = "tradicional";
   }
   marcaAtual();
   render();
@@ -619,6 +679,7 @@ function render(){
   else if (estado.tipo === "despensa") renderDespensa(m);
   else if (estado.tipo === "posso-fazer") renderPosso(m);
   else if (estado.tipo === "compras") renderCompras(m);
+  else if (estado.tipo === "da-rua") renderDaRua(m);
   else renderReceita(m);
   m.appendChild(colofao());
 }
@@ -706,6 +767,22 @@ function renderCapa(m){
     br.appendChild(g);
   });
   corpo.appendChild(br);
+
+  const bfo = el("div", "bloco");
+  bfo.appendChild(el("h3", "secao-t", esc(t(UI.foraDeCasa))));
+  bfo.appendChild(el("p", "intro", esc(t(UI.capaFora))));
+  const ifo = el("div", "itens");
+  const b5 = el("button", null,
+    '<span class="t">' + esc(t(UI.daRua)) + "</span>" +
+    '<span class="k">' + esc(DA_RUA.pares.length + " " + t(UI.paresK) + " · " + DA_RUA.fila.length + " " + t(UI.filaK)) + "</span>");
+  b5.onclick = () => abrir("da-rua", "da-rua");
+  const a6 = el("a", null,
+    '<span class="t">' + esc(t(UI.safari)) + ' <span aria-hidden="true">↗</span></span>' +
+    '<span class="k">' + esc(t(UI.capaSafariK)) + "</span>");
+  a6.href = SAFARI_URL;
+  ifo.appendChild(b5); ifo.appendChild(a6);
+  bfo.appendChild(ifo);
+  corpo.appendChild(bfo);
   capa.appendChild(corpo);
   m.appendChild(capa);
 }
@@ -726,6 +803,56 @@ function renderSobre(m){
     '<a href="mailto:celso.zanchetta@gmail.com">celso.zanchetta@gmail.com</a></p>';
   s.appendChild(box);
   m.appendChild(s);
+}
+
+function renderDaRua(m){
+  m.appendChild(el("p", "kicker", esc(t(UI.foraDeCasa))));
+  m.appendChild(el("h1", "title", esc(t(UI.daRua))));
+  m.appendChild(el("p", "lede", esc(t(UI.daRuaResumo))));
+  m.appendChild(el("div", "rule"));
+  const w = el("div", "darua");
+
+  const b1 = el("div", "bloco");
+  b1.appendChild(el("h3", "secao-t", esc(t(UI.daRuaPares))));
+  b1.appendChild(el("p", "intro", esc(t(UI.daRuaParesIntro))));
+  const ps = el("div", "pares");
+  DA_RUA.pares.forEach(p => {
+    const r = RECEITAS.find(x => x.id === p.receita);
+    if (!r) return;
+    const row = el("div", "par");
+    const br = el("button", "rec",
+      '<span class="n">' + nn(r.id) + "</span>" +
+      '<span class="t">' + esc(t(r.titulo)) + "</span>" +
+      '<span class="k">' + esc(t(r.kicker)) + "</span>");
+    br.onclick = () => abrir(r.id, "receita");
+    const rua = el("div", "rua",
+      '<p class="lugar-k">' + esc(t(UI.ondeProvar)) + "</p>" +
+      '<p class="lugar">' + esc(p.nome) + "<small>" + esc(p.bairro) + "</small></p>" +
+      '<p class="nota-rua">' + esc(t(p.nota)) + "</p>" +
+      '<a class="ext" href="' + SAFARI_URL + "#" + p.lugar + '">' + esc(t(UI.verNoSafari)) + ' <span aria-hidden="true">↗</span></a>');
+    row.appendChild(br); row.appendChild(rua);
+    ps.appendChild(row);
+  });
+  b1.appendChild(ps);
+  w.appendChild(b1);
+
+  const b2 = el("div", "bloco");
+  b2.appendChild(el("h3", "secao-t", esc(t(UI.daRuaFila))));
+  b2.appendChild(el("p", "intro", esc(t(UI.daRuaFilaIntro))));
+  const ul = el("ul", "fila");
+  DA_RUA.fila.forEach(f => {
+    ul.appendChild(el("li", null,
+      '<span class="prato">' + esc(t(f.prato)) + '<span class="tag">' + esc(t(UI.naoTestado)) + "</span></span>" +
+      '<span class="onde">' + esc(f.nome) + " · " + esc(f.bairro) + "</span>" +
+      '<a class="ext" href="' + SAFARI_URL + "#" + f.lugar + '">' + esc(t(UI.verNoSafari)) + ' <span aria-hidden="true">↗</span></a>'));
+  });
+  b2.appendChild(ul);
+  w.appendChild(b2);
+
+  w.appendChild(el("div", "safari-box",
+    "<p>" + esc(t(UI.safariTexto)) + "</p>" +
+    '<a href="' + SAFARI_URL + '">' + esc(t(UI.abrirSafari)) + ' <span aria-hidden="true">↗</span></a>'));
+  m.appendChild(w);
 }
 
 function tabelaTecnica(tb){
@@ -782,8 +909,14 @@ function renderReceita(m){
     "<div><span>" + esc(t(UI.utensilio)) + "</span><b>" + esc(t(r.utensilio)) + "</b></div>";
   m.appendChild(meta);
 
+  const par = DA_RUA.pares.find(p => p.receita === r.id);
+  if (par) m.appendChild(el("p", "onde-provar",
+    "<span>" + esc(t(UI.ondeProvarSP)) + "</span>" +
+    '<a href="' + SAFARI_URL + "#" + par.lugar + '">' + esc(par.nome) + ' <span aria-hidden="true">↗</span></a> · ' +
+    '<a href="#da-rua">' + esc(t(UI.daRua)) + "</a>"));
+
   const tabs = el("div", "tabs");
-  [["tradicional", UI.tradicional], ["tabela", UI.tabela], ["interativo", UI.interativo], ["compras", UI.tabCompras]].forEach(([k, rot]) => {
+  [["tradicional", UI.tradicional], ["tabela", UI.tabela], ["fluxo", UI.fluxo], ["interativo", UI.interativo], ["compras", UI.tabCompras]].forEach(([k, rot]) => {
     const b = el("button", null, esc(t(rot)));
     b.setAttribute("aria-selected", estado.vista === k ? "true" : "false");
     b.onclick = () => { estado.vista = k; render(); };
@@ -795,9 +928,10 @@ function renderReceita(m){
   m.appendChild(tabs);
 
   if (estado.vista === "interativo") m.appendChild(controles(r, false));
-  if (estado.vista === "tradicional" || estado.vista === "compras") m.appendChild(controles(r, true));
+  if (["tradicional", "compras", "fluxo"].includes(estado.vista)) m.appendChild(controles(r, true));
 
   if (estado.vista === "compras") return renderComprasReceita(m, r);
+  if (estado.vista === "fluxo"){ renderFluxo(m, r); m.appendChild(blocoNotas(r)); return; }
   if (estado.vista === "tradicional") renderTradicional(m, r);
   else renderGrade(m, r, estado.vista === "interativo");
 
@@ -1544,9 +1678,197 @@ function imagemGrade(r){
   return cv;
 }
 
+
+/* =========================================================
+   fluxograma: o mesmo conteúdo da grade, lido como um grafo.
+   Cada etapa recebe os ingredientes que entram nela pela
+   primeira vez e o resultado das etapas anteriores que
+   abraçam as mesmas linhas. Uma etapa pode declarar
+   `vem: [cols]` para dizer explicitamente de onde vem
+   (usado quando a massa se divide, como no patê).
+   ========================================================= */
+/* deriva o fluxo (grafo de etapas) a partir da grade */
+function fluxoReceita(r){
+  const passos = r.grade.map((g, k) => Object.assign({ k }, g)).sort((a, b) => a.col - b.col || a.de - b.de);
+  const ult = r.ingredientes.map(() => null);
+  const porK = {};
+  passos.forEach(s => {
+    const ent = new Set(), crus = [];
+    for (let i = s.de; i <= s.ate; i++){ if (ult[i] === null) crus.push(i); else if (!s.vem) ent.add(ult[i]); }
+    if (s.vem) passos.filter(p => s.vem.includes(p.col) && p.col < s.col).forEach(p => ent.add(p.k));
+    s.ent = [...ent]; s.crus = crus; s.sai = [];
+    porK[s.k] = s;
+    for (let i = s.de; i <= s.ate; i++) ult[i] = s.k;
+  });
+  passos.forEach(s => s.ent.forEach(k => porK[k].sai.push(s.k)));
+  const fora = r.ingredientes.map((x, i) => i).filter(i => ult[i] === null);
+  return { passos, porK, fora, finais: passos.filter(s => !s.sai.length) };
+}
+
+const FX = { W: 216, GAPX: 34, GAPY: 46, PAD: 12, LH_ING: 17.5, LH_T: 18, LH_D: 15 };
+const FX_FONTE = {
+  q: "700 12.5px " + IMG_MONO.replace(/"/g, "'"), ing: "400 13px " + IMG_SANS.replace(/"/g, "'"),
+  opc: "italic 400 12px " + IMG_SANS.replace(/"/g, "'"), mais: "700 13px " + IMG_MONO.replace(/"/g, "'"),
+  t: "650 14.5px " + IMG_SANS.replace(/"/g, "'"), d: "400 11px " + IMG_MONO.replace(/"/g, "'"),
+  fim: "700 11.5px " + IMG_MONO.replace(/"/g, "'"),
+};
+let fxCtx = null;
+const medidor = () => fxCtx || (fxCtx = document.createElement("canvas").getContext("2d"));
+const escX = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function layoutFluxo(r){
+  const F = fluxoReceita(r), f = fator(), ctx = medidor(), W = FX.W, iw = W - 2 * FX.PAD;
+  const cols = [...new Set(F.passos.map(s => s.col))].sort((a, b) => a - b);
+  /* faixas verticais (lanes): a etapa herda a faixa do que chega nela */
+  const ocupada = [], lane = {}, arestas = [];
+  F.passos.forEach(s => {
+    const herdadas = [];
+    s.ent.forEach(k => {
+      const l = lane[k];
+      if (ocupada[l] === k){ herdadas.push(l); arestas.push({ de: k, para: s.k, reta: true }); }
+      else arestas.push({ de: k, para: s.k, reta: false });
+    });
+    let l;
+    if (herdadas.length){ l = Math.min(...herdadas); herdadas.forEach(h => { ocupada[h] = null; }); }
+    else { l = ocupada.findIndex(x => x == null); if (l < 0) l = ocupada.length; }
+    lane[s.k] = l; ocupada[l] = s.k;
+  });
+  const nLanes = Math.max(...Object.values(lane)) + 1;
+  /* conteúdo e altura de cada caixa */
+  F.passos.forEach(s => {
+    s.linhasIng = [];
+    s.crus.forEach(i => {
+      const ing = r.ingredientes[i], x = textoIng(ing, f), tr = [{ texto: "+ ", fonte: FX_FONTE.mais, cor: "destaque" }];
+      if (x.q) tr.push({ texto: x.q + " ", fonte: FX_FONTE.q, cor: "tinta" });
+      tr.push({ texto: x.nome, fonte: FX_FONTE.ing, cor: "tinta" });
+      if (ing.obs && /opcional/i.test(ing.obs.pt || "")) tr.push({ texto: " (" + t(UI.opcionalCurto) + ")", fonte: FX_FONTE.opc, cor: "tinta2" });
+      quebraRico(ctx, tr, iw).forEach(ln => s.linhasIng.push(ln));
+    });
+    s.linhasT = quebraRico(ctx, [{ texto: t(s.titulo), fonte: FX_FONTE.t, cor: "tinta" }], iw);
+    s.linhasD = s.detalhe ? quebraRico(ctx, [{ texto: t(s.detalhe), fonte: FX_FONTE.d, cor: "tinta2" }], iw) : [];
+    s.hIng = s.linhasIng.length ? s.linhasIng.length * FX.LH_ING + 2 * FX.PAD - 4 : 0;
+    s.hTit = s.linhasT.length * FX.LH_T + (s.linhasD.length ? 5 + s.linhasD.length * FX.LH_D : 0) + 2 * FX.PAD;
+    s.h = s.hIng + s.hTit;
+  });
+  const alturaNivel = cols.map(c => Math.max(...F.passos.filter(s => s.col === c).map(s => s.h)));
+  const yNivel = []; let y = 0;
+  alturaNivel.forEach((h, i) => { yNivel[i] = y; y += h + FX.GAPY; });
+  F.passos.forEach(s => {
+    const n = cols.indexOf(s.col);
+    s.x = lane[s.k] * (W + FX.GAPX);
+    s.y = yNivel[n] + (alturaNivel[n] - s.h);   /* encostada embaixo: as setas chegam no topo */
+  });
+  let altura = y - FX.GAPY;
+  const fim = F.finais.length === 1 ? F.finais[0] : null;
+  if (fim) altura += FX.GAPY + 30;
+  return { F, arestas, nLanes, largura: nLanes * W + (nLanes - 1) * FX.GAPX, altura, fim };
+}
+
+function svgFluxo(r, L, cor, margem){
+  const W = FX.W, M = margem || 8, P = FX.PAD;
+  const c = k => cor[k] || k;
+  const texto = (linhas, x, y, lh, centro, w) => linhas.map((ln, i) => {
+    let cx = centro ? x + (w - ln.w) / 2 : x;
+    const base = y + i * lh + lh * 0.74;
+    return '<text x="' + cx.toFixed(1) + '" y="' + base.toFixed(1) + '">' + ln.itens.map(it =>
+      '<tspan style="font:' + it.fonte + ';fill:' + c(it.cor) + '">' + escX(it.texto) + "</tspan>").join("") + "</text>";
+  }).join("");
+  const larg = L.largura + 2 * M, alt = L.altura + 2 * M;
+  let s = '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="' + larg + '" height="' + Math.ceil(alt) +
+          '" viewBox="0 0 ' + larg + " " + Math.ceil(alt) + '" role="img" aria-label="' + escX(t(UI.fluxo) + " — " + t(r.titulo)) + '">';
+  s += '<defs><marker id="fx-seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+       '<path d="M0 0 L10 5 L0 10 z" style="fill:' + c("seta") + '"/></marker></defs>';
+  if (cor.fundo) s += '<rect x="0" y="0" width="' + larg + '" height="' + Math.ceil(alt) + '" style="fill:' + cor.fundo + '"/>';
+  const por = L.F.porK;
+  /* setas */
+  L.arestas.forEach(a => {
+    const o = por[a.de], d = por[a.para];
+    const x1 = M + o.x + W / 2, y1 = M + o.y + o.h, x2 = M + d.x + W / 2, y2 = M + d.y - 3;
+    let dd;
+    if (x1 === x2) dd = "M" + x1 + " " + y1 + " L" + x2 + " " + y2;
+    else if (a.reta){ const yc = y2 - FX.GAPY + 8; dd = "M" + x1 + " " + y1 + " L" + x1 + " " + yc + " C" + x1 + " " + (yc + 22) + " " + x2 + " " + (y2 - 22) + " " + x2 + " " + y2; }
+    else { const yc = y1 + FX.GAPY - 8; dd = "M" + x1 + " " + y1 + " C" + x1 + " " + (y1 + 22) + " " + x2 + " " + (yc - 22) + " " + x2 + " " + yc + " L" + x2 + " " + y2; }
+    s += '<path d="' + dd + '" style="fill:none;stroke:' + c("seta") + ';stroke-width:1.6" marker-end="url(#fx-seta)"/>';
+  });
+  /* caixas */
+  L.F.passos.forEach(p => {
+    const x = M + p.x, y = M + p.y, final = L.fim === p || (!L.fim && !p.sai.length);
+    s += '<rect x="' + x + '" y="' + y + '" width="' + W + '" height="' + p.h + '" rx="4" style="fill:' + c("papel") + '"/>';
+    if (p.hIng) s += texto(p.linhasIng, x + P, y + P - 2, FX.LH_ING, false, W - 2 * P);
+    s += '<rect x="' + x + '" y="' + (y + p.hIng) + '" width="' + W + '" height="' + p.hTit + '" rx="' + (p.hIng ? 0 : 4) + '" style="fill:' + c("celula") + '"/>';
+    if (p.hIng) s += '<rect x="' + x + '" y="' + (y + p.h - 4) + '" width="' + W + '" height="4" style="fill:' + c("celula") + '"/>';
+    const ty = y + p.hIng + P;
+    s += texto(p.linhasT, x + P, ty, FX.LH_T, true, W - 2 * P);
+    s += texto(p.linhasD, x + P, ty + p.linhasT.length * FX.LH_T + 5, FX.LH_D, true, W - 2 * P);
+    s += '<rect x="' + (x + 0.5) + '" y="' + (y + 0.5) + '" width="' + (W - 1) + '" height="' + (p.h - 1) + '" rx="4" style="fill:none;stroke:' +
+         c(final ? "destaque" : "borda") + ";stroke-width:" + (final ? 2 : 1) + '"/>';
+  });
+  /* prato pronto */
+  if (L.fim){
+    const p = L.fim, x1 = M + p.x + W / 2, y1 = M + p.y + p.h, y2 = y1 + FX.GAPY - 3;
+    s += '<path d="M' + x1 + " " + y1 + " L" + x1 + " " + y2 + '" style="fill:none;stroke:' + c("destaque") + ';stroke-width:1.6" marker-end="url(#fx-seta)"/>';
+    const ctx = medidor(); ctx.font = FX_FONTE.fim;
+    const rot = t(r.titulo).toUpperCase(), lw = Math.min(ctx.measureText(rot).width + 28, Math.max(W, L.largura));
+    const lx = Math.max(M, Math.min(x1 - lw / 2, M + L.largura - lw));
+    s += '<rect x="' + lx + '" y="' + (y2 + 3) + '" width="' + lw + '" height="28" rx="14" style="fill:' + c("destaque") + '"/>';
+    s += '<text x="' + (lx + lw / 2) + '" y="' + (y2 + 21.5) + '" text-anchor="middle" style="font:' + FX_FONTE.fim + ";fill:" + c("sobreDestaque") + '">' + escX(rot) + "</text>";
+  }
+  return s + "</svg>";
+}
+const FX_COR_TELA = { papel: "var(--card)", celula: "var(--cell)", tinta: "var(--ink)", tinta2: "var(--ink-2)",
+  borda: "var(--rule)", seta: "var(--ink-2)", destaque: "var(--accent)", sobreDestaque: "#14160e" };
+const FX_COR_IMG = { papel: IMG_COR.papel, celula: IMG_COR.celula, tinta: IMG_COR.tinta, tinta2: IMG_COR.tinta2,
+  borda: IMG_COR.tinta, seta: IMG_COR.tinta2, destaque: IMG_COR.destaque, sobreDestaque: "#14160e", fundo: IMG_COR.papel };
+
+function renderFluxo(m, r){
+  const L = layoutFluxo(r);
+  const box = el("div", "fluxo-scroll");
+  box.innerHTML = svgFluxo(r, L, FX_COR_TELA, 8);
+  m.appendChild(box);
+  m.appendChild(el("p", "hint", esc(t(UI.hintFluxo))));
+  const acoes = el("div", "acoes");
+  const b = el("button", "btn", esc(t(UI.baixarFluxo)));
+  b.onclick = () => baixaImagemFluxo(r);
+  acoes.appendChild(b);
+  m.appendChild(acoes);
+}
+
+function baixaImagemFluxo(r){
+  const L = layoutFluxo(r), E = 2, M = 36;
+  const ctx0 = medidor();
+  const largConteudo = Math.max(L.largura + 16, 560);
+  const linTitulo = quebraRico(ctx0, [{ texto: t(r.titulo), fonte: "800 30px " + IMG_SANS, cor: IMG_COR.tinta }], largConteudo);
+  const rende = estado.porcoes + " " + t(r.lote ? (estado.porcoes === 1 ? UI.lote : UI.lotes) : (estado.porcoes === 1 ? UI.porcao : UI.porcoes));
+  const meta = [rende, t(UI.ativo) + " " + fmtDuracao(r.ativo), t(UI.totalT) + " " + fmtDuracao(r.total)].join("  ·  ").toUpperCase();
+  const yT = M + 24, yMeta = yT + linTitulo.length * 32 + 10, ySvg = yMeta + 34;
+  const svg = svgFluxo(r, L, FX_COR_IMG, 8);
+  const img = new Image();
+  const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+  img.onload = () => {
+    const larg = largConteudo + 2 * M, alt = ySvg + img.height + 30 + M;
+    const cv = document.createElement("canvas"); cv.width = larg * E; cv.height = Math.ceil(alt * E);
+    const ctx = cv.getContext("2d"); ctx.scale(E, E); ctx.textBaseline = "top";
+    ctx.fillStyle = IMG_COR.papel; ctx.fillRect(0, 0, larg, alt);
+    espacamento(ctx, "2.4px"); ctx.font = "700 11px " + IMG_MONO; ctx.fillStyle = IMG_COR.destaque;
+    ctx.fillText((nn(r.id) + " · " + LIVRO.titulo + " · " + t(UI.fluxo)).toUpperCase(), M, M);
+    espacamento(ctx, "-0.6px"); desenhaLinhas(ctx, linTitulo, M, yT, largConteudo, 32, false);
+    espacamento(ctx, "1.2px"); ctx.font = "600 12px " + IMG_MONO; ctx.fillStyle = IMG_COR.tinta2; ctx.fillText(meta, M, yMeta);
+    espacamento(ctx, "0px");
+    ctx.drawImage(img, M + (largConteudo - img.width) / 2, ySvg);
+    espacamento(ctx, "1px"); ctx.font = "500 10.5px " + IMG_MONO; ctx.fillStyle = IMG_COR.tinta2;
+    const yR = ySvg + img.height + 16;
+    ctx.fillText(LIVRO.titulo + " · " + LIVRO.autor, M, yR);
+    const site = "czanchetta.github.io/fogo-baixo"; ctx.fillText(site, M + largConteudo - ctx.measureText(site).width, yR);
+    URL.revokeObjectURL(url);
+    entregaCanvas(cv, "fogo-baixo-" + nn(r.id) + "-" + r.id + "-fluxo-" + estado.porcoes + ".png", r);
+  };
+  img.src = url;
+}
+
 function baixaImagemGrade(r){
-  const cv = imagemGrade(r);
-  const nome = "fogo-baixo-" + nn(r.id) + "-" + r.id + "-" + estado.porcoes + ".png";
+  entregaCanvas(imagemGrade(r), "fogo-baixo-" + nn(r.id) + "-" + r.id + "-" + estado.porcoes + ".png", r);
+}
+function entregaCanvas(cv, nome, r){
   cv.toBlob(blob => {
     if (!blob) return;
     const movel = /Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
@@ -1741,6 +2063,7 @@ function rota(){
   if (h === estado.itemId) return;
   if (!h || h === "capa") return abrir("capa", "capa");
   if (h === "sobre") return abrir("sobre", "sobre");
+  if (h === "da-rua") return abrir("da-rua", "da-rua");
   if (h.startsWith("despensa=")){
     const ids = decodeURIComponent(h.slice(9)).split(",").filter(k => ITENS[k]);
     estado.importPendente = ids.length ? ids : null;

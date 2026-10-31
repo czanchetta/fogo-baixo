@@ -115,12 +115,18 @@ const UI = {
     "→ La tabla es más ancha que la pantalla: desliza en horizontal para ver las últimas etapas.",
     "→ The table is wider than the screen: scroll sideways to see the last steps."
   ),
+  fluxo:        T("Fluxograma", "Diagrama de flujo", "Flowchart"),
+  hintFluxo:    T("Leia de cima para baixo: cada caixa é uma etapa, com o que entra nela; as setas mostram o que se junta a quê.",
+                  "Se lee de arriba abajo: cada caja es una etapa, con lo que entra en ella; las flechas muestran qué se junta con qué.",
+                  "Read top to bottom: each box is a step, with what goes into it; the arrows show what joins what."),
+  baixarFluxo:  T("Baixar fluxograma como imagem", "Descargar el diagrama como imagen", "Download flowchart as image"),
+  opcionalCurto: T("opcional", "opcional", "optional"),
   baixarImagem: T("Baixar tabela como imagem", "Descargar la tabla como imagen", "Download table as image"),
   imagemPronta: T("Imagem baixada.", "Imagen descargada.", "Image downloaded."),
   quatroFormatos: T(
-    "A mesma receita, quatro formatos",
-    "La misma receta, cuatro formatos",
-    "The same recipe, four formats"
+    "A mesma receita, vários jeitos de ler",
+    "La misma receta, varias formas de leerla",
+    "The same recipe, several ways to read it"
   ),
   ctaTecnicas:  T("Começar pelas técnicas", "Empezar por las técnicas", "Start with the techniques"),
   ctaReceitas:  T("Ir para as receitas", "Ir a las recetas", "Go to the recipes"),
@@ -172,9 +178,9 @@ const UI = {
       "This is not a cookbook in the usual sense. It is the notebook where I write down what worked in my kitchen, with the reasons why — why the pan starts cold, why salt goes in last, why fried rice needs yesterday's rice. The recipes were cooked, eaten and corrected before they became text."
     ),
     T(
-      "Cada receita aparece em quatro formatos, porque a mesma receita serve para coisas diferentes. A visão tradicional é para ler antes. A tabela de cozimento — uma ideia emprestada do Cooking for Engineers — mostra a receita inteira de uma vez, e é a melhor forma de entender o que acontece em paralelo. A visão interativa recalcula porções e unidades. E o modo cozinha é para usar com as mãos sujas, um passo por vez, com os timers das etapas cronometradas.",
-      "Cada receta aparece en cuatro formatos, porque la misma receta sirve para cosas distintas. La vista tradicional es para leer antes. La tabla de cocción — una idea tomada de Cooking for Engineers — muestra la receta entera de una vez, y es la mejor forma de entender lo que ocurre en paralelo. La vista interactiva recalcula porciones y unidades. Y el modo cocina es para usar con las manos sucias, un paso a la vez, con temporizadores en las etapas cronometradas.",
-      "Each recipe appears in four formats, because the same recipe serves different purposes. The classic view is for reading beforehand. The cooking table — an idea borrowed from Cooking for Engineers — shows the whole recipe at once, and is the best way to see what happens in parallel. The interactive view rescales servings and units. And kitchen mode is for dirty hands: one step at a time, with timers on the timed stages."
+      "Cada receita aparece em vários formatos, porque a mesma receita serve para coisas diferentes. A visão tradicional é para ler antes. A tabela de cozimento — uma ideia emprestada do Cooking for Engineers — mostra a receita inteira de uma vez, e é a melhor forma de entender o que acontece em paralelo. O fluxograma desenha o mesmo caminho: o que entra em cada etapa e o que se junta a quê. A visão interativa recalcula porções e unidades. E o modo cozinha é para usar com as mãos sujas, um passo por vez, com os timers das etapas cronometradas.",
+      "Cada receta aparece en varios formatos, porque la misma receta sirve para cosas distintas. La vista tradicional es para leer antes. La tabla de cocción — una idea tomada de Cooking for Engineers — muestra la receta entera de una vez, y es la mejor forma de entender lo que ocurre en paralelo. El diagrama de flujo dibuja el mismo camino: qué entra en cada etapa y qué se junta con qué. La vista interactiva recalcula porciones y unidades. Y el modo cocina es para usar con las manos sucias, un paso a la vez, con temporizadores en las etapas cronometradas.",
+      "Each recipe appears in several formats, because the same recipe serves different purposes. The classic view is for reading beforehand. The cooking table — an idea borrowed from Cooking for Engineers — shows the whole recipe at once, and is the best way to see what happens in parallel. The flowchart draws the same path: what goes into each step and what joins what. The interactive view rescales servings and units. And kitchen mode is for dirty hands: one step at a time, with timers on the timed stages."
     ),
     T(
       "As quantidades são as que eu uso, não as que um teste de cozinha profissional validaria. Onde a receita original não tinha medida, não inventei uma. Onde o tempo depende do seu fogão, o texto diz o que olhar em vez de dar um número.",
@@ -196,6 +202,10 @@ const UI = {
      T("A receita inteira de uma vez. Mostra o que acontece em paralelo.",
        "La receta entera de una vez. Muestra lo que ocurre en paralelo.",
        "The whole recipe at once. Shows what happens in parallel.")],
+    [T("Fluxograma", "Diagrama de flujo", "Flowchart"),
+     T("As etapas desenhadas de cima para baixo: o que entra em cada uma e o que se junta a quê.",
+       "Las etapas dibujadas de arriba abajo: qué entra en cada una y qué se junta con qué.",
+       "The steps drawn top to bottom: what goes into each one and what joins what.")],
     [T("Interativo", "Interactivo", "Interactive"),
      T("A mesma tabela, com porções e unidades recalculadas ao vivo.",
        "La misma tabla, con porciones y unidades recalculadas al vuelo.",

@@ -31,10 +31,10 @@ RECEITAS.push({
   ],
   grade: [
     { col: 1, de: 0, ate: 5, titulo: T("misturar", "mezclar", "mix"), detalhe: T("até não sobrar farinha seca · descansar 30 min", "hasta que no quede harina seca · reposar 30 min", "until no dry flour remains · rest 30 min") },
-    { col: 2, de: 6, ate: 6, titulo: T("incorporar a manteiga", "incorporar la manteca", "work in the butter"), detalhe: T("com a mão, na tigela · não sovar", "con la mano, en el bol · no amasar", "by hand, in the bowl · do not knead") },
+    { col: 2, de: 0, ate: 6, titulo: T("incorporar a manteiga", "incorporar la manteca", "work in the butter"), detalhe: T("com a mão, na tigela · não sovar", "con la mano, en el bol · no amasar", "by hand, in the bowl · do not knead") },
     { col: 3, de: 0, ate: 6, titulo: T("quatro dobras", "cuatro pliegues", "four folds"), detalhe: T("uma a cada 30 min · 30 s cada", "uno cada 30 min · 30 s cada uno", "one every 30 min · 30 s each") },
     { col: 4, de: 0, ate: 6, titulo: T("fermentação em bulk", "fermentación en bloque", "bulk fermentation"), detalhe: T("até quase dobrar · 1–2 h", "hasta casi duplicar · 1–2 h", "until nearly doubled · 1–2 h") },
-    { col: 5, de: 7, ate: 7, titulo: T("modelar", "formar", "shape"), detalhe: T("3 rolinhos na forma untada, emenda para baixo", "3 rollitos en el molde untado, unión hacia abajo", "3 rolls in the greased pan, seam down") },
+    { col: 5, de: 0, ate: 7, titulo: T("modelar", "formar", "shape"), detalhe: T("3 rolinhos na forma untada, emenda para baixo", "3 rollitos en el molde untado, unión hacia abajo", "3 rolls in the greased pan, seam down") },
     { col: 6, de: 0, ate: 7, titulo: T("fermentação final", "fermentación final", "final proof"), detalhe: T("até ~1 cm da borda · 1–1,5 h", "hasta ~1 cm del borde · 1–1,5 h", "to ~1 cm from the rim · 1–1.5 h") },
     { col: 7, de: 0, ate: 7, titulo: T("forno 180 °C", "horno 180 °C", "oven 180 °C"), detalhe: T("30–35 min · 90–93 °C no centro", "30–35 min · 90–93 °C en el centro", "30–35 min · 90–93 °C at the centre") },
     { col: 8, de: 7, ate: 7, titulo: T("pincelar e esfriar", "pincelar y enfriar", "brush and cool"), detalhe: T("desenformar na hora · esfriar 2 h antes de cortar", "desmoldar al momento · enfriar 2 h antes de cortar", "unmould right away · cool 2 h before slicing") },

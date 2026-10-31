@@ -148,16 +148,16 @@ RECEITAS.push(
       { q: 100, u: "g", nome: T("maionese", "mayonesa", "mayonnaise"), obs: T("+1 col. sopa para a versão de tigela", "+1 cda para la versión de bol", "+1 tbsp for the bowl version") },
       { q: 80, u: "g", nome: T("cebola roxa fatiada fina", "cebolla morada en fetas finas", "thinly sliced red onion") },
       { q: 1, u: "un", nome: T("limão", "limón", "lime"), obs: T("suco, + um fio no fim na versão de tigela", "zumo, + un chorrito al final en la versión de bol", "juice, + a splash at the end for the bowl version") },
-      { q: 2, u: "cs", nome: T("cheiro verde picado", "perejil y cebollino picados", "chopped parsley and spring onion"), obs: T("só na versão de tigela", "solo en la versión de bol", "bowl version only") },
       { q: null, u: "", nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), escala: false },
       { q: null, u: "", nome: T("sal", "sal", "salt"), obs: T("só depois de provar", "solo después de probar", "only after tasting"), escala: false },
+      { q: 2, u: "cs", nome: T("cheiro verde picado", "perejil y cebollino picados", "chopped parsley and spring onion"), obs: T("só na versão de tigela", "solo en la versión de bol", "bowl version only") },
     ],
     grade: [
       { col: 1, de: 0, ate: 0, titulo: T("escorrer o atum", "escurrir el atún", "drain the tuna"), detalhe: T("na peneira, apertando com a colher", "en el colador, apretando con la cuchara", "in the sieve, pressing with the spoon") },
       { col: 2, de: 3, ate: 3, titulo: T("cebola em água gelada", "cebolla en agua helada", "onion in ice water"), detalhe: T("5 min · tira o ardido", "5 min · quita el picante crudo", "5 min · takes off the raw bite") },
-      { col: 3, de: 0, ate: 4, titulo: T("misturar a base", "mezclar la base", "mix the base"), detalhe: T("atum, cream cheese, maionese, cebola, limão", "atún, queso crema, mayonesa, cebolla, limón", "tuna, cream cheese, mayonnaise, onion, lime") },
-      { col: 4, de: 0, ate: 2, titulo: T("separar o do sanduíche", "separar el de sándwich", "set aside the sandwich portion"), detalhe: T("250–350 g · fica firme", "250–350 g · queda firme", "250–350 g · stays firm") },
-      { col: 5, de: 2, ate: 6, titulo: T("afrouxar o de tigela", "aflojar el de bol", "loosen the bowl portion"), detalhe: T("+maionese, +limão, cheiro verde", "+mayonesa, +limón, perejil y cebollino", "+mayonnaise, +lime, herbs") },
+      { col: 3, de: 0, ate: 6, titulo: T("misturar a base", "mezclar la base", "mix the base"), detalhe: T("atum, cream cheese, maionese, cebola, limão, pimenta · sal só provando", "atún, queso crema, mayonesa, cebolla, limón, pimienta · sal solo probando", "tuna, cream cheese, mayonnaise, onion, lime, pepper · salt only after tasting") },
+      { col: 4, de: 0, ate: 6, titulo: T("separar o do sanduíche", "separar el de sándwich", "set aside the sandwich portion"), detalhe: T("250–350 g · fica firme", "250–350 g · queda firme", "250–350 g · stays firm") },
+      { col: 5, de: 2, ate: 7, titulo: T("afrouxar o de tigela", "aflojar el de bol", "loosen the bowl portion"), detalhe: T("o restante da base +maionese, +limão, cheiro verde", "el resto de la base +mayonesa, +limón, perejil y cebollino", "the rest of the base +mayonnaise, +lime, herbs"), vem: [3] },
     ],
     modo: [
       { t: T(
@@ -225,8 +225,8 @@ RECEITAS.push(
     ],
     grade: [
       { col: 1, de: 0, ate: 0, titulo: T("amassar com garfo", "machacar con tenedor", "mash with a fork"), detalhe: T("deixando pedaço, sem processador", "dejando trozos, sin procesadora", "kept chunky, no food processor") },
-      { col: 2, de: 1, ate: 5, titulo: T("temperar", "condimentar", "season"), detalhe: T("limão, cebola, sal, pimenta", "limón, cebolla, sal, pimienta", "lime, onion, salt, pepper") },
-      { col: 3, de: 0, ate: 0, titulo: T("alisar e guardar", "alisar y guardar", "smooth and store"), detalhe: T("filme sem bolha, no pote de servir", "film sin burbuja, en el recipiente de servir", "bubble-free wrap, in the serving bowl") },
+      { col: 2, de: 0, ate: 5, titulo: T("temperar", "condimentar", "season"), detalhe: T("limão, cebola, sal, pimenta", "limón, cebolla, sal, pimienta", "lime, onion, salt, pepper") },
+      { col: 3, de: 0, ate: 5, titulo: T("alisar e guardar", "alisar y guardar", "smooth and store"), detalhe: T("filme sem bolha, no pote de servir", "film sin burbuja, en el recipiente de servir", "bubble-free wrap, in the serving bowl") },
     ],
     modo: [
       { t: T(
@@ -290,21 +290,21 @@ RECEITAS.push(
     faixa: T("BALSÂMICO NO TOMATE, NUNCA NO SANDUÍCHE MONTADO", "BALSÁMICO EN EL TOMATE, NUNCA EN EL SÁNDWICH ARMADO", "BALSAMIC ON THE TOMATO, NEVER ON THE ASSEMBLED SANDWICH"),
     ingredientes: [
       { q: 2, u: "un", nome: T("ciabattas", "ciabattas", "ciabatta rolls"), obs: T("ou 1 grande, cortada em duas", "o 1 grande, cortada al medio", "or 1 large one, cut in half") },
+      { q: 4, u: "cs", nome: T("azeite de oliva", "aceite de oliva", "olive oil") },
       { q: 250, u: "g", nome: T("tomate cereja", "tomate cherry", "cherry tomatoes") },
+      { q: 1, u: "cs", nome: T("vinagre balsâmico", "vinagre balsámico", "balsamic vinegar") },
+      { q: 0.5, u: "cc", nome: T("sal", "sal", "salt") },
       { q: 200, u: "g", nome: T("mussarela de búfala", "mozzarella de búfala", "buffalo mozzarella") },
       { q: 60, u: "g", nome: T("rúcula", "rúcula", "arugula") },
       { q: null, u: "", nome: T("manjericão fresco", "albahaca fresca", "fresh basil"), obs: T("generosamente, em folhas inteiras", "generosa, en hojas enteras", "generously, whole leaves"), escala: false },
-      { q: 4, u: "cs", nome: T("azeite de oliva", "aceite de oliva", "olive oil") },
-      { q: 1, u: "cs", nome: T("vinagre balsâmico", "vinagre balsámico", "balsamic vinegar") },
-      { q: 0.5, u: "cc", nome: T("sal", "sal", "salt") },
       { q: null, u: "", nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), obs: T("moída na hora", "molida en el momento", "freshly ground"), escala: false },
     ],
     grade: [
-      { col: 1, de: 1, ate: 1, titulo: T("tomate na peneira", "tomate en el colador", "tomato in the sieve"), detalhe: T("sal + balsâmico, 10 min escorrendo", "sal + balsámico, 10 min escurriendo", "salt + balsamic, 10 min draining") },
-      { col: 2, de: 2, ate: 2, titulo: T("búfala secando", "búfala secándose", "mozzarella drying"), detalhe: T("rasgada à mão, no papel-toalha", "desgarrada a mano, sobre papel de cocina", "torn by hand, on paper towel") },
-      { col: 3, de: 0, ate: 0, titulo: T("pão tostado", "pan tostado", "toasted bread"), detalhe: T("azeite, miolo para baixo, 2–3 min", "aceite, miga hacia abajo, 2–3 min", "oil, crumb side down, 2–3 min") },
-      { col: 4, de: 0, ate: 4, titulo: T("montagem", "armado", "assembly"), detalhe: T("rúcula → tomate → búfala → manjericão", "rúcula → tomate → búfala → albahaca", "arugula → tomato → mozzarella → basil") },
-      { col: 5, de: 5, ate: 8, titulo: T("finaliza e corta", "termina y corta", "finish and cut"), detalhe: T("azeite, pimenta, diagonal", "aceite, pimienta, diagonal", "oil, pepper, diagonal cut") },
+      { col: 1, de: 2, ate: 4, titulo: T("tomate na peneira", "tomate en el colador", "tomato in the sieve"), detalhe: T("sal + balsâmico, 10 min escorrendo", "sal + balsámico, 10 min escurriendo", "salt + balsamic, 10 min draining") },
+      { col: 2, de: 5, ate: 5, titulo: T("búfala secando", "búfala secándose", "mozzarella drying"), detalhe: T("rasgada à mão, no papel-toalha", "desgarrada a mano, sobre papel de cocina", "torn by hand, on paper towel") },
+      { col: 3, de: 0, ate: 1, titulo: T("pão tostado", "pan tostado", "toasted bread"), detalhe: T("metade do azeite, miolo para baixo, 2–3 min", "mitad del aceite, miga hacia abajo, 2–3 min", "half the oil, crumb side down, 2–3 min") },
+      { col: 4, de: 0, ate: 7, titulo: T("montagem", "armado", "assembly"), detalhe: T("rúcula → tomate → búfala → manjericão", "rúcula → tomate → búfala → albahaca", "arugula → tomato → mozzarella → basil") },
+      { col: 5, de: 0, ate: 8, titulo: T("finaliza e corta", "termina y corta", "finish and cut"), detalhe: T("resto do azeite, pimenta, diagonal", "resto del aceite, pimienta, diagonal", "rest of the oil, pepper, diagonal cut") },
     ],
     modo: [
       { t: T(
@@ -369,19 +369,19 @@ RECEITAS.push(
     ingredientes: [
       { q: 40, u: "un", nome: T("fatias de pão de forma sem casca", "fetas de pan de molde sin corteza", "slices of crustless sandwich bread"), obs: T("2 pacotes", "2 paquetes", "2 loaves") },
       { q: 350, u: "g", nome: T("cream cheese ou requeijão espesso", "queso crema o requesón espeso", "cream cheese or thick spreadable cheese"), obs: T("o de pote firme; o cremoso de copo escorre", "el de pote firme; el cremoso de vasito se escurre", "the firm tub kind; the runny cup kind will leak") },
-      { q: 350, u: "g", nome: T("patê de atum firme", "paté de atún firme", "firm tuna spread"), obs: T("ver receita própria", "ver receta propia", "see the recipe for it") },
-      { q: 300, u: "g", nome: T("queijo branco ou muçarela fatiado", "queso blanco o mozzarella en fetas", "sliced white cheese or mozzarella"), obs: T("24 fatias", "24 fetas", "24 slices") },
-      { q: 250, u: "g", nome: T("cenoura no ralo grosso", "zanahoria en rallador grueso", "coarsely grated carrot"), obs: T("2 cenouras médias, bem secas", "2 zanahorias medianas, bien secas", "2 medium carrots, well dried") },
       { q: null, u: "", nome: T("pimenta-do-reino", "pimienta negra", "black pepper"), escala: false },
       { q: null, u: "", nome: T("orégano", "orégano", "oregano"), escala: false },
       { q: null, u: "", nome: T("raspa de limão", "ralladura de limón", "lime zest"), obs: T("raspa de ½ limão", "ralladura de ½ limón", "zest of ½ lime"), escala: false },
+      { q: 350, u: "g", nome: T("patê de atum firme", "paté de atún firme", "firm tuna spread"), obs: T("ver receita própria", "ver receta propia", "see the recipe for it") },
+      { q: 300, u: "g", nome: T("queijo branco ou muçarela fatiado", "queso blanco o mozzarella en fetas", "sliced white cheese or mozzarella"), obs: T("24 fatias", "24 fetas", "24 slices") },
+      { q: 250, u: "g", nome: T("cenoura no ralo grosso", "zanahoria en rallador grueso", "coarsely grated carrot"), obs: T("2 cenouras médias, bem secas", "2 zanahorias medianas, bien secas", "2 medium carrots, well dried") },
     ],
     grade: [
-      { col: 1, de: 5, ate: 7, titulo: T("temperar o cream cheese", "condimentar el queso crema", "season the cream cheese"), detalhe: T("pimenta, orégano, raspa de limão", "pimienta, orégano, ralladura de limón", "pepper, oregano, lime zest") },
-      { col: 2, de: 0, ate: 1, titulo: T("cream cheese nas 40 fatias", "queso crema en las 40 fetas", "cream cheese on all 40 slices"), detalhe: T("camada fina até a borda", "capa fina hasta el borde", "thin layer, edge to edge") },
-      { col: 3, de: 0, ate: 4, titulo: T("preencher as 20 bases", "rellenar las 20 bases", "fill the 20 bases"), detalhe: T("atum ou queijo + cenoura", "atún o queso + zanahoria", "tuna, or cheese + carrot") },
-      { col: 4, de: 0, ate: 0, titulo: T("fechar, cortar, embrulhar", "cerrar, cortar, envolver", "close, cut, wrap"), detalhe: T("diagonal, um movimento só", "diagonal, un solo movimiento", "diagonal, one motion") },
-      { col: 5, de: 0, ate: 0, titulo: T("pote e geladeira", "recipiente y heladera", "container and fridge"), detalhe: T("em pé, até a manhã", "de pie, hasta la mañana", "standing up, until morning") },
+      { col: 1, de: 1, ate: 4, titulo: T("temperar o cream cheese", "condimentar el queso crema", "season the cream cheese"), detalhe: T("pimenta, orégano, raspa de limão", "pimienta, orégano, ralladura de limón", "pepper, oregano, lime zest") },
+      { col: 2, de: 0, ate: 4, titulo: T("cream cheese nas 40 fatias", "queso crema en las 40 fetas", "cream cheese on all 40 slices"), detalhe: T("camada fina até a borda", "capa fina hasta el borde", "thin layer, edge to edge") },
+      { col: 3, de: 0, ate: 7, titulo: T("preencher as 20 bases", "rellenar las 20 bases", "fill the 20 bases"), detalhe: T("atum ou queijo + cenoura", "atún o queso + zanahoria", "tuna, or cheese + carrot") },
+      { col: 4, de: 0, ate: 7, titulo: T("fechar, cortar, embrulhar", "cerrar, cortar, envolver", "close, cut, wrap"), detalhe: T("diagonal, um movimento só", "diagonal, un solo movimiento", "diagonal, one motion") },
+      { col: 5, de: 0, ate: 7, titulo: T("pote e geladeira", "recipiente y heladera", "container and fridge"), detalhe: T("em pé, até a manhã", "de pie, hasta la mañana", "standing up, until morning") },
     ],
     modo: [
       { t: T(

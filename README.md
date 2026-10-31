@@ -10,12 +10,13 @@ Não é publicação editorial nem consultoria gastronômica. É um arquivo pró
 
 🇧🇷 Português · 🇪🇸 Español · 🇬🇧 English — o site detecta o idioma do navegador e lembra a escolha. Tema claro e escuro seguindo o sistema.
 
-## Quatro formatos para a mesma receita
+## Vários formatos para a mesma receita
 
 | Formato | Para quê |
 |---|---|
 | **Tradicional** | Ingredientes em lista, preparo numerado. Para ler antes. |
 | **Tabela de cozimento** | A receita inteira de uma vez, no formato do [Cooking for Engineers](https://www.cookingforengineers.com/). A melhor forma de enxergar o que acontece em paralelo. |
+| **Fluxograma** | As mesmas etapas desenhadas de cima para baixo: o que entra em cada uma e o que se junta a quê. Gerado automaticamente a partir da tabela de cozimento. |
 | **Interativo** | A mesma tabela, com porções e unidades recalculadas ao vivo. |
 | **Modo cozinha** | Tela grande, um passo por vez, timers nas etapas cronometradas, tela que não apaga. Para usar com as mãos sujas. |
 
@@ -51,6 +52,15 @@ Cada receita também ganhou a aba **Lista de compras**. A despensa fica salva no
 
 O mapeamento entre as linhas de ingrediente e os itens de compra fica em [`fonte/src/90-despensa.js`](fonte/src/90-despensa.js). Receita nova com ingrediente de nome novo: acrescente o nome em `MAPA_ING`. Se esquecer, o site não quebra, o ingrediente só aparece como item avulso.
 
+## Fora de casa
+
+Também só no site, a seção **Fora de casa** liga o caderno ao **[Safari Gastronômico](https://czanchetta.github.io/fogo-baixo/safari/)**, um roteiro pessoal pelas cozinhas que formam São Paulo.
+
+- **Da rua para casa**: receitas daqui que têm par numa parada do safari (feijoada e Leiteria Ita, lasanha e Cantina Roperto, fraldinha e Templo da Carne) e pratos do safari que estão na fila para virar receita. Prato da fila não tem quantidade: só entra no caderno depois de testado em casa.
+- **Safari gastronômico** ([`safari/`](safari/)): mapa, paradas agrupadas pela origem da cozinha, o que pedir em cada uma e roteiros a pé. Só em português.
+
+Lugares, horários e preços mudam mais rápido que receitas, por isso nada disso entra nos PDFs. Os pares e a fila ficam em [`fonte/src/95-darua.js`](fonte/src/95-darua.js); o safari é gerado de [`fonte/safari/`](fonte/safari/) com `python3 fonte/safari/build.py`.
+
 Também em PDF: [`Fogo-Baixo.pdf`](Fogo-Baixo.pdf) · [`Fogo-Baixo-ES.pdf`](Fogo-Baixo-ES.pdf) · [`Fogo-Baixo-EN.pdf`](Fogo-Baixo-EN.pdf)
 
 ## Como mexer
@@ -67,7 +77,7 @@ Todo o conteúdo vive em [`fonte/dados.js`](fonte/dados.js) — um arquivo só, 
 - `alt` — a mesma coisa em peso/volume, para o botão Gramas.
 - `escala: false` — para o que não multiplica ("a gosto").
 - `q: null` — quando a receita original não tinha medida. Não invente uma.
-- `grade` — `{ col, de, ate, titulo, detalhe }`: coluna da tabela e quais linhas de ingrediente a célula abraça.
+- `grade` — `{ col, de, ate, titulo, detalhe }`: coluna da tabela e quais linhas de ingrediente a célula abraça. A célula abraça também tudo o que já foi feito com essas linhas: se a etapa junta coisas de etapas anteriores, o intervalo tem que cobrir as linhas delas. O fluxograma é lido daí. Para quando a massa se divide (como no patê), use `vem: [cols]` para dizer de quais etapas ela vem.
 - `modo` — `{ t, timer }`, com `timer` em segundos nas etapas cronometradas.
 
 Se você só sabe o texto em português, repita o português nos três campos — nada quebra, só fica sem tradução.

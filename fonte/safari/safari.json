@@ -1,0 +1,1432 @@
+{
+ "consulta": "31/10/2026",
+ "itens": [
+  {
+   "id": "cepam",
+   "nome": "Cepam",
+   "cont": "sp",
+   "origem": "Padaria paulistana",
+   "bairro": "Vila Prudente",
+   "end": "R. Ibitirama, 1409",
+   "lat": -23.5922312,
+   "lon": -46.579376,
+   "pid": "ChIJeTjLuW5czpQRHIppkUnGYVA",
+   "g": 4.6,
+   "n": 46943,
+   "preco": "R$ 20–100",
+   "pratos": "Pão na chapa, misto quente, pizzas, confeitaria e um mercadinho com milhares de itens.",
+   "hist": "Abriu em 1968 como uma padaria de 60 m², de quatro amigos; o nome vem do colégio onde estudaram. Hoje passa de 2 mil m².",
+   "dica": "Todos os dias, 6h–23h. Estacionamento grátis. A 500 m do Bar do Vito.",
+   "fontes": [
+    "https://saopaulosecreto.com/cepam-maior-padaria-de-sao-paulo/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Casa de 1968; já venceu o concurso Padocaria."
+  },
+  {
+   "id": "graca",
+   "nome": "Graça Mineira",
+   "cont": "brasil",
+   "origem": "Mineira caseira",
+   "bairro": "Vila Mariana",
+   "end": "R. Machado Bittencourt, 51",
+   "lat": -23.5977264,
+   "lon": -46.6382328,
+   "pid": "ChIJo7GIxDFazpQRCDK1tQqIRmg",
+   "g": 4.7,
+   "n": 5989,
+   "preco": "R$ 60–160",
+   "pratos": "Feijão tropeiro, leitão à pururuca, costelinha, torresmo; pastel de carne de sol de entrada.",
+   "hist": "Aberto em 1993 por dois ex-professores. Cresceu no boca a boca.",
+   "dica": "Fecha segunda; domingo só almoço. As porções servem dois.",
+   "fontes": [
+    "https://www.baressp.com.br/restaurantes/brasileiros/graca-mineira",
+    "https://visitesaopaulo.com/restaurantes-mineiros-4-lugares-para-experimentar-os-melhores-pratos-tipicos/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Desde 1993."
+  },
+  {
+   "id": "nozoie",
+   "nome": "Bar do Luiz Nozoie",
+   "cont": "sp",
+   "origem": "Boteco nipo-paulistano",
+   "bairro": "Bosque da Saúde",
+   "end": "Av. do Cursino, 1210",
+   "lat": -23.6132011,
+   "lon": -46.617714,
+   "pid": "ChIJfWt6CKRbzpQRQYMuX4GlswI",
+   "g": 4.5,
+   "n": 916,
+   "preco": "R$ 40–160",
+   "pratos": "Pasteizinhos fritos na hora (carne, queijo, camarão), tempurá de camarão, petiscos de balcão.",
+   "hist": "Nasceu em 1962 como sorveteria de um nissei vindo do Paraná. A máquina de sorvete passou a gelar cerveja e o bar cresceu daí. Luiz Nozoie morreu em 2024, aos 93 anos.",
+   "dica": "Segunda a sexta à noite, sábado de dia, fecha domingo.",
+   "fontes": [
+    "https://www.baressp.com.br/bares/bar-do-luiz-nozoie",
+    "https://www.metropoles.com/sao-paulo/morre-luiz-nazoie"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Casa de 1962; participou do Comida di Buteco 2012."
+  },
+  {
+   "id": "ctn",
+   "nome": "CTN",
+   "cont": "brasil",
+   "origem": "Nordestina, dos nove estados",
+   "bairro": "Limão",
+   "end": "R. Jacofer, 615",
+   "lat": -23.5102199,
+   "lon": -46.6788141,
+   "pid": "ChIJIaMYjRn4zpQRwWR2PWHubik",
+   "g": 4.6,
+   "n": 60211,
+   "preco": "Centro cultural",
+   "pratos": "Baião de dois, carne de sol, sarapatel, tapioca, caipirinha de caju. O Baião Cozinha Nordestina é a casa mais citada lá dentro.",
+   "hist": "Complexo com restaurantes, quiosques, feira de artesanato e palco de forró na Zona Norte.",
+   "dica": "Melhor na sexta à noite e nos fins de semana, com shows. Sábado vai até de madrugada.",
+   "fontes": [
+    "https://baressp.com.br/casas-de-show/centro-de-tradicoes-nordestinas-ctn",
+    "https://catracalivre.com.br/gira/festival-nordestino-do-ctn-sao-paulo-programacao-2026/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Referência da cultura nordestina em SP desde os anos 1990."
+  },
+  {
+   "id": "halim",
+   "nome": "Halim",
+   "cont": "oriente",
+   "origem": "Libanesa",
+   "bairro": "Paraíso",
+   "end": "R. Dr. Rafael de Barros, 56",
+   "lat": -23.5719149,
+   "lon": -46.6449691,
+   "pid": "ChIJBTFGP5ZZzpQRZCUZxOqlnUw",
+   "g": 4.4,
+   "n": 9147,
+   "preco": "R$ 40–120",
+   "pratos": "Pastas (homus, babaganuche, coalhada), quibe cru, shawarma e doces árabes.",
+   "hist": "Halim Sultan chegou do Líbano em 1964 e abriu a primeira casa no Brás no começo dos anos 1970.",
+   "dica": "Aberto todos os dias; bom para jantar tarde. A 200 m do Izakaya Cocoro.",
+   "fontes": [
+    "https://baressp.com.br/restaurantes/arabes/halim",
+    "https://saopaulosecreto.com/en/arab-restaurants-in-sao-paulo/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Família libanesa no ramo desde os anos 1970."
+  },
+  {
+   "id": "baiao",
+   "nome": "Cantinho do Baião de Dois",
+   "cont": "brasil",
+   "origem": "Cearense",
+   "bairro": "Pinheiros",
+   "end": "R. Ferreira de Araújo, 881",
+   "lat": -23.5655364,
+   "lon": -46.6980567,
+   "pid": "ChIJh49JdKZXzpQRld1CedEHSC4",
+   "g": 4.7,
+   "n": 362,
+   "preco": "R$ 40–60",
+   "pratos": "Baião de dois e comida caseira do Ceará.",
+   "hist": "Casa pequena de donos cearenses, segundo as avaliações do Google. Quase nada publicado sobre ela.",
+   "dica": "Só almoço, segunda a sexta.",
+   "fontes": [],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "",
+   "fila": "Baião de dois"
+  },
+  {
+   "id": "templo",
+   "nome": "Templo da Carne Marcos Bassi",
+   "cont": "sp",
+   "origem": "Carnes na brasa",
+   "bairro": "Bela Vista",
+   "end": "R. Treze de Maio, 668",
+   "lat": -23.5590788,
+   "lon": -46.6465631,
+   "pid": "ChIJw5oY07ZZzpQRr0Cce1kiEvk",
+   "g": 4.6,
+   "n": 3637,
+   "preco": "R$ 200+",
+   "pratos": "Fraldinha, bombom (o miolo do contrafilé), costelinha suína, palmito pupunha na brasa.",
+   "hist": "Aberto em 1979 pelo açougueiro Marcos Bassi, que começou menino vendendo miúdos no Brás. Desde 2013 a filha, Tatiana, toca a casa.",
+   "dica": "Reserva em dias úteis; no fim de semana, por ordem de chegada. Vizinho da Roperto.",
+   "fontes": [
+    "https://www.baressp.com.br/restaurantes/churrascarias/templo-da-carne-marcos-bassi",
+    "https://exame.com/casual/o-legado-de-pai-para-filha-do-restaurante-templo-da-carne",
+    "https://forbes.com.br/negocios/2021/10/dia-do-acougueiro-oito-profissionais-bons-de-faca-que-mudaram-o-mercado-da-carne-no-brasil/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Bassi é referência nacional em cortes; perfil na Forbes (2021).",
+   "casa": {
+    "receita": "fraldinha-forno",
+    "titulo": "Fraldinha marinada assada no forno"
+   }
+  },
+  {
+   "id": "roperto",
+   "nome": "Empório Cantina Roperto",
+   "cont": "europa",
+   "origem": "Italiana, de raiz calabresa",
+   "bairro": "Bixiga",
+   "end": "R. Treze de Maio, 634",
+   "lat": -23.5587913,
+   "lon": -46.6466368,
+   "pid": "ChIJl73IMrFZzpQRXwJw003DfUQ",
+   "g": 4.4,
+   "n": 6325,
+   "preco": "—",
+   "pratos": "Cabrito com batatas, filé à parmegiana, Ropertone (polpetone recheado), tiramisù.",
+   "hist": "Fundada em 1942 por Humberto Roperto, filho de calabreses: foi a primeira cantina da Rua Treze de Maio. A família ainda toca a casa.",
+   "dica": "Música ao vivo à noite, de terça a sábado. Reserva por telefone.",
+   "fontes": [
+    "https://saopaulosecreto.com/en/cantina-roperto-menu-italian-restaurant-bixiga-sao-paulo/",
+    "https://www.baressp.com.br/restaurantes/italianos/emporio-cantina-roperto"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Mais de 80 anos; pioneira da Treze de Maio.",
+   "casa": {
+    "receita": "lasanha-bolonhesa-bechamel",
+    "titulo": "Lasanha de presunto, queijo e bolonhesa, coberta com bechamel"
+   }
+  },
+  {
+   "id": "issa",
+   "nome": "Izakaya Issa",
+   "cont": "asia",
+   "origem": "Japonesa · izakaya",
+   "bairro": "Liberdade",
+   "end": "R. Barão de Iguape, 89",
+   "lat": -23.55821,
+   "lon": -46.6360931,
+   "pid": "ChIJ5UFBHaZZzpQRXoMgLRz6FU4",
+   "g": 4.5,
+   "n": 1864,
+   "preco": "R$ 80–160",
+   "pratos": "Takoyaki, berinjela com katsuobushi, karê com karaage, okonomiyaki; saquês e shochus.",
+   "hist": "Izakaya pequeno, com tatame, aberto em 2009 e tocado pela família Haraguchi.",
+   "dica": "Fila na porta: fique atento quando chamarem seu nome. Fecha quarta.",
+   "fontes": [
+    "https://www.theinfatuation.com/sao-paulo/reviews/izakaya-issa",
+    "https://www.cnnbrasil.com.br/viagemegastronomia/gastronomia/restaurantes-melhor-comida-japonesa-liberdade/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Na lista de melhores de SP da The Infatuation; destaque na CNN Brasil.",
+   "fila": "Karaage"
+  },
+  {
+   "id": "aska",
+   "nome": "Lamen ASKA",
+   "cont": "asia",
+   "origem": "Japonesa · lamen",
+   "bairro": "Liberdade",
+   "end": "R. Barão de Iguape, 260",
+   "lat": -23.5583984,
+   "lon": -46.6344212,
+   "pid": "ChIJDZ6ZWqZZzpQRa8A6tDNwU0Y",
+   "g": 4.5,
+   "n": 10377,
+   "preco": "R$ 40–60",
+   "pratos": "Lamen de massa caseira (tonkotsu, missô, shoyu) e guioza.",
+   "hist": "Tida como a casa de lamen mais antiga de São Paulo.",
+   "dica": "Fila longa. Não aceita cartão de crédito (débito, dinheiro e Pix). Fecha segunda.",
+   "fontes": [
+    "https://saopaulosecreto.com/lamen-na-liberdade/",
+    "https://www.theinfatuation.com/sao-paulo/reviews/lamen-aska"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Pioneira do lamen na cidade; na lista da The Infatuation."
+  },
+  {
+   "id": "barikote",
+   "nome": "Barikote Ramen",
+   "cont": "asia",
+   "origem": "Japonesa · lamen de Hakata",
+   "bairro": "Jardim Paulista",
+   "end": "Al. Santos, 1017",
+   "lat": -23.5661915,
+   "lon": -46.6529773,
+   "pid": "ChIJrWm3D8FZzpQRxZV0iT36CAc",
+   "g": 4.4,
+   "n": 1717,
+   "preco": "R$ 60–80",
+   "pratos": "Lamen tonkotsu cremoso, no estilo de Hakata; karaage e karê.",
+   "hist": "Balcão pequeno com pedido em máquina, como no Japão.",
+   "dica": "Fecha domingo. Espera comum no almoço.",
+   "fontes": [
+    "https://www.seudinheiro.com/2026/lifestyle/alem-da-liberdade-lamen-para-provar-em-sao-paulo-lefp/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "cocoro",
+   "nome": "Izakaya Cocoro",
+   "cont": "asia",
+   "origem": "Japonesa · izakaya",
+   "bairro": "Paraíso",
+   "end": "R. Cubatão, 138",
+   "lat": -23.5733862,
+   "lon": -46.6449418,
+   "pid": "ChIJVeln1EJZzpQR5RCNQ15q1tM",
+   "g": 4.1,
+   "n": 1097,
+   "preco": "R$ 80–100",
+   "pratos": "Agedashi tofu, cortes crus e caldos, segundo as avaliações.",
+   "hist": "Quase nada publicado. As avaliações elogiam os crus e reclamam do serviço.",
+   "dica": "Abre todos os dias, inclusive domingo à noite, quando os lamens da região fecham.",
+   "fontes": [
+    "https://www.benditoguia.com.br/empresa/izakaya-cocoro-vila-mariana-sao-paulo-sp"
+   ],
+   "lista": true,
+   "status": "quero",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "oriental",
+   "nome": "The Oriental Izakaya",
+   "cont": "asia",
+   "origem": "Japonesa com toques coreanos",
+   "bairro": "Mirandópolis",
+   "end": "R. Luís Góis, 1419",
+   "lat": -23.6040982,
+   "lon": -46.6414617,
+   "pid": "ChIJtfuMAsVbzpQRjVsFfB61YpQ",
+   "g": 4.6,
+   "n": 803,
+   "preco": "R$ 60–100",
+   "pratos": "Yakissoba sôsu, karaage coreano, kimchi e soju de frutas. Tem karaokê.",
+   "hist": "Izakaya autoral no andar de cima de um sobrado.",
+   "dica": "Fecha segunda. Fica na mesma rua do Omoide Sakaba e do Makanai.",
+   "fontes": [
+    "https://baressp.com.br/restaurantes/japoneses/the-oriental-izakaya-"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "veloso",
+   "nome": "Bar Veloso",
+   "cont": "sp",
+   "origem": "Boteco · coxinha",
+   "bairro": "Vila Mariana",
+   "end": "R. Conceição Veloso, 54",
+   "lat": -23.5851695,
+   "lon": -46.6351592,
+   "pid": "ChIJ9e0c7IBZzpQRt0BdDRjIZ_U",
+   "g": 4.5,
+   "n": 14174,
+   "preco": "R$ 60–120",
+   "pratos": "Coxinha de frango com catupiry, caipirinhas de frutas, caldo de mocotó, churros.",
+   "hist": "Aberto em 2005. O nome homenageia o bar carioca da Garota de Ipanema.",
+   "dica": "Fila: chegue cedo. Fecha segunda.",
+   "fontes": [
+    "https://baressp.com.br/bares/veloso-bar",
+    "https://www.cnnbrasil.com.br/viagemegastronomia/gastronomia/melhores-coxinhas-sp/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Coxinha presente nas listas de melhores da cidade (CNN Brasil).",
+   "fila": "Coxinha de frango"
+  },
+  {
+   "id": "onca",
+   "nome": "Bar da Dona Onça",
+   "cont": "sp",
+   "origem": "Cozinha de panela paulistana",
+   "bairro": "República · Copan",
+   "end": "Av. Ipiranga, 200",
+   "lat": -23.5465084,
+   "lon": -46.6445317,
+   "pid": "ChIJEyOtjU5YzpQRJi-Cf-QbjYU",
+   "g": 4.4,
+   "n": 10054,
+   "preco": "—",
+   "pratos": "Picadinho, rabada com polenta, dobradinha com feijão-branco, coxinha de galinha caipira.",
+   "hist": "Aberto em 2008 no térreo do Copan pela chef Janaína Torres. Ajudou a reanimar o centro e bancou o nascimento d'A Casa do Porco.",
+   "dica": "Fila na porta. Domingo fecha às 18h.",
+   "fontes": [
+    "https://guide.michelin.com/pt/pt_PT/sao-paulo-region/sao-paulo/restaurant/bar-da-dona-onca",
+    "https://www.theworlds50best.com/stories/News/janaina-torres-the-worlds-best-female-chef-2024.html"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Selecionado no Guia Michelin 2026; a chef foi eleita a melhor do mundo pelo 50 Best em 2024.",
+   "fila": "Picadinho"
+  },
+  {
+   "id": "reifilet",
+   "nome": "Rei do Filet",
+   "cont": "sp",
+   "origem": "Filé à moda do centro",
+   "bairro": "Centro",
+   "end": "Pça. Júlio Mesquita, 175",
+   "lat": -23.540373,
+   "lon": -46.643292,
+   "pid": "ChIJEdOrFUVYzpQRspvfJyHvVsc",
+   "g": 4.2,
+   "n": 2075,
+   "preco": "R$ 80–160",
+   "pratos": "Filé alto ao alho e óleo, em 16 versões.",
+   "hist": "Nasceu em 1914 como Esplanadinha e está na praça desde 1929. Até 2008 se chamava Filet do Moraes, em homenagem a um chapeiro.",
+   "dica": "Só almoço, até 16h (17h no fim de semana). Vizinho de porta do Biyou'Z.",
+   "fontes": [
+    "https://mercadoeconsumo.com.br/20/01/2025/foodservice/rei-do-filet-110-anos-resiste-fatiando-o-tempo-e-com-o-cardapio-intacto/",
+    "https://baressp.com.br/restaurantes/cozinha-de-carnes/rei-do-filet"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Mais de 110 anos de casa."
+  },
+  {
+   "id": "biyouz",
+   "nome": "Biyou'Z",
+   "cont": "africa",
+   "origem": "Camaronesa e pan-africana",
+   "bairro": "Campos Elíseos",
+   "end": "Al. Barão de Limeira, 19",
+   "lat": -23.5402723,
+   "lon": -46.6431415,
+   "pid": "ChIJ40CGE0VYzpQRe_eVWgng4MU",
+   "g": 4.6,
+   "n": 1578,
+   "preco": "R$ 40–60",
+   "pratos": "Ndolé, mafé (molho de amendoim), banana-da-terra, suco de baobá.",
+   "hist": "A camaronesa Melanito Biyouha abriu a casa em 2007, quando a cidade quase não tinha restaurante africano. Há uma segunda unidade na Consolação.",
+   "dica": "Todos os dias, almoço e jantar.",
+   "fontes": [
+    "https://almapreta.com.br/?p=13145",
+    "https://www.baressp.com.br/restaurantes/internacionais/biyouz-gastronomia-africana"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Pioneira da cozinha africana em SP; matérias na Alma Preta e na imprensa estrangeira.",
+   "fila": "Mafé"
+  },
+  {
+   "id": "churrasqueto",
+   "nome": "Churrasqueto",
+   "cont": "sp",
+   "origem": "Churrasco popular à la carte",
+   "bairro": "República",
+   "end": "R. 24 de Maio, 237",
+   "lat": -23.5435282,
+   "lon": -46.6406466,
+   "pid": "ChIJwykFzFFYzpQRcvP4KT-wp2E",
+   "g": 4.5,
+   "n": 3560,
+   "preco": "R$ 40–60",
+   "pratos": "Espeto paulista, bisteca, alcatra com arroz e fritas; pão na brasa com vinagrete.",
+   "hist": "Churrascaria de almoço na Rua 24 de Maio desde os anos 1970.",
+   "dica": "Fila no almoço: chegue antes do meio-dia ou depois das 14h. Fecha domingo.",
+   "fontes": [
+    "https://diariosgastronomicos.com.br/churrasqueto-a-churrascaria-raiz-que-resiste-ao-tempo-no-centro-de-sao-paulo/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Na Rua 24 de Maio desde os anos 1970."
+  },
+  {
+   "id": "ita",
+   "nome": "Leiteria Ita",
+   "cont": "sp",
+   "origem": "Comida caseira de balcão",
+   "bairro": "República",
+   "end": "R. do Boticário, 31",
+   "lat": -23.5425544,
+   "lon": -46.6386773,
+   "pid": "ChIJAQO1AlFYzpQRNi25tKZj-As",
+   "g": 4.6,
+   "n": 1584,
+   "preco": "R$ 40–60",
+   "pratos": "PF Paissandu (bife e ovo), bife à milanesa, feijoada às quartas e sábados, pudim de leite.",
+   "hist": "Aberta em 1953 por três irmãos de Itanhandu (MG), daí o nome. Seu Luís faz o pudim desde 1959.",
+   "dica": "Só almoço; fecha domingo. O pudim acaba cedo.",
+   "fontes": [
+    "https://catracalivre.com.br/gastronomia/leiteria-ita-achados-elo/",
+    "https://saopaulosecreto.com/en/best-pudding-in-sp-en/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Mais de 70 anos, com a decoração original.",
+   "casa": {
+    "receita": "feijoada",
+    "titulo": "Feijoada completa"
+   }
+  },
+  {
+   "id": "aboud",
+   "nome": "Aboud Síria",
+   "cont": "oriente",
+   "origem": "Síria · shawarma",
+   "bairro": "Centro · Paissandu",
+   "end": "Lgo. do Paissandu, 55",
+   "lat": -23.5427166,
+   "lon": -46.6385356,
+   "pid": "ChIJWd2xRYhZzpQRH3TV252GNv0",
+   "g": 4.7,
+   "n": 2264,
+   "preco": "R$ 40–60",
+   "pratos": "Shawarma, falafel, esfiha.",
+   "hist": "Balcão rápido em frente à Galeria do Rock.",
+   "dica": "9h–20h; fecha domingo. Vizinho da Leiteria Ita.",
+   "fontes": [
+    "https://joinpearl.co/restaurants/sao-paulo/aboud-siria-em-frente-a-galeria-do-rock"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "raouche",
+   "nome": "Al Raouche",
+   "cont": "oriente",
+   "origem": "Árabe, provavelmente libanesa",
+   "bairro": "Centro · 25 de Março",
+   "end": "R. Serop Kherlakian",
+   "lat": -23.540958,
+   "lon": -46.6316126,
+   "pid": "ChIJFWqaOwBZzpQR8ZDUB5roIMk",
+   "g": 5.0,
+   "n": 3,
+   "preco": "—",
+   "pratos": "Quibe cru em três versões, segundo a única avaliação detalhada.",
+   "hist": "Sem registro na imprensa. O nome lembra a orla de Beirute.",
+   "dica": "8h–16h; fecha domingo.",
+   "fontes": [],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "samui",
+   "nome": "Samuí Produtos do Pará",
+   "cont": "brasil",
+   "origem": "Paraense",
+   "bairro": "Brás",
+   "end": "R. Prof. Eurípedes Simões de Paula, 402",
+   "lat": -23.5404666,
+   "lon": -46.6244424,
+   "pid": "ChIJuUDhpxZZzpQRHZt0wCVXxZE",
+   "g": 4.4,
+   "n": 234,
+   "preco": "R$ 40–80",
+   "pratos": "Açaí puro do Pará, coxinha de caranguejo, dourada frita, maniçoba, pato no tucupi.",
+   "hist": "Mercadinho e restaurante com produtos trazidos do Pará: peixe, farinha, tucupi e pimentas.",
+   "dica": "Só de quarta a domingo, 11h–17h. Lota ao meio-dia. A 600 m da Castelões.",
+   "fontes": [
+    "https://catracalivre.com.br/gira/onde-provar-sabores-do-norte-em-sp/"
+   ],
+   "lista": true,
+   "status": "quero",
+   "nota": null,
+   "rec": "Matéria na Catraca Livre."
+  },
+  {
+   "id": "francisca",
+   "nome": "Casa de Francisca",
+   "cont": "sp",
+   "origem": "Casa de música com cozinha brasileira",
+   "bairro": "Sé",
+   "end": "R. Quintino Bocaiúva, 22",
+   "lat": -23.5488291,
+   "lon": -46.6348671,
+   "pid": "ChIJ_24wa8FZzpQR2qtTCwBXdcM",
+   "g": 4.7,
+   "n": 5748,
+   "preco": "R$ 60–160",
+   "pratos": "Crudo de carne de sol, xinxim de legumes no dendê, drinks da casa; roda de samba no porão.",
+   "hist": "Nasceu em 2006 como uma das menores casas de show da cidade e se mudou para um palacete tombado de 1910, onde funcionou a Rádio Record.",
+   "dica": "Alguns shows pedem ingresso antecipado. Durante as apresentações não se pede à mesa.",
+   "fontes": [
+    "https://saopaulosecreto.com/casa-de-francisca-palacete-toledo-lara-sao-paulo/",
+    "https://billboard.com.br/festa-junina-da-casa-de-francisca-tera-zeca-baleiro-pinduca-e-mais/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Desde 2006."
+  },
+  {
+   "id": "naraobento",
+   "nome": "Nara Obentô",
+   "cont": "asia",
+   "origem": "Japonesa · obentô",
+   "bairro": "Vila da Saúde",
+   "end": "R. Carneiro da Cunha, 158",
+   "lat": -23.6148046,
+   "lon": -46.6376055,
+   "pid": "ChIJWwjHig9bzpQRgrIE0bJGqbk",
+   "g": 4.6,
+   "n": 2915,
+   "preco": "R$ 60–80",
+   "pratos": "Tonkatsu, menchi katsu, omelete japonês, salada de berinjela; gelatina de café de sobremesa.",
+   "hist": "Obentôs caseiros do Grupo Nara, que tem também o Nara Lamen, duas portas ao lado, e uma unidade no Paraíso.",
+   "dica": "Não aceita reserva; há espera à noite. Fecha terça.",
+   "fontes": [
+    "https://culturaalternativa.com.br/nara-obento-japao-nas-maos-e-no-coracao/",
+    "https://www.riceandnoodles.com.br/2024/09/nara-obento-sao-paulo-brasil.html"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "naralamen",
+   "nome": "Nara Lamen",
+   "cont": "asia",
+   "origem": "Japonesa · lamen",
+   "bairro": "Vila da Saúde",
+   "end": "R. Carneiro da Cunha, 172",
+   "lat": -23.6148864,
+   "lon": -46.6376491,
+   "pid": "ChIJPV0_E05azpQRGllBc08Ce5c",
+   "g": 4.5,
+   "n": 4266,
+   "preco": "R$ 60–80",
+   "pratos": "Lamen de missô vermelho, shoyu, mabô lamen; karaage e onigiri.",
+   "hist": "Lamen de massa fresca do Grupo Nara, vizinho do Nara Obentô.",
+   "dica": "Fecha segunda. Espera de até uma hora no fim de semana.",
+   "fontes": [
+    "https://www.seudinheiro.com/2026/lifestyle/alem-da-liberdade-lamen-para-provar-em-sao-paulo-lefp/",
+    "https://nipponcountryclub.com.br/nara-lamen/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "makanai",
+   "nome": "Donburiya Makanai",
+   "cont": "asia",
+   "origem": "Japonesa · donburi",
+   "bairro": "Mirandópolis",
+   "end": "R. Luís Góis, 1592",
+   "lat": -23.6037381,
+   "lon": -46.6432976,
+   "pid": "ChIJK92hQABbzpQRJ011GLy7diw",
+   "g": 4.7,
+   "n": 170,
+   "preco": "R$ 60–80",
+   "pratos": "Gyudon, buta kimchi don, karê com tonkatsu; ginger ale da casa.",
+   "hist": "Casa nova, segundo as próprias avaliações. Nada publicado na imprensa.",
+   "dica": "Fecha segunda; domingo só almoço.",
+   "fontes": [],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": ""
+  },
+  {
+   "id": "omoide",
+   "nome": "Izakaya Omoide Sakaba",
+   "cont": "asia",
+   "origem": "Japonesa · izakaya",
+   "bairro": "Mirandópolis",
+   "end": "R. Luís Góis, 1574",
+   "lat": -23.6038503,
+   "lon": -46.6430151,
+   "pid": "ChIJG3sKjDlazpQRbdwM0WwjNm8",
+   "g": 4.5,
+   "n": 1699,
+   "preco": "R$ 80–140",
+   "pratos": "Espetinhos de barriga de porco, lula frita, takoyaki feito na calçada, oden, saquês.",
+   "hist": "Izakaya pequeno, de entrada discreta com cortina noren, aberto desde pelo menos 2017.",
+   "dica": "Reserve: vive cheio. Fecha domingo.",
+   "fontes": [
+    "https://www.unlockingbrazil.com/post/best-izakayas-in-s%C3%A3o-paulo-the-ultimate-guide-to-the-real-japanese-bars"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Citado num guia de izakayas de São Paulo (2025–2026)."
+  },
+  {
+   "id": "edopara",
+   "nome": "É do Pará",
+   "cont": "brasil",
+   "origem": "Paraense",
+   "bairro": "Vila da Saúde",
+   "end": "Av. Miguel Estéfano, 271",
+   "lat": -23.6203477,
+   "lon": -46.6369851,
+   "pid": "ChIJsdjrVFFazpQRYVBgIWn9dEo",
+   "g": 4.5,
+   "n": 1188,
+   "preco": "R$ 60–160",
+   "pratos": "Tacacá, maniçoba, açaí puro, caldinho de tucupi e a chapa mista de peixes amazônicos.",
+   "hist": "Empório e restaurante paraense. Tacacá e maniçoba entraram no cardápio a pedido dos clientes.",
+   "dica": "Só de dia, até 18h (domingo até 17h). A 700 m do Nara.",
+   "fontes": [
+    "https://exame.com/casual/eu-vou-tomar-um-tacaca-onde-provar-o-caldo-tipico-do-para-em-sao-paulo/",
+    "https://catracalivre.com.br/gira/onde-provar-sabores-do-norte-em-sp/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Matérias na Exame (2023) e na Catraca Livre (2025)."
+  },
+  {
+   "id": "porco",
+   "nome": "A Casa do Porco",
+   "cont": "sp",
+   "origem": "Caipira paulista · porco",
+   "bairro": "República",
+   "end": "R. Araújo, 124",
+   "lat": -23.5449136,
+   "lon": -46.6447336,
+   "pid": "ChIJK76a5E5YzpQRCoY7nm1M3-k",
+   "g": 4.4,
+   "n": 15216,
+   "preco": "R$ 200+",
+   "pratos": "Porco San Zé assado por horas, sushi de porco, menu-degustação.",
+   "hist": "Aberta em 2015 por Jefferson e Janaína Rueda, com porcos criados no interior. Virou a vitrine mundial da cozinha caipira.",
+   "dica": "Fila longa. O menu-degustação leva quase duas horas.",
+   "fontes": [
+    "https://guide.michelin.com/en/sao-paulo-region/sao-paulo/restaurant/a-casa-do-porco",
+    "https://www.cnnbrasil.com.br/viagemegastronomia/gastronomia/jefferson-rueda-retorna-a-cozinha-de-seu-premiado-a-casa-do-porco/"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Bib Gourmand Michelin 2026, Estrela Verde Michelin (2024) e 27º no World's 50 Best (2024)."
+  },
+  {
+   "id": "leo",
+   "nome": "Bar Léo",
+   "cont": "europa",
+   "origem": "Alemã · chope e petiscos",
+   "bairro": "Santa Ifigênia",
+   "end": "R. Aurora, 100",
+   "lat": -23.5383358,
+   "lon": -46.6378605,
+   "pid": "ChIJk2rjTgBZzpQR05oiPzwR-Dc",
+   "g": 4.3,
+   "n": 413,
+   "preco": "R$ 60–120",
+   "pratos": "Chope, goulash com salada de repolho, eisbein com chucrute, salsichas alemãs, strudel de maçã.",
+   "hist": "Abriu em 1940 como Bar do Alemão, de um imigrante alemão. O nome veio de Leopoldo Urban, que assumiu a casa depois; a família Moraes Rosa toca o bar desde os anos 1960.",
+   "dica": "Fecha domingo; sábado até o fim da tarde. Vitrais, canecas e balcão originais.",
+   "fontes": [
+    "https://saopaulosecreto.com/bar-leo/",
+    "https://capital.sp.gov.br/documents/d/cultura/fichas_selo_de_valor_cultural__bar-leo"
+   ],
+   "lista": true,
+   "status": "fui",
+   "nota": null,
+   "rec": "Casa de 1940, com Selo de Valor Cultural da Prefeitura."
+  },
+  {
+   "id": "mocoto",
+   "nome": "Mocotó",
+   "cont": "brasil",
+   "origem": "Sertaneja",
+   "bairro": "Vila Medeiros",
+   "end": "Av. Nossa Sra. do Loreto, 1100",
+   "lat": -23.4867547,
+   "lon": -46.5816487,
+   "pid": "ChIJyUs_0fD1zpQRA0Ohb5WD9Ms",
+   "g": 4.7,
+   "n": 18172,
+   "preco": "R$ 70–120",
+   "pratos": "Dadinhos de tapioca, carne de sol na brasa com manteiga de garrafa, torresmo, caipirinhas.",
+   "hist": "Aberto pelo pernambucano José Almeida há mais de 50 anos. O filho, Rodrigo Oliveira, fez dele a referência da cozinha sertaneja.",
+   "dica": "Chegue antes de abrir para fugir da fila. Domingo até 17h.",
+   "fontes": [
+    "https://guide.michelin.com/en/sao-paulo-region/sao-paulo/restaurant/mocoto",
+    "https://mocoto.com.br/en"
+   ],
+   "lista": false,
+   "status": "fui",
+   "nota": null,
+   "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "porque": "A referência da cozinha sertaneja em São Paulo.",
+   "evid": "Listado no Guia Michelin 2026."
+  },
+  {
+   "id": "mane",
+   "nome": "Bar do Mané",
+   "cont": "sp",
+   "origem": "Sanduíche de mortadela",
+   "bairro": "Centro · Mercadão",
+   "end": "Mercado Municipal, Rua E, box 14",
+   "lat": -23.5415721,
+   "lon": -46.6294872,
+   "pid": "ChIJYzoU1PhYzpQRjmYsKF9otzI",
+   "g": 4.6,
+   "n": 2274,
+   "preco": "R$ 50–90",
+   "pratos": "Sanduíche de mortadela, pastel de bacalhau.",
+   "hist": "A banca do Mercadão mais citada para o sanduíche de mortadela.",
+   "dica": "Abre às 5h30; domingo fecha às 15h. Um sanduíche serve dois.",
+   "fontes": [
+    "https://saopaulosecreto.com/mercado-municipal-de-sao-paulo/"
+   ],
+   "lista": false,
+   "status": "fui",
+   "nota": null,
+   "rec": "Ícone do Mercado Municipal.",
+   "porque": "O sanduíche mais paulistano que existe, no Mercadão.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026."
+  },
+  {
+   "id": "estadao",
+   "nome": "Estadão Bar e Lanches",
+   "cont": "sp",
+   "origem": "Sanduíche de pernil",
+   "bairro": "Centro",
+   "end": "Viaduto Nove de Julho, 193",
+   "lat": -23.5486427,
+   "lon": -46.6426619,
+   "pid": "ChIJAQAAOAFZzpQR7Vl7TKAyMdQ",
+   "g": 4.6,
+   "n": 32706,
+   "preco": "R$ 40–70",
+   "pratos": "Sanduíche de pernil, puro, com queijo ou com abacaxi.",
+   "hist": "Balcão de 1968, aberto 24 horas, ao lado do antigo prédio do jornal.",
+   "dica": "24 horas, todos os dias.",
+   "fontes": [
+    "https://saopaulosecreto.com/sanduiche-de-pernil-bar-e-lanches-estadao/",
+    "https://www.baressp.com.br/restaurantes/lanchonetes/estadao-bar-e-lanches"
+   ],
+   "lista": false,
+   "status": "fui",
+   "nota": null,
+   "rec": "Casa de 1968.",
+   "porque": "O lanche da madrugada paulistana, aberto 24 horas.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026.",
+   "fila": "Sanduíche de pernil"
+  },
+  {
+   "id": "pontochic",
+   "nome": "Ponto Chic",
+   "cont": "sp",
+   "origem": "Bauru",
+   "bairro": "Centro · Paissandu",
+   "end": "Lgo. do Paissandu, 27",
+   "lat": -23.5428814,
+   "lon": -46.6388295,
+   "pid": "ChIJw8A9BFFYzpQRyf3Mmt8uwq4",
+   "g": 4.4,
+   "n": 3731,
+   "preco": "R$ 50–90",
+   "pratos": "Bauru de rosbife, tomate, pepino e queijos derretidos.",
+   "hist": "Bar de 1922 onde o bauru foi criado. O sanduíche é patrimônio imaterial paulista desde 2018.",
+   "dica": "12h–20h; fecha domingo. Avaliações recentes acham o lanche menor que antes.",
+   "fontes": [
+    "https://www.abcdoabc.com.br/ponto-chic-completa-103-anos/",
+    "https://www.saopaulo.sp.leg.br/blog/restaurante-ponto-chic-recebe-salva-de-prata/"
+   ],
+   "lista": false,
+   "status": "fui",
+   "nota": null,
+   "rec": "Bauru reconhecido como patrimônio imaterial paulista (2018).",
+   "porque": "O balcão onde nasceu o bauru.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026.",
+   "fila": "Bauru"
+  },
+  {
+   "id": "casteloes",
+   "nome": "Castelões",
+   "cont": "europa",
+   "origem": "Pizza e cantina italiana",
+   "bairro": "Brás",
+   "end": "R. Jairo Góes, 126",
+   "lat": -23.5444475,
+   "lon": -46.6214891,
+   "pid": "ChIJ7exTRB1ZzpQRLmbneEGDMrk",
+   "g": 4.2,
+   "n": 1917,
+   "preco": "R$ 60–110",
+   "pratos": "Pizza Castelões, com calabresa curada na casa; margherita.",
+   "hist": "Pizzaria e cantina de 1924, na terceira geração da família, com forno a lenha centenário.",
+   "dica": "Só jantar, de terça a domingo. Só dinheiro ou Pix.",
+   "fontes": [
+    "https://saopaulosecreto.com/casteloes-cantina-pizzaria-mais-antiga-sao-paulo/",
+    "https://www.bloomberglinea.com.br/estilo-de-vida/tradicao-de-mudanca-como-fabio-donato-reinventa-receitas-na-centenaria-casteloes/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Mais de 100 anos de forno.",
+   "porque": "A pizza paulistana em sua forma mais antiga.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026."
+  },
+  {
+   "id": "baianeira",
+   "nome": "A Baianeira",
+   "cont": "brasil",
+   "origem": "Baiana e do Jequitinhonha",
+   "bairro": "Bela Vista · MASP",
+   "end": "Av. Paulista, 1510 (subsolo do MASP)",
+   "lat": -23.561833,
+   "lon": -46.6554305,
+   "pid": "ChIJuWGbaF5ZzpQRk8vjbw7ZHDc",
+   "g": 4.6,
+   "n": 2278,
+   "preco": "R$ 60–110",
+   "pratos": "Pão de queijo, baião de dois com carne braseada, prato do dia (moqueca às sextas).",
+   "hist": "Cozinha da chef Manuelle Ferraz, do Vale do Jequitinhonha, no subsolo do museu.",
+   "dica": "Só almoço; fecha segunda.",
+   "fontes": [
+    "https://guide.michelin.com/en/sao-paulo-region/sao-paulo/restaurant/a-baianeira-masp",
+    "https://masp.org.br/abaianeira"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "porque": "A Bahia e o Jequitinhonha no subsolo do MASP.",
+   "evid": "Listado no Guia Michelin 2026."
+  },
+  {
+   "id": "vito",
+   "nome": "Bar do Vito",
+   "cont": "europa",
+   "origem": "Lituana",
+   "bairro": "Vila Zelina",
+   "end": "Av. Zelina, 851",
+   "lat": -23.5898587,
+   "lon": -46.5757009,
+   "pid": "ChIJzUpTiGlczpQRMvanWtL51tc",
+   "g": 4.6,
+   "n": 1166,
+   "preco": "R$ 40–80",
+   "pratos": "Bolinho de carne, virtiniai (pastel cozido lituano), geleia de carne.",
+   "hist": "Boteco de 1942 aberto por um imigrante lituano no bairro que reuniu a comunidade.",
+   "dica": "Fecha segunda. Algumas avaliações dizem que o cardápio lituano encolheu: pergunte o que há no dia.",
+   "fontes": [
+    "https://prefeitura.sp.gov.br/documents/d/cultura/fichas_selo_de_valor_cultural__bar-do-vito",
+    "https://saopaulosecreto.com/bar-do-vito-vila-zelina/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Selo de Valor Cultural da Prefeitura de São Paulo.",
+   "porque": "O Leste Europeu de Vila Zelina.",
+   "evid": "Ficha do Selo de Valor Cultural revisada em 2025."
+  },
+  {
+   "id": "garabed",
+   "nome": "Casa Garabed",
+   "cont": "oriente",
+   "origem": "Armênia · esfiha",
+   "bairro": "Santana",
+   "end": "R. José Margarido, 216",
+   "lat": -23.4983329,
+   "lon": -46.6344891,
+   "pid": "ChIJUbttyR73zpQR6F8E1DM-B9c",
+   "g": 4.6,
+   "n": 717,
+   "preco": "R$ 70–130",
+   "pratos": "Esfiha de carne com pinoli, esfiha de za'atar, bastirma com ovos.",
+   "hist": "Esfiharia armênia de 1951 que abre a massa à mão e assa em forno a lenha, numa rua residencial.",
+   "dica": "Fecha terça e quarta. Paga-se no caixa; o serviço é lento.",
+   "fontes": [
+    "https://www.theinfatuation.com/sao-paulo/reviews/casa-garabed"
+   ],
+   "lista": false,
+   "status": "fui",
+   "nota": null,
+   "rec": "Casa de 1951; na lista de melhores da The Infatuation (2024).",
+   "porque": "A esfiha armênia de forno a lenha.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026.",
+   "fila": "Esfiha de carne"
+  },
+  {
+   "id": "santos",
+   "nome": "Casa Santos",
+   "cont": "europa",
+   "origem": "Portuguesa",
+   "bairro": "Pari",
+   "end": "R. Conselheiro Dantas, 92",
+   "lat": -23.5295042,
+   "lon": -46.6219257,
+   "pid": "ChIJY6s7_e1YzpQRqIlayEjWB7U",
+   "g": 4.5,
+   "n": 2389,
+   "preco": "R$ 60–110",
+   "pratos": "Bolinho de bacalhau de receita com mais de 60 anos, bacalhoada.",
+   "hist": "Nasceu em 1946 como armazém de um imigrante de Viseu e completa 80 anos em 2026.",
+   "dica": "Todos os dias; domingo só almoço.",
+   "fontes": [
+    "https://baressp.com.br/restaurantes/portugueses/casa-santos-restaurante"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Casa de 1946.",
+   "porque": "Portugal no Pari, desde 1946.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026."
+  },
+  {
+   "id": "shoshana",
+   "nome": "Shoshana Delishop",
+   "cont": "europa",
+   "origem": "Judaica asquenaze",
+   "bairro": "Bom Retiro",
+   "end": "R. Correia de Melo, 206",
+   "lat": -23.5294729,
+   "lon": -46.6372304,
+   "pid": "ChIJvbfRT2dYzpQRDciuMFW7-bo",
+   "g": 4.5,
+   "n": 1130,
+   "preco": "R$ 50–90",
+   "pratos": "Varenikes de batata, latkes, borscht, arenque.",
+   "hist": "Delicatéssen judaica no Bom Retiro, bairro que recebeu a imigração judaica do Leste Europeu.",
+   "dica": "Fecha segunda; jantar só na sexta.",
+   "fontes": [
+    "https://www.portaltela.com/brasil/2026/03/30/seis-locais-em-sp-para-comemorar-o-pessach/",
+    "https://visitesaopaulo.com/restaurantes-no-bom-retiro-lugares-para-comer-no-bairro/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "",
+   "porque": "A herança judaica do Bom Retiro.",
+   "evid": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "chosun",
+   "nome": "Cho Sun Gal Bi",
+   "cont": "asia",
+   "origem": "Coreana · churrasco de mesa",
+   "bairro": "Bom Retiro",
+   "end": "R. dos Bandeirantes, 459",
+   "lat": -23.5276502,
+   "lon": -46.6357692,
+   "pid": "ChIJ5XNQ3GBYzpQR9OWFaEO6hHw",
+   "g": 4.6,
+   "n": 784,
+   "preco": "R$ 90–140",
+   "pratos": "Galbi (costela marinada), samgyeopsal, banchan e kimchi.",
+   "hist": "Churrasco coreano de mesa no bairro coreano de São Paulo.",
+   "dica": "Fecha segunda.",
+   "fontes": [
+    "https://www.publishnews.com.br/materias/2026/04/13/guia-da-culinaria-imigrante-explora-novos-roteiros-gastronomicos-em-sao-paulo",
+    "https://baressp.com.br/restaurantes/coreanos/churrascaria-cho-sun-gal-bi-bom-retiro"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "No Guia da Culinária Imigrante de São Paulo (2026).",
+   "porque": "O churrasco de mesa do bairro coreano.",
+   "evid": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "congolinaria",
+   "nome": "Congolinária",
+   "cont": "africa",
+   "origem": "Congolesa, vegana",
+   "bairro": "Sumaré",
+   "end": "Av. Prof. Alfonso Bovero, 382",
+   "lat": -23.5420943,
+   "lon": -46.6817389,
+   "pid": "ChIJLaRNXF5XzpQRhDHh4AqrABg",
+   "g": 4.4,
+   "n": 1596,
+   "preco": "R$ 40–60",
+   "pratos": "Kuku (bolinho com quiabo e amendoim), moqueca de banana-da-terra, sambusa.",
+   "hist": "Cozinha congolesa vegana de um chef da comunidade, com rodízio barato.",
+   "dica": "Fecha segunda.",
+   "fontes": [
+    "https://catracalivre.com.br/gira/restaurantes-africanos-sp/",
+    "https://catracalivre.com.br/gira/dia-do-refugiado-roteiro-gastronomico-mapeia-restaurantes-comandados-por-imigrantes-em-sao-paulo/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Em roteiros de culinária imigrante (2026).",
+   "porque": "Cozinha congolesa vegana, de um chef da comunidade.",
+   "evid": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "urbanika",
+   "nome": "Urbanika",
+   "cont": "latam",
+   "origem": "Colombiana",
+   "bairro": "Vila Mariana",
+   "end": "R. França Pinto, 381",
+   "lat": -23.5869485,
+   "lon": -46.6401514,
+   "pid": "ChIJfbOVrGZZzpQRg6n3A6sua_w",
+   "g": 4.6,
+   "n": 396,
+   "preco": "R$ 40–80",
+   "pratos": "Arepas e prato do dia colombiano.",
+   "hist": "Casa da chef colombiana Liliana.",
+   "dica": "Só almoço.",
+   "fontes": [
+    "https://catracalivre.com.br/gira/dia-do-refugiado-roteiro-gastronomico-mapeia-restaurantes-comandados-por-imigrantes-em-sao-paulo/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Em roteiro de restaurantes de imigrantes (2026).",
+   "porque": "A Colômbia em Vila Mariana.",
+   "evid": "Citado na imprensa em 2026."
+  },
+  {
+   "id": "amazo",
+   "nome": "Amazo",
+   "cont": "latam",
+   "origem": "Peruana",
+   "bairro": "Campos Elíseos",
+   "end": "R. Guaianases, 1149",
+   "lat": -23.53272,
+   "lon": -46.6466816,
+   "pid": "ChIJAbXh7_9ZzpQRW5YX_Hhdp74",
+   "g": 4.6,
+   "n": 2681,
+   "preco": "R$ 150+",
+   "pratos": "Ceviches, polvo, tiraditos, chicha morada.",
+   "hist": "Cozinha peruana com ingredientes amazônicos. Há outra unidade no Shopping Pátio Higienópolis.",
+   "dica": "Jantar só de quarta a sábado.",
+   "fontes": [
+    "https://guide.michelin.com/us/en/sao-paulo-region/sao-paulo/restaurants/the-plate-michelin"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Selecionado no Guia Michelin.",
+   "porque": "O Peru, com ingredientes amazônicos.",
+   "evid": "Listado no Guia Michelin 2026."
+  },
+  {
+   "id": "pingyang",
+   "nome": "Ping Yang",
+   "cont": "asia",
+   "origem": "Tailandesa",
+   "bairro": "Cerqueira César",
+   "end": "R. Dr. Melo Alves, 767",
+   "lat": -23.5633865,
+   "lon": -46.672788,
+   "pid": "ChIJ4Xy-zFZXzpQR56Ql9UI0ZZ8",
+   "g": 4.2,
+   "n": 530,
+   "preco": "R$ 150+",
+   "pratos": "Espetinhos de carne, salada de ovo com porco desfiado, curry de pato.",
+   "hist": "Cozinha tailandesa de rua, com ervas cultivadas pelo próprio chef.",
+   "dica": "Reserve pelo WhatsApp. Almoço só no fim de semana.",
+   "fontes": [
+    "https://www.seudinheiro.com/2026/lifestyle/bib-gourmand-quanto-custa-comer-nos-restaurantes-com-melhor-custo-beneficio-no-guia-michelin-sama/"
+   ],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Bib Gourmand no Guia Michelin 2026.",
+   "porque": "A Tailândia de rua, com ervas da horta do chef.",
+   "evid": "Listado no Guia Michelin 2026."
+  },
+  {
+   "id": "kantuta",
+   "nome": "Feira Kantuta",
+   "cont": "latam",
+   "origem": "Boliviana · feira de rua",
+   "bairro": "Canindé",
+   "end": "Praça Kantuta",
+   "lat": -23.5255033,
+   "lon": -46.6215062,
+   "pid": "ChIJlUiNWe1YzpQRI5n0UoxJGRM",
+   "g": 4.2,
+   "n": 1208,
+   "preco": "R$ 20–50",
+   "pratos": "Barracas de comida boliviana e peruana, artesanato, música e dança.",
+   "hist": "Feira de domingo da comunidade boliviana, uma das maiores da cidade.",
+   "dica": "Só domingo, 11h–19h30.",
+   "fontes": [],
+   "lista": false,
+   "status": "sug",
+   "nota": null,
+   "rec": "Ponto de encontro da comunidade boliviana.",
+   "porque": "A feira de domingo da comunidade boliviana.",
+   "evid": "Com horário publicado no Google Maps em outubro de 2026."
+  }
+ ],
+ "linhas": [
+  {
+   "id": "paissandu",
+   "nome": "Paissandu–Copan",
+   "sub": "Centro novo, a pé",
+   "stops": [
+    "amazo",
+    "reifilet",
+    "biyouz",
+    "leo",
+    "pontochic",
+    "ita",
+    "aboud",
+    "churrasqueto",
+    "porco",
+    "onca",
+    "estadao"
+   ],
+   "segs": [
+    {
+     "m": 1190,
+     "min": 15
+    },
+    {
+     "m": 20,
+     "min": 1
+    },
+    {
+     "m": 750,
+     "min": 9
+    },
+    {
+     "m": 670,
+     "min": 8
+    },
+    {
+     "m": 50,
+     "min": 1
+    },
+    {
+     "m": 30,
+     "min": 1
+    },
+    {
+     "m": 300,
+     "min": 4
+    },
+    {
+     "m": 580,
+     "min": 7
+    },
+    {
+     "m": 230,
+     "min": 3
+    },
+    {
+     "m": 400,
+     "min": 5
+    }
+   ]
+  },
+  {
+   "id": "se",
+   "nome": "Sé–Brás",
+   "sub": "Centro velho e Brás",
+   "stops": [
+    "francisca",
+    "raouche",
+    "mane",
+    "samui",
+    "casteloes"
+   ],
+   "segs": [
+    {
+     "m": 1220,
+     "min": 15
+    },
+    {
+     "m": 300,
+     "min": 4
+    },
+    {
+     "m": 690,
+     "min": 9
+    },
+    {
+     "m": 700,
+     "min": 9
+    }
+   ]
+  },
+  {
+   "id": "bomretiro",
+   "nome": "Bom Retiro–Pari",
+   "sub": "Bairros de imigração",
+   "stops": [
+    "shoshana",
+    "chosun",
+    "santos",
+    "kantuta"
+   ],
+   "segs": [
+    {
+     "m": 330,
+     "min": 4
+    },
+    {
+     "m": 1850,
+     "min": 23
+    },
+    {
+     "m": 580,
+     "min": 7
+    }
+   ]
+  },
+  {
+   "id": "liberdade",
+   "nome": "Liberdade–Bixiga",
+   "sub": "Japão e Itália em 1 km",
+   "stops": [
+    "aska",
+    "issa",
+    "roperto",
+    "templo"
+   ],
+   "segs": [
+    {
+     "m": 220,
+     "min": 3
+    },
+    {
+     "m": 1400,
+     "min": 17
+    },
+    {
+     "m": 40,
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "paulista",
+   "nome": "Paulista–Paraíso",
+   "sub": "Do MASP ao Paraíso",
+   "stops": [
+    "baianeira",
+    "barikote",
+    "halim",
+    "cocoro"
+   ],
+   "segs": [
+    {
+     "m": 710,
+     "min": 9
+    },
+    {
+     "m": 1350,
+     "min": 17
+    },
+    {
+     "m": 210,
+     "min": 3
+    }
+   ]
+  },
+  {
+   "id": "vmariana",
+   "nome": "Vila Mariana–Luís Góis",
+   "sub": "A rua dos izakayas",
+   "stops": [
+    "urbanika",
+    "veloso",
+    "graca",
+    "oriental",
+    "omoide",
+    "makanai"
+   ],
+   "segs": [
+    {
+     "m": 710,
+     "min": 9
+    },
+    {
+     "m": 1860,
+     "min": 23
+    },
+    {
+     "m": 1020,
+     "min": 13
+    },
+    {
+     "m": 210,
+     "min": 3
+    },
+    {
+     "m": 40,
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "saude",
+   "nome": "Saúde",
+   "sub": "Japão e Pará na Zona Sul",
+   "stops": [
+    "naraobento",
+    "naralamen",
+    "edopara",
+    "nozoie"
+   ],
+   "segs": [
+    {
+     "m": 10,
+     "min": 1
+    },
+    {
+     "m": 790,
+     "min": 10
+    },
+    {
+     "m": 2750,
+     "min": 34
+    }
+   ]
+  },
+  {
+   "id": "zelina",
+   "nome": "Vila Prudente–Zelina",
+   "sub": "Padaria e Lituânia",
+   "stops": [
+    "cepam",
+    "vito"
+   ],
+   "segs": [
+    {
+     "m": 600,
+     "min": 7
+    }
+   ]
+  }
+ ],
+ "solo": [
+  "ctn",
+  "mocoto",
+  "garabed",
+  "baiao",
+  "congolinaria",
+  "pingyang"
+ ]
+}
